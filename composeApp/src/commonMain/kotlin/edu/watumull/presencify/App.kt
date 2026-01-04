@@ -10,13 +10,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import edu.watumull.presencify.core.design.systems.components.PresencifyTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
 @Composable
 @Preview
 fun App() {
-    MaterialTheme {
+    PresencifyTheme {
         Column(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.primaryContainer)

@@ -1,10 +1,11 @@
 <resources>
-    <string name="error_disk_full">Disk is full</string>
-    <string name="error_no_internet">No internet connection</string>
-    <string name="error_serialization">Serialization error</string>
-    <string name="error_unauthorized">Unauthorized access</string>
-    <string name="error_unknown">Unknown error</string>
-    <string name="server_error">Server error</string>
-    <string name="the_request_timed_out">The request timed out</string>
-    <string name="youve_hit_your_rate_limit">You've hit your rate limit</string>
+    <string name="error_storage_full">Storage is full. Please free up some space and try again.</string>
+    <string name="error_no_internet_connection">No internet connection. Please check your network and try again.</string>
+    <string name="error_data_processing">Data processing error. Please try again.</string>
+    <string name="error_access_denied">Access denied. Please log in and try again.</string>
+    <string name="error_unexpected">An unexpected error occurred. Please try again later.</string>
+    <string name="error_server">Server error. Our team has been notified. Please try again later.</string>
+    <string name="error_access_forbidden">Access forbidden. You don't have permission to perform this action.</string>
+    <string name="error_request_timeout">Request timed out. Please check your connection and try again.</string>
+    <string name="error_rate_limit_exceeded">Too many requests. Please wait a moment before trying again.</string>
 </resources>

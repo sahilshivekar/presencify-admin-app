@@ -1,0 +1,38 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24" android:tint="#000000"> <!-- Or your desired tint color -->
+
+    <!-- This single path defines the circle with the head and shoulders "cut out".
+         The pathData here is a combination:
+         1. Outer circle (clockwise)
+         2. Head (counter-clockwise to create a hole)
+         3. Shoulders (counter-clockwise to create a hole)
+         We also need to use fillType="evenOdd".
+    -->
+    <path
+        android:fillColor="@android:color/white"
+        android:fillType="evenOdd"
+        android:pathData="M12,0 C5.372,0 0,5.372 0,12 C0,18.628 5.372,24 12,24 C18.628,24 24,18.628 24,12 C24,5.372 18.628,0 12,0 Z M12,13c-1.93,0 -3.5,-1.57 -3.5,-3.5S10.07,6 12,6s3.5,1.57 3.5,3.5S13.93,13 12,13 Z M12,15c-2.67,0 -8,1.34 -8,4v1.12 C4.77,19.37 5.37,18.63 6.14,17.12C7.57,15.8 9.68,15 12,15s4.43,0.8 6.14,2.88C16.43,19.18 14.03,20 12,20c-2.03,0 -4.43,-0.82 -6.14,-2.88C7.55,15.8 9.68,15 12,15 Z" />
+    <!--
+        Simplified combined pathData:
+        Outer Circle: M12,0 C5.372,0 0,5.372 0,12 C0,18.628 5.372,24 12,24 C18.628,24 24,18.628 24,12 C24,5.372 18.628,0 12,0 Z
+            Head (reversed for cutout): M12,6 S8.5,7.57 8.5,9.5 S10.07,13 12,13 S15.5,11.43 15.5,9.5 S13.93,6 12,6 Z
+            Body (reversed for cutout): M12,15 C9.68,15 7.55,15.8 6.14,17.12 C4.43,19.18 6.03,20 12,20 C17.97,20 19.57,19.18 17.86,17.12 C16.45,15.8 14.32,15 12,15 Z
+            Combining these correctly for evenOdd requires careful construction.
+
+            Let's use the standard material icon paths for head and shoulders and make them subtract.
+            Outer Circle: M12,0 C5.372,0 0,5.372 0,12 C0,18.628 5.372,24 12,24 C18.628,24 24,18.628 24,12 C24,5.372 18.628,0 12,0 Z
+            Head (original): M12,6c1.93,0 3.5,1.57 3.5,3.5S13.93,13 12,13s-3.5,-1.57 -3.5,-3.5S10.07,6 12,6z
+            Shoulders (original): M12,20c-2.03,0 -4.43,-0.82 -6.14,-2.88C7.55,15.8 9.68,15 12,15s4.45,0.8 6.14,2.12C16.43,19.18 14.03,20 12,20z
+
+            Combined for evenOdd (Circle path + reverse commands for head + reverse commands for shoulders):
+            The head and shoulders should be defined as sub-paths *within* the circle's path string, with their winding order reversed
+            to make them holes when fillType="evenOdd" is used.
+        -->
+    <path
+        android:fillColor="@android:color/white"
+        android:fillType="evenOdd"
+        android:pathData="M12,0 C5.372,0 0,5.372 0,12 C0,18.628 5.372,24 12,24 C18.628,24 24,18.628 24,12 C24,5.372 18.628,0 12,0 Z M12,13 C10.07,13 8.5,11.43 8.5,9.5 C8.5,7.57 10.07,6 12,6 C13.93,6 15.5,7.57 15.5,9.5 C15.5,11.43 13.93,13 12,13 Z M12,15 C9.68,15 7.55,15.8 6.14,17.12 C4.43,19.18 6.97,20 12,20 C17.03,20 19.57,19.18 17.86,17.12 C16.45,15.8 14.32,15 12,15 Z"/>
+</vector>

@@ -7,6 +7,10 @@ plugins {
 
 kotlin {
 
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
+
     // Target declarations - add or remove as needed below. These define
     // which platforms this KMP module supports.
     // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
@@ -79,7 +83,10 @@ kotlin {
                 // Coroutines
                 implementation(libs.kotlinx.coroutines.core)
 
-                // DataStore (multiplatform core)
+                // Settings (multiplatform core)
+                implementation(libs.settings.core)
+
+                // DataStore (if used elsewhere in module)
                 implementation(libs.datastore.preferences)
 
                 // Okio for Path/toPath used in DataStoreFactory
@@ -104,6 +111,12 @@ kotlin {
             dependencies {
                 // Android Ktor engine
                 implementation(libs.ktor.client.okhttp)
+
+                // AndroidX Security Crypto for EncryptedSharedPreferences
+                implementation(libs.androidx.security.crypto)
+
+                // Koin Android for androidContext()
+                implementation(libs.koin.android)
             }
         }
 

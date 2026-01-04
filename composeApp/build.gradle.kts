@@ -19,6 +19,10 @@ room {
 }
 
 kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
+
     androidTarget {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
@@ -51,6 +55,9 @@ kotlin {
 
         commonMain.dependencies {
             implementation(project(":core:data"))
+            implementation(project(":core:design-systems"))
+            implementation(project(":core:presentation"))
+
 
             // UI
             implementation(compose.runtime)

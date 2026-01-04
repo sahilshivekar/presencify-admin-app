@@ -31,6 +31,8 @@ kotlinStdlib = "2.1.0"
 runner = "1.7.0"
 core = "1.7.0"
 okio = "3.9.0"
+settings = "1.1.1"
+securityCrypto = "1.1.0-alpha06"
 
 [libraries]
 # --- EXISTING ---
@@ -84,6 +86,14 @@ datastore-preferences = { module = "androidx.datastore:datastore-preferences-cor
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
 
+# --- FILEKIT (Cross-platform file operations) ---
+filekit-core = { module = "io.github.vinceglb:filekit-core", version = "0.10.0-beta04" }
+filekit-dialogs = { module = "io.github.vinceglb:filekit-dialogs", version = "0.10.0-beta04" }
+filekit-dialogs-compose = { module = "io.github.vinceglb:filekit-dialogs-compose", version = "0.10.0-beta04" }
+
+# --- COMPOSE ICONS ---
+compose-materialIconsExtended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "composeMultiplatform" }
+
 # --- TESTING ---
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
@@ -95,6 +105,8 @@ kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", versio
 androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
 androidx-core = { group = "androidx.test", name = "core", version.ref = "core" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
+settings-core = { module = "com.russhwolf:multiplatform-settings", version.ref = "settings" }
+androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCrypto" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

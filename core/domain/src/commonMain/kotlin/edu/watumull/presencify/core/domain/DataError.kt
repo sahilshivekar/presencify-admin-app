@@ -3,18 +3,19 @@ package edu.watumull.presencify.core.domain
 
 sealed interface DataError : Error {
     sealed interface Remote : DataError {
-        data object REQUEST_TIMEOUT : Remote
-        data object TOO_MANY_REQUESTS : Remote
-        data object NO_INTERNET : Remote
-        data object SERVER_ERROR : Remote
-        data object SERIALIZATION : Remote
-        data object UNKNOWN : Remote
-        data object UNAUTHORIZED : Remote
-        data class VALIDATION_ERROR(val message: String) : Remote
+        data object RequestTimeout : Remote
+        data object TooManyRequests : Remote
+        data object NoInternet : Remote
+        data object ServerError : Remote
+        data object Serialization : Remote
+        data object Unknown : Remote
+        data object Unauthorized : Remote
+        data object Forbidden : Remote
+        data class CustomError(val message: String) : Remote
     }
 
-    enum class Local : DataError {
-        DISK_FULL,
-        UNKNOWN
+    sealed interface Local : DataError {
+        data object DiskFull
+        data object Unknown : Local
     }
 }

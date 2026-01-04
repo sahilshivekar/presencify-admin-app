@@ -7,6 +7,9 @@ plugins {
 }
 
 kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
 
     // Target declarations - add or remove as needed below. These define
     // which platforms this KMP module supports.
@@ -52,6 +55,8 @@ kotlin {
             baseName = xcfName
         }
     }
+
+    jvm()
 
     // Source set declarations.
     // Declaring a target automatically creates a source set with the same name. By default, the
