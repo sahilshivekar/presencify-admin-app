@@ -1,6 +1,6 @@
 package edu.watumull.presencify.core.data.dto.academics
 
-import edu.watumull.presencify.core.data.dto.shedule.TimetableDto
+import edu.watumull.presencify.core.data.dto.schedule.TimetableDto
 import edu.watumull.presencify.core.data.dto.student.StudentDivisionDto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

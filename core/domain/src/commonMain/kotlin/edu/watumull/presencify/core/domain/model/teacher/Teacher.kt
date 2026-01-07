@@ -1,6 +1,8 @@
 package edu.watumull.presencify.core.domain.model.teacher
 
-import edu.watumull.presencify.core.domain.model.shedule.ClassSession
+import edu.watumull.presencify.core.domain.enums.Gender
+import edu.watumull.presencify.core.domain.enums.TeacherRole
+import edu.watumull.presencify.core.domain.model.schedule.ClassSession
 
 data class Teacher(
     val id: String,
@@ -11,9 +13,9 @@ data class Teacher(
     val teacherImagePublicId: String?,
     val email: String,
     val phoneNumber: String,
-    val gender: String,
+    val gender: Gender,
     val highestQualification: String?,
-    val role: String,
+    val role: TeacherRole,
     val password: String?,
     val isActive: Boolean,
     val refreshToken: String?,

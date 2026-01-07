@@ -83,6 +83,9 @@ kotlin {
                 // Coroutines
                 implementation(libs.kotlinx.coroutines.core)
 
+                // DateTime
+                implementation(libs.kotlinx.datetime)
+
                 // Settings (multiplatform core)
                 implementation(libs.settings.core)
 

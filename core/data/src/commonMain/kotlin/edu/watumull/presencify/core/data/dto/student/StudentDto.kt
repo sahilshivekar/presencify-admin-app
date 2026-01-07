@@ -3,6 +3,7 @@ package edu.watumull.presencify.core.data.dto.student
 import edu.watumull.presencify.core.data.dto.academics.BranchDto
 import edu.watumull.presencify.core.data.dto.academics.SchemeDto
 import edu.watumull.presencify.core.data.dto.attendance.AttendanceStudentDto
+import edu.watumull.presencify.core.domain.enums.Gender
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -10,7 +11,7 @@ import kotlinx.serialization.Serializable
 data class StudentDto(
     val id: String,
     val name: String,
-    val gender: String,
+    val gender: Gender,
     val email: String,
     val phone: String,
     val prn: String,

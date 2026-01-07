@@ -1,6 +1,6 @@
 package edu.watumull.presencify.core.domain.model.academics
 
-import edu.watumull.presencify.core.domain.model.shedule.Timetable
+import edu.watumull.presencify.core.domain.model.schedule.Timetable
 import edu.watumull.presencify.core.domain.model.student.StudentDivision
 
 data class Division(

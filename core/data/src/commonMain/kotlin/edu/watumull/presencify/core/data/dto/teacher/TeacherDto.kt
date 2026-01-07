@@ -1,6 +1,8 @@
 package edu.watumull.presencify.core.data.dto.teacher
 
-import edu.watumull.presencify.core.data.dto.shedule.ClassDto
+import edu.watumull.presencify.core.data.dto.schedule.ClassDto
+import edu.watumull.presencify.core.domain.enums.Gender
+import edu.watumull.presencify.core.domain.enums.TeacherRole
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -14,9 +16,9 @@ data class TeacherDto(
     val teacherImagePublicId: String? = null,
     val email: String,
     val phoneNumber: String,
-    val gender: String,
+    val gender: Gender,
     val highestQualification: String? = null,
-    val role: String,
+    val role: TeacherRole,
     val password: String? = null,
     val createdAt: String,
     val updatedAt: String,

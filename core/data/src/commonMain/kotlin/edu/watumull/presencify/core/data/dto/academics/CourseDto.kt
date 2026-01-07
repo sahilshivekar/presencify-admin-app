@@ -1,6 +1,6 @@
 package edu.watumull.presencify.core.data.dto.academics
 
-import edu.watumull.presencify.core.data.dto.shedule.ClassDto
+import edu.watumull.presencify.core.data.dto.schedule.ClassDto
 import edu.watumull.presencify.core.data.dto.teacher.TeacherTeachesCourseDto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

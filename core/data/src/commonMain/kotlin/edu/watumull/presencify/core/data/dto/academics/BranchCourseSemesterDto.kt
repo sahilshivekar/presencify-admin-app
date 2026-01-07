@@ -1,5 +1,6 @@
 package edu.watumull.presencify.core.data.dto.academics
 
+import edu.watumull.presencify.core.domain.enums.SemesterNumber
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -8,7 +9,7 @@ data class BranchCourseSemesterDto(
     val id: String,
     val branchId: String,
     val courseId: String,
-    val semesterNumber: Int,
+    val semesterNumber: SemesterNumber,
     val createdAt: String,
     val updatedAt: String,
     @SerialName("Branch")

@@ -1,7 +1,7 @@
 package edu.watumull.presencify.core.data.mapper.attendance
 
 import edu.watumull.presencify.core.data.dto.attendance.AttendanceDto
-import edu.watumull.presencify.core.data.mapper.shedule.toDomain
+import edu.watumull.presencify.core.data.mapper.schedule.toDomain
 import edu.watumull.presencify.core.domain.model.attendance.Attendance
 
 fun AttendanceDto.toDomain(): Attendance = Attendance(

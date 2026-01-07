@@ -1,7 +1,7 @@
 package edu.watumull.presencify.core.data.mapper.teacher
 
 import edu.watumull.presencify.core.data.dto.teacher.TeacherDto
-import edu.watumull.presencify.core.data.mapper.shedule.toDomain
+import edu.watumull.presencify.core.data.mapper.schedule.toDomain
 import edu.watumull.presencify.core.domain.model.teacher.Teacher
 
 fun TeacherDto.toDomain(): Teacher = Teacher(

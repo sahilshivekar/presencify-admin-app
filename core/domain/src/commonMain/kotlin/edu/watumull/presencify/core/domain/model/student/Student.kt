@@ -1,5 +1,6 @@
 package edu.watumull.presencify.core.domain.model.student
 
+import edu.watumull.presencify.core.domain.enums.Gender
 import edu.watumull.presencify.core.domain.model.academics.Branch
 import edu.watumull.presencify.core.domain.model.academics.Scheme
 import edu.watumull.presencify.core.domain.model.attendance.AttendanceStudent
@@ -7,7 +8,7 @@ import edu.watumull.presencify.core.domain.model.attendance.AttendanceStudent
 data class Student(
     val id: String,
     val name: String,
-    val gender: String,
+    val gender: Gender,
     val email: String,
     val phone: String,
     val prn: String,

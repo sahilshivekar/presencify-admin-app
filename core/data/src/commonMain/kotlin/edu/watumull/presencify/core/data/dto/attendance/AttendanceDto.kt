@@ -1,6 +1,7 @@
 package edu.watumull.presencify.core.data.dto.attendance
 
-import edu.watumull.presencify.core.data.dto.shedule.ClassDto
+import edu.watumull.presencify.core.data.dto.schedule.ClassDto
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -8,7 +9,7 @@ import kotlinx.serialization.Serializable
 data class AttendanceDto(
     val id: String,
     val classId: String,
-    val date: String,
+    val date: LocalDate,
     val totalStudents: Int,
     val presentCount: Int,
     val absentCount: Int,

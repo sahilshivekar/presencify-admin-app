@@ -1,7 +1,7 @@
 package edu.watumull.presencify.core.data.mapper.academics
 
 import edu.watumull.presencify.core.data.dto.academics.DivisionDto
-import edu.watumull.presencify.core.data.mapper.shedule.toDomain
+import edu.watumull.presencify.core.data.mapper.schedule.toDomain
 import edu.watumull.presencify.core.data.mapper.student.toDomain
 import edu.watumull.presencify.core.domain.model.academics.Division
 

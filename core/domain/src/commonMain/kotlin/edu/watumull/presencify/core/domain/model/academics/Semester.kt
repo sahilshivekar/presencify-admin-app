@@ -1,15 +1,17 @@
 package edu.watumull.presencify.core.domain.model.academics
 
+import edu.watumull.presencify.core.domain.enums.SemesterNumber
 import edu.watumull.presencify.core.domain.model.student.StudentSemester
+import kotlinx.datetime.LocalDate
 
 data class Semester(
     val id: String,
     val branchId: String,
-    val semesterNumber: Int,
+    val semesterNumber: SemesterNumber,
     val academicStartYear: Int,
     val academicEndYear: Int,
-    val startDate: String,
-    val endDate: String,
+    val startDate: LocalDate,
+    val endDate: LocalDate,
     val schemeId: String,
     val branch: Branch? = null,
     val scheme: Scheme? = null,
