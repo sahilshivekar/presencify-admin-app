@@ -1,4 +1,4 @@
-package edu.watumull.presencify.core.design.systems.components
+package edu.watumull.presencify.core.design.systems.theme
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme

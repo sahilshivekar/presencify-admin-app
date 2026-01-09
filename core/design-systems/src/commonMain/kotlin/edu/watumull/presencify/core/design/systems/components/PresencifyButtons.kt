@@ -33,7 +33,7 @@ fun PresencifyButton(
     border: BorderStroke? = null,
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     interactionSource: MutableInteractionSource? = null,
-    colors: ButtonColors = buttonColors(
+    colors: ButtonColors? = buttonColors(
         containerColor = MaterialTheme.colorScheme.primary,
         contentColor = MaterialTheme.colorScheme.onPrimary,
         disabledContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
@@ -50,7 +50,7 @@ fun PresencifyButton(
             .fillMaxWidth(),
         enabled = enabled,
         shape = shape,
-        colors = colors,
+        colors = colors ?: buttonColors(),
         elevation = elevation,
         border = border,
         contentPadding = contentPadding,
@@ -83,7 +83,7 @@ fun PresencifyTextButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     shape: Shape = ButtonDefaults.textShape,
-    colors: ButtonColors = ButtonDefaults.textButtonColors(
+    colors: ButtonColors? = ButtonDefaults.textButtonColors(
         containerColor = Color.Transparent,
         disabledContainerColor = Color.Transparent,
         contentColor = MaterialTheme.colorScheme.onBackground,
@@ -100,7 +100,7 @@ fun PresencifyTextButton(
         modifier = modifier,
         enabled = enabled,
         shape = shape,
-        colors = colors,
+        colors = colors ?: buttonColors(),
         elevation = elevation,
         border = border,
         contentPadding = contentPadding,

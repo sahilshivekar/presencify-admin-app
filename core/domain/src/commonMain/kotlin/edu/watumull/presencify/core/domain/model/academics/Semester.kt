@@ -1,5 +1,6 @@
 package edu.watumull.presencify.core.domain.model.academics
 
+import edu.watumull.presencify.core.domain.DisplayLabelProvider
 import edu.watumull.presencify.core.domain.enums.SemesterNumber
 import edu.watumull.presencify.core.domain.model.student.StudentSemester
 import kotlinx.datetime.LocalDate
@@ -18,4 +19,7 @@ data class Semester(
     val divisions: List<Division>? = null,
     val studentSemesters: List<StudentSemester>? = null,
     val courses: List<Course>? = null
-)
+) : DisplayLabelProvider {
+
+    override fun toDisplayLabel(): String = "${semesterNumber.toDisplayLabel()} ($academicStartYear-$academicEndYear)"
+}

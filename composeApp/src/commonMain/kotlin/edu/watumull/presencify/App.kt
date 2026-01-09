@@ -6,11 +6,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import edu.watumull.presencify.core.design.systems.components.PresencifyTheme
+import edu.watumull.presencify.core.design.systems.theme.PresencifyTheme
+import edu.watumull.presencify.core.presentation.global_snackbar.ObserveAsEvents
+import edu.watumull.presencify.core.presentation.global_snackbar.SnackbarController
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
@@ -18,6 +26,28 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview
 fun App() {
     PresencifyTheme {
+
+        val snackbarHostState = remember { SnackbarHostState() }
+        val scope = rememberCoroutineScope()
+
+        ObserveAsEvents(
+            SnackbarController.events,
+        ) { event ->
+            scope.launch {
+                snackbarHostState.currentSnackbarData?.dismiss()
+
+                val result = snackbarHostState.showSnackbar(
+                    message = event.message,
+                    actionLabel = event.action?.name,
+                    duration = if (event.action == null) SnackbarDuration.Short else SnackbarDuration.Long
+                )
+
+                if (result == SnackbarResult.ActionPerformed) {
+                    event.action?.action()
+                }
+            }
+        }
+
         Column(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.primaryContainer)

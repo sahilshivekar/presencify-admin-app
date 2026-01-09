@@ -1,4 +1,4 @@
-package edu.watumull.presencify.core.presentation.bottom_bar
+package edu.watumull.presencify.core.design.systems.components.bottom_bar
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height

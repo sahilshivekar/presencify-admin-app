@@ -1,4 +1,4 @@
-package edu.watumull.presencify.core.design.systems.components
+package edu.watumull.presencify.core.design.systems.theme
 
 import androidx.compose.ui.graphics.Color
 

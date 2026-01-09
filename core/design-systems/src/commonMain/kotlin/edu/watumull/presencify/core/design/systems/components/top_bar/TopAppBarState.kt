@@ -1,4 +1,4 @@
-package edu.watumull.presencify.core.presentation.top_bar
+package edu.watumull.presencify.core.design.systems.components.top_bar
 
 data class TopAppBarState(
     val title: String? = null,

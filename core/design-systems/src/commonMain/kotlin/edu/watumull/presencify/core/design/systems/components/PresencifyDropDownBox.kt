@@ -1,9 +1,6 @@
 package edu.watumull.presencify.core.design.systems.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
@@ -30,6 +27,7 @@ fun <T> PresencifyDropDownMenuBox(
     options: List<T>,
     onSelectItem: (T) -> Unit,
     label: String,
+    itemToString: (T) -> String = { it.toString() }, // Generic way to get display text
 ) {
 
     val localFocusManager = LocalFocusManager.current
@@ -46,12 +44,9 @@ fun <T> PresencifyDropDownMenuBox(
             maxLines = 1,
             modifier = Modifier
                 .fillMaxWidth()
-                .menuAnchor(MenuAnchorType.PrimaryEditable),
+                .menuAnchor(MenuAnchorType.PrimaryNotEditable),
             trailingIcon = {
-                ExposedDropdownMenuDefaults.TrailingIcon(
-                    expanded = expanded,
-                    modifier = Modifier.menuAnchor(MenuAnchorType.SecondaryEditable),
-                )
+                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
             },
             enabled = enabled,
             supportingText = supportingText,
@@ -67,26 +62,32 @@ fun <T> PresencifyDropDownMenuBox(
             containerColor = MaterialTheme.colorScheme.surface
         ) {
             if (options.isEmpty()) {
-                Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Center) {
-                    CircularProgressIndicator(
-                        strokeWidth = 2.dp,
-                        modifier = Modifier
-                            .padding(vertical = 8.dp)
-                            .size(24.dp)
-                    )
-                }
-            }
-            options.forEach { option ->
                 DropdownMenuItem(
-                    onClick = {
-                        onSelectItem(option)
-                        onDropDownVisibilityChanged(false)
-                        localFocusManager.clearFocus()
-                    },
+                    enabled = false,
+                    onClick = {},
                     text = {
-                        Text(text = option.toString(), color = MaterialTheme.colorScheme.onSurface)
+                        CircularProgressIndicator(
+                            strokeWidth = 2.dp,
+                            modifier = Modifier.size(24.dp)
+                        )
                     }
                 )
+            } else {
+                options.forEach { option ->
+                    DropdownMenuItem(
+                        onClick = {
+                            onSelectItem(option)
+                            onDropDownVisibilityChanged(false)
+                            localFocusManager.clearFocus()
+                        },
+                        text = {
+                            Text(
+                                text = itemToString(option),
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+                    )
+                }
             }
         }
     }

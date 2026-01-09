@@ -1,5 +1,6 @@
 package edu.watumull.presencify.core.domain.model.academics
 
+import edu.watumull.presencify.core.domain.DisplayLabelProvider
 import edu.watumull.presencify.core.domain.model.student.Student
 
 data class Scheme(
@@ -10,4 +11,7 @@ data class Scheme(
     val semesters: List<Semester>? = null,
     val students: List<Student>? = null,
     val courses: List<Course>? = null
-)
+) : DisplayLabelProvider {
+
+    override fun toDisplayLabel(): String = name
+}

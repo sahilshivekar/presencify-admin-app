@@ -1,12 +1,9 @@
-import edu.watumull.presencify.core.data.network.admin_auth.ApiEndpoints as AdminApiEndpoints
-import edu.watumull.presencify.core.data.network.student_auth.ApiEndpoints as StudentApiEndpoints
-import edu.watumull.presencify.core.data.network.teacher_auth.ApiEndpoints as TeacherApiEndpoints
 import edu.watumull.presencify.core.data.dto.auth.TokenDto
 import edu.watumull.presencify.core.data.repository.auth.RoleRepository
 import edu.watumull.presencify.core.data.repository.auth.TokenRepository
 import edu.watumull.presencify.core.domain.model.auth.UserRole
-import io.ktor.client.call.body
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.auth.Auth
@@ -24,6 +21,9 @@ import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.serialization.json.Json
+import edu.watumull.presencify.core.data.network.admin_auth.ApiEndpoints as AdminApiEndpoints
+import edu.watumull.presencify.core.data.network.student_auth.ApiEndpoints as StudentApiEndpoints
+import edu.watumull.presencify.core.data.network.teacher_auth.ApiEndpoints as TeacherApiEndpoints
 
 class HttpClientFactory(
     private val tokenRepository: TokenRepository,

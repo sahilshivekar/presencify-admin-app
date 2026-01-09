@@ -1,22 +1,26 @@
 package edu.watumull.presencify.core.data.repository.teacher_auth
 
 import edu.watumull.presencify.core.data.network.teacher_auth.RemoteTeacherAuthDataSource
+import edu.watumull.presencify.core.data.repository.auth.RoleRepository
 import edu.watumull.presencify.core.data.repository.auth.TokenRepository
 import edu.watumull.presencify.core.domain.DataError
 import edu.watumull.presencify.core.domain.Result
 import edu.watumull.presencify.core.domain.map
+import edu.watumull.presencify.core.domain.model.auth.UserRole
 import edu.watumull.presencify.core.domain.onSuccess
 import edu.watumull.presencify.core.domain.repository.teacher_auth.TeacherAuthRepository
 
 class TeacherAuthRepositoryImpl(
     private val remoteDataSource: RemoteTeacherAuthDataSource,
-    private val tokenRepository: TokenRepository
+    private val tokenRepository: TokenRepository,
+    private val roleRepository: RoleRepository,
 ) : TeacherAuthRepository {
 
     override suspend fun loginTeacher(email: String, password: String): Result<Unit, DataError.Remote> {
         return remoteDataSource.loginTeacher(email, password).onSuccess { tokenDto ->
             tokenRepository.saveAccessToken(tokenDto.accessToken)
             tokenRepository.saveRefreshToken(tokenDto.refreshToken)
+            roleRepository.saveUserRole(UserRole.TEACHER)
         }.map {}
     }
 
@@ -40,6 +44,9 @@ class TeacherAuthRepositoryImpl(
     }
 
     override suspend fun logout(): Result<Unit, DataError.Remote> {
-        return remoteDataSource.logout()
+        return remoteDataSource.logout().onSuccess {
+            tokenRepository.clearTokens()
+            roleRepository.clearUserRole()
+        }
     }
 }

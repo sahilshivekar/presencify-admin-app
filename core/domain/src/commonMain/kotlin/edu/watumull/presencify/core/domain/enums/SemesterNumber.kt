@@ -1,5 +1,6 @@
 package edu.watumull.presencify.core.domain.enums
 
+import edu.watumull.presencify.core.domain.DisplayLabelProvider
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
@@ -10,7 +11,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
 @Serializable(with = SemesterNumberSerializer::class)
-enum class SemesterNumber(val value: Int) {
+enum class SemesterNumber(val value: Int) : DisplayLabelProvider {
     SEMESTER_1(1),
     SEMESTER_2(2),
     SEMESTER_3(3),
@@ -19,6 +20,8 @@ enum class SemesterNumber(val value: Int) {
     SEMESTER_6(6),
     SEMESTER_7(7),
     SEMESTER_8(8);
+
+    override fun toDisplayLabel(): String = "Semester $value"
 
     companion object {
         fun fromValue(value: Int): SemesterNumber? = entries.find { it.value == value }

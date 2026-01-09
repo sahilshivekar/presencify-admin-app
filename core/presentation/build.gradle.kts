@@ -87,6 +87,8 @@ kotlin {
                 implementation(libs.kotlinx.datetime)
 
                 implementation(project(":core:domain"))
+                implementation(project(":core:design-systems"))
+
             }
             dependencies {
                 implementation(libs.kotlin.stdlib)

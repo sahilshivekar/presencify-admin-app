@@ -5,15 +5,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun PresencifyTextDivider(
-    modifier: Modifier = Modifier
+fun PresencifyDotSeparator(
+    modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
 ) {
     Text(
         text = "•",
         style = MaterialTheme.typography.bodyLarge,
-        modifier = modifier.padding(horizontal = 5.dp)
+        color = color,
+        modifier = modifier.padding(horizontal = 8.dp)
     )
 }
