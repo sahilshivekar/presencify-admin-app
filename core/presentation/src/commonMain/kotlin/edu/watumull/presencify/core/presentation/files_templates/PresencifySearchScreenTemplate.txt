@@ -1,0 +1,429 @@
+# Android Studio Template for Presencify Search Screen
+# This template creates 7 files for a complete MVI search screen implementation with bottom sheet filtering
+
+# Template Variables:
+# ${NAME} - The feature/screen name (e.g., "StudentList", "Attendance")
+# ${PACKAGE_NAME} - The package name for the feature
+
+# =============================================================================
+# 1. ${NAME}Root.kt -
+# =============================================================================
+
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "") package ${PACKAGE_NAME} #end
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
+import edu.watumull.presencify.core.presentation.utils.EventsEffect
+import org.koin.androidx.compose.koinViewModel
+
+
+@Composable
+fun ${NAME}Root(
+    navController: NavHostController,
+) {
+    val viewModel: ${NAME}ViewModel = koinViewModel()
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    EventsEffect(viewModel.eventFlow) { event ->
+        when (event) {
+            is ${NAME}Event.NavigateBack -> navController.navigateUp()
+            else -> Unit
+        }
+    }
+
+    ${NAME}Screen(
+        state = state,
+        onAction = viewModel::trySendAction
+    )
+}
+
+# =============================================================================
+# 2. ${NAME}Screen.kt - UI Screen component
+# =============================================================================
+
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "") package ${PACKAGE_NAME} #end
+
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.maxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import edu.watumull.presencify.core.design.systems.components.PresencifyBottomSheetScaffold
+import edu.watumull.presencify.core.design.systems.components.PresencifyNoResultsIndicator
+import edu.watumull.presencify.core.design.systems.components.PresencifySearchBar
+import edu.watumull.presencify.core.design.systems.components.PresencifyButton
+import edu.watumull.presencify.core.design.systems.components.dialog.PresencifyLoadingDialog
+import edu.watumull.presencify.core.design.systems.components.dialog.PresencifyAlertDialog
+import edu.watumull.presencify.core.design.systems.components.dialog.DialogType
+import edu.watumull.presencify.core.presentation.UiConstants
+
+@Composable
+fun ${NAME}Screen(
+    state: ${NAME}State,
+    onAction: (${NAME}Action) -> Unit,
+) {
+    PresencifyBottomSheetScaffold(
+        backPress = { onAction(${NAME}Action.NavigateBack) },
+        topBarTitle = "${NAME}",
+        sheetContent = { ${NAME}BottomSheetContent(state = state, onAction = onAction) },
+        isSheetVisible = state.bottomSheetState.isVisible,
+        onDismissSheet = { onAction(${NAME}Action.DismissBottomSheet) },
+    ) { paddingValues ->
+        when (state.viewState) {
+            is ${NAME}State.ViewState.Loading -> {
+                PresencifyLoadingDialog(
+                    isVisible = true
+                )
+            }
+            is ${NAME}State.ViewState.Error -> {
+                PresencifyNoResultsIndicator(
+                    text = state.viewState.message
+                )
+            }
+            is ${NAME}State.ViewState.Content -> {
+                ${NAME}ScreenContent(
+                    state = state.viewState as ${NAME}State.ViewState.Content,
+                    onAction = onAction,
+                    modifier = Modifier.padding(paddingValues)
+                )
+            }
+        }
+    }
+
+    state.dialogState?.let { dialogState ->
+        PresencifyAlertDialog(
+            isVisible = dialogState.isVisible,
+            dialogType = dialogState.dialogType,
+            title = dialogState.title,
+            message = dialogState.message,
+            onConfirm = {
+                when(dialogState.dialogIntention) {
+                    GENERIC -> {
+
+                    }
+                }
+            },
+            onDismiss = {
+                onAction(${NAME}Action.DismissDialog)
+            }
+        )
+    }
+
+    
+}
+
+@Preview
+@Composable
+private fun ${NAME}ScreenPreview() {
+    ${NAME}Screen(
+        state = ${NAME}State(viewState = ${NAME}State.ViewState.Content()),
+        onAction = {}
+    )
+}
+
+@Composable
+private fun ${NAME}ScreenContent(
+    state: ${NAME}State.ViewState.Content,
+    onAction: (${NAME}Action) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = state.isRefreshing,
+        onRefresh = { onAction(${NAME}Action.Refresh) }
+    )
+
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .maxWidth(UiConstants.MAX_CONTENT_WIDTH),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
+        ) {
+            PresencifySearchBar(
+                query = state.searchQuery,
+                onQueryChange = { onAction(${NAME}Action.UpdateSearchQuery(it)) },
+                onFilterClick = { onAction(${NAME}Action.ShowBottomSheet) },
+                placeholder = "Search here..."
+            )
+
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .pullRefresh(pullRefreshState)
+            ) {
+
+                // add lazy column here
+
+                PullRefreshIndicator(
+                    refreshing = state.isRefreshing,
+                    state = pullRefreshState,
+                    modifier = Modifier.align(Alignment.TopCenter)
+                )
+            }
+        }
+    }
+}
+
+# =============================================================================
+# 3. ${NAME}ViewModel.kt - MVI ViewModel
+# =============================================================================
+
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "") package ${PACKAGE_NAME} #end
+
+import androidx.lifecycle.viewModelScope
+import edu.watumull.presencify.core.presentation.utils.BaseViewModel
+import kotlinx.coroutines.launch
+
+class ${NAME}ViewModel : BaseViewModel<${NAME}State, ${NAME}Event, ${NAME}Action>(
+    initialState = ${NAME}State()
+) {
+
+    init {
+        viewModelScope.launch {
+            loadInitialData()
+        }
+    }
+
+    private suspend fun loadInitialData() {
+        // Load initial data here
+    }
+
+    override fun handleAction(action: ${NAME}Action) {
+        when (action) {
+            is ${NAME}Action.BackButtonClick -> {
+                sendEvent(${NAME}Event.NavigateBack)
+            }
+            is ${NAME}Action.ShowDialog -> {
+                updateState { it.copy(dialogState = DialogState(
+                    dialogType = action.dialogType,
+                    dialogIntention = action.dialogIntention,
+                    title = action.title,
+                    message = action.message
+                )) }
+            }
+            is ${NAME}Action.DismissDialog -> {
+                updateState { it.copy(dialogState = null) }
+            }
+            is ${NAME}Action.ShowBottomSheet -> {
+                updateState { it.copy(bottomSheetState = it.bottomSheetState.copy(isVisible = true)) }
+            }
+            is ${NAME}Action.DismissBottomSheet -> {
+                updateState { it.copy(bottomSheetState = it.bottomSheetState.copy(isVisible = false)) }
+            }
+            is ${NAME}Action.UpdateSearchQuery -> {
+                updateState { it.copy(searchQuery = action.query) }
+            }
+            is ${NAME}Action.OptionAdded -> {
+                updateState { it.copy(bottomSheetState = it.bottomSheetState.copy(
+                    selectedOptions = it.bottomSheetState.selectedOptions + action.option
+                )) }
+            }
+            is ${NAME}Action.OptionRemoved -> {
+                updateState { it.copy(bottomSheetState = it.bottomSheetState.copy(
+                    selectedOptions = it.bottomSheetState.selectedOptions - action.option
+                )) }
+            }
+            is ${NAME}Action.ResetFilters -> {
+                updateState { it.copy(bottomSheetState = BottomSheetState(
+                    options = it.bottomSheetState.options
+                )) }
+            }
+            is ${NAME}Action.ApplyFilters -> {
+                // Apply filters logic here
+                updateState { it.copy(bottomSheetState = it.bottomSheetState.copy(isVisible = false)) }
+            }
+            is ${NAME}Action.Refresh -> {
+                updateState { it.copy(isRefreshing = true) }
+                // Perform refresh logic here
+                updateState { it.copy(isRefreshing = false) }
+            }
+        }
+    }
+}
+
+# =============================================================================
+# 4. ${NAME}State.kt - State data class
+# =============================================================================
+
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "") package ${PACKAGE_NAME} #end
+
+import edu.watumull.presencify.core.design.systems.components.dialog.DialogType
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+
+data class ${NAME}State(
+    val viewState: ViewState = ViewState.Loading,
+    val dialogState: DialogState? = null,
+    val bottomSheetState: BottomSheetState = BottomSheetState(),
+    val searchQuery: String = "",
+    val isRefreshing: Boolean = false
+) {
+    sealed interface ViewState {
+        data object Loading : ViewState
+        data class Error(val message: String) : ViewState
+        data object Content : ViewState
+    }
+
+    data class DialogState(
+        val isVisible: Boolean = true,
+        val dialogType: DialogType = DialogType.INFO,
+        val dialogIntention: DialogIntention = DialogIntention.GENERIC,
+        val title: String = "",
+        val message: String = "",
+    )
+
+    data class BottomSheetState(
+        val isVisible: Boolean = false,
+        val options: ImmutableList<String> = persistentListOf(),
+        val selectedOptions: ImmutableList<String> = persistentListOf() // multiple options can be selected in some cases
+    )
+}
+
+# =============================================================================
+# 5. ${NAME}Event.kt - Navigation events
+# =============================================================================
+
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "") package ${PACKAGE_NAME} #end
+
+sealed interface ${NAME}Event {
+    data object NavigateBack : ${NAME}Event
+}
+
+# =============================================================================
+# 6. ${NAME}Action.kt - User actions
+# =============================================================================
+
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "") package ${PACKAGE_NAME} #end
+
+sealed interface ${NAME}Action {
+    data object BackButtonClick : ${NAME}Action
+    data object DismissDialog : ${NAME}Action
+    data object ShowBottomSheet : ${NAME}Action
+    data object DismissBottomSheet : ${NAME}Action
+    data class UpdateSearchQuery(val query: String) : ${NAME}Action
+    data class OptionAdded(val option: String) : ${NAME}Action
+    data class OptionRemoved(val option: String) : ${NAME}Action
+    data object ResetFilters : ${NAME}Action
+    data object ApplyFilters : ${NAME}Action
+    data object Refresh : ${NAME}Action
+}
+
+// required if there are multiple different confirmation operations need to be done on screen
+enum class DialogIntention {
+    GENERIC, 
+}
+
+# =============================================================================
+# 7. ${NAME}BottomSheet.kt - Bottom Sheet component
+# =============================================================================
+
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "") package ${PACKAGE_NAME} #end
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import edu.watumull.presencify.core.design.systems.components.PresencifyButton
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun ${NAME}BottomSheetContent(
+    state: ${NAME}State,
+    onAction: (${NAME}Action) -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        // Fixed Header
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(text = "Filter", style = MaterialTheme.typography.titleLarge)
+            Text(
+                text = "Reset",
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.clickable { onAction(${NAME}Action.ResetFilters) }
+            )
+        }
+
+        HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
+
+        // Scrollable Filter Options
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
+        ) {
+            Column(modifier = Modifier.padding(bottom = 16.dp)) {
+                Text(text = "Option", style = MaterialTheme.typography.titleMedium)
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    // Example options - replace with actual data
+                    val options = listOf("Option 1", "Option 2", "Option 3")
+                    options.forEach { option ->
+                        val isSelected = state.bottomSheetState.selectedOptions.contains(option)
+                        FilterChip(
+                            selected = isSelected,
+                            onClick = {
+                                if (isSelected) {
+                                    onAction(${NAME}Action.OptionRemoved(option))
+                                } else {
+                                    onAction(${NAME}Action.OptionAdded(option))
+                                }
+                            },
+                            label = { Text(option) }
+                        )
+                    }
+                }
+            }
+        }
+
+        // Fixed Apply Filters Button
+        PresencifyButton(
+            onClick = { onAction(${NAME}Action.ApplyFilters) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
+            text = "Apply Filters"
+        )
+    }
+}

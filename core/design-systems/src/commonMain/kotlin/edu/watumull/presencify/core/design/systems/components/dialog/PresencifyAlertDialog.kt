@@ -25,12 +25,12 @@ import edu.watumull.presencify.core.design.systems.components.PresencifyTextButt
 @Composable
 fun PresencifyAlertDialog(
     modifier: Modifier = Modifier,
-    message: String,
-    onDismiss: () -> Unit,
-    isVisible: Boolean,
+    isVisible: Boolean = true,
     dialogType: DialogType,
     title: String? = null,
-    onConfirm: () -> Unit = {},
+    message: String,
+    onDismiss: () -> Unit,
+    onConfirm: (() -> Unit)? = null,
 ) {
     val containerColor = when (dialogType) {
         DialogType.ERROR -> MaterialTheme.colorScheme.errorContainer
@@ -51,7 +51,7 @@ fun PresencifyAlertDialog(
                 if (dialogType == DialogType.CONFIRM_RISKY_ACTION || dialogType == DialogType.CONFIRM_NORMAL_ACTION) {
                     PresencifyTextButton(
                         content = { Text("Confirm") },
-                        onClick = onConfirm,
+                        onClick = onConfirm ?: {},
                         colors = buttonColors,
                         modifier = Modifier.testTag("AcceptAlertButton"),
                     )

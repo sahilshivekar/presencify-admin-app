@@ -1,0 +1,246 @@
+# Android Studio Template for Presencify Feature Screen
+# This template creates 6 files for a complete MVI screen implementation
+
+# Template Variables:
+# ${NAME} - The feature/screen name (e.g., "StudentList", "Attendance")
+# ${PACKAGE_NAME} - The package name for the feature
+
+# =============================================================================
+# 1. ${NAME}Root.kt -
+# =============================================================================
+
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "") package ${PACKAGE_NAME} #end
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
+import edu.watumull.presencify.core.presentation.utils.EventsEffect
+import org.koin.androidx.compose.koinViewModel
+
+
+@Composable
+fun ${NAME}Root(
+    navController: NavHostController,
+) {
+    val viewModel: ${NAME}ViewModel = koinViewModel()
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    EventsEffect(viewModel.eventFlow) { event ->
+        when (event) {
+            is ${NAME}Event.NavigateBack -> navController.navigateUp()
+            else -> Unit
+        }
+    }
+
+    ${NAME}Screen(
+        state = state,
+        onAction = viewModel::trySendAction
+    )
+}
+
+# =============================================================================
+# 2. ${NAME}Screen.kt - UI Screen component
+# =============================================================================
+
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "") package ${PACKAGE_NAME} #end
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import edu.watumull.presencify.core.design.systems.components.PresencifyScaffold
+import edu.watumull.presencify.core.design.systems.components.PresencifyNoResultsIndicator
+import edu.watumull.presencify.core.design.systems.components.dialog.PresencifyLoadingDialog
+import edu.watumull.presencify.core.design.systems.components.dialog.PresencifyAlertDialog
+import edu.watumull.presencify.core.design.systems.components.dialog.DialogType
+import edu.watumull.presencify.core.presentation.UiConstants
+
+@Composable
+fun ${NAME}Screen(
+    state: ${NAME}State,
+    onAction: (${NAME}Action) -> Unit,
+) {
+    PresencifyScaffold(
+        backPress = { onAction(${NAME}Action.NavigateBack) },
+        topBarTitle = "${NAME}",
+    ) { paddingValues ->
+        when (state.viewState) {
+            is ${NAME}State.ViewState.Loading -> {
+                PresencifyLoadingDialog(
+                    isVisible = true
+                )
+            }
+            is ${NAME}State.ViewState.Error -> {
+                PresencifyNoResultsIndicator(
+                    text = state.viewState.message
+                )
+            }
+            is ${NAME}State.ViewState.Content -> {
+                ${NAME}ScreenContent(
+                    state = state.viewState as ${NAME}State.ViewState.Content,
+                    onAction = onAction,
+                    modifier = Modifier.padding(paddingValues)
+                )
+            }
+        }
+    }
+
+    state.dialogState?.let { dialogState ->
+        PresencifyAlertDialog(
+            isVisible = dialogState.isVisible,
+            dialogType = dialogState.dialogType,
+            title = dialogState.title,
+            message = dialogState.message,
+            onConfirm = {
+                when(dialogState.dialogIntention) {
+                    GENERIC -> {
+
+                    }
+                }
+            },
+            onDismiss = {
+                onAction(${NAME}Action.DismissDialog)
+            }
+        )
+    }
+
+    
+}
+
+@Preview
+@Composable
+private fun ${NAME}ScreenPreview() {
+    ${NAME}Screen(
+        state = ${NAME}State(viewState = ${NAME}State.ViewState.Content()),
+        onAction = {}
+    )
+}
+
+@Composable
+private fun ${NAME}ScreenContent(
+    state: ${NAME}State.ViewState.Content,
+    onAction: (${NAME}Action) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .maxWidth(UiConstants.MAX_CONTENT_WIDTH),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
+        ) {
+            // add screen code here
+        }
+    }
+}
+
+# =============================================================================
+# 3. ${NAME}ViewModel.kt - MVI ViewModel
+# =============================================================================
+
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "") package ${PACKAGE_NAME} #end
+
+import androidx.lifecycle.viewModelScope
+import edu.watumull.presencify.core.presentation.utils.BaseViewModel
+import kotlinx.coroutines.launch
+
+class ${NAME}ViewModel : BaseViewModel<${NAME}State, ${NAME}Event, ${NAME}Action>(
+    initialState = ${NAME}State()
+) {
+
+    init {
+        viewModelScope.launch {
+            loadInitialData()
+        }
+    }
+
+    private suspend fun loadInitialData() {
+        // Load initial data here
+    }
+
+    override fun handleAction(action: ${NAME}Action) {
+        when (action) {
+            is ${NAME}Action.BackButtonClick -> {
+                sendEvent(${NAME}Event.NavigateBack)
+            }
+            is ${NAME}Action.ShowDialog -> {
+                updateState { it.copy(dialogState = DialogState(
+                    dialogType = action.dialogType,
+                    dialogIntention = action.dialogIntention,
+                    title = action.title,
+                    message = action.message
+                )) }
+            }
+            is ${NAME}Action.DismissDialog -> {
+                updateState { it.copy(dialogState = null) }
+            }
+        }
+    }
+}
+
+# =============================================================================
+# 4. ${NAME}State.kt - State data class
+# =============================================================================
+
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "") package ${PACKAGE_NAME} #end
+
+import edu.watumull.presencify.core.design.systems.components.dialog.DialogType
+
+data class ${NAME}State(
+    val viewState: ViewState = ViewState.Loading,
+    val dialogState: DialogState? = null
+) {
+    sealed interface ViewState {
+        data object Loading : ViewState
+        data class Error(val message: String) : ViewState
+        data object Content : ViewState
+    }
+
+    data class DialogState(
+        val isVisible: Boolean = true,
+        val dialogType: DialogType = DialogType.INFO,
+        val dialogIntention: DialogIntention = DialogIntention.GENERIC,
+        val title: String = "",
+        val message: String = "",
+    )
+}
+
+# =============================================================================
+# 5. ${NAME}Event.kt - Navigation events
+# =============================================================================
+
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "") package ${PACKAGE_NAME} #end
+
+sealed interface ${NAME}Event {
+    data object NavigateBack : ${NAME}Event
+}
+
+# =============================================================================
+# 6. ${NAME}Action.kt - User actions
+# =============================================================================
+
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "") package ${PACKAGE_NAME} #end
+
+sealed interface ${NAME}Action {
+    data object BackButtonClick : ${NAME}Action
+    data object DismissDialog : ${NAME}Action
+}
+
+// required if there are multiple different confirmation operations need to be done on screen
+enum class DialogIntention {
+    GENERIC, 
+}

@@ -46,6 +46,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.compose.ui)
 
             // --- Android Specific ---
             implementation(libs.kotlinx.coroutines.android)
@@ -55,6 +56,7 @@ kotlin {
 
         commonMain.dependencies {
             implementation(project(":core:data"))
+            implementation(project(":core:domain"))
             implementation(project(":core:design-systems"))
             implementation(project(":core:presentation"))
 
@@ -78,6 +80,7 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.datetime)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.kotlinx.collections.immutable)
 
             // DI (Koin)
             implementation(libs.koin.core)
