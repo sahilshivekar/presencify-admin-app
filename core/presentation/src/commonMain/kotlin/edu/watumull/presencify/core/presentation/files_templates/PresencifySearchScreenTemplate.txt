@@ -164,7 +164,7 @@ private fun ${NAME}ScreenContent(
                 onQueryChange = { onAction(${NAME}Action.UpdateSearchQuery(it)) },
                 onFilterClick = { onAction(${NAME}Action.ShowBottomSheet) },
                 placeholder = "Search here...",
-                onSearchClick = { onAction(SearchStudentAction.Search) }
+                onSearchClick = { onAction(${NAME}Action.Search) }
             )
 
             Box(
@@ -193,7 +193,12 @@ private fun ${NAME}ScreenContent(
 
 import androidx.lifecycle.viewModelScope
 import edu.watumull.presencify.core.presentation.utils.BaseViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 class ${NAME}ViewModel :
     BaseViewModel<${NAME}State, ${NAME}Event, ${NAME}Action>(
@@ -204,10 +209,27 @@ class ${NAME}ViewModel :
         viewModelScope.launch {
             loadInitialData()
         }
+        observeSearchQuery()
     }
 
     private suspend fun loadInitialData() {
         // Load initial data here
+    }
+
+    private fun observeSearchQuery() {
+        viewModelScope.launch {
+            stateFlow
+                .map { it.searchQuery }
+                .debounce(300.milliseconds)
+                .distinctUntilChanged()
+                .collectLatest { query ->
+                    search(query)
+                }
+        }
+    }
+
+    private suspend fun search(query: String) {
+        // TODO: Implement search logic
     }
 
     override fun handleAction(action: ${NAME}Action) {
