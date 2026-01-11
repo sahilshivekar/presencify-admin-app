@@ -8,13 +8,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -27,11 +25,9 @@ import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -79,9 +75,7 @@ fun PresencifyScaffold(
     backPress: () -> Unit,
     modifier: Modifier = Modifier,
     topBarTitle: String? = null,
-    floatingActionButtonIcon: ImageVector = Icons.Default.Add,
-    onFloatingActionButtonClick: () -> Unit = {},
-    isFloatingActionButtonVisible: Boolean = false,
+    floatingActionButton: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
     content: @Composable (PaddingValues) -> Unit,
 ) {
@@ -96,16 +90,7 @@ fun PresencifyScaffold(
                 )
             }
         },
-        floatingActionButton = {
-            if (isFloatingActionButtonVisible) {
-                FloatingActionButton(onClick = onFloatingActionButtonClick) {
-                    Icon(
-                        imageVector = floatingActionButtonIcon,
-                        contentDescription = "Floating Action Button"
-                    )
-                }
-            }
-        },
+        floatingActionButton = floatingActionButton,
         containerColor = Color.Transparent,
         content = content
     )
@@ -122,9 +107,7 @@ fun PresencifyBottomSheetScaffold(
     backPress: () -> Unit,
     modifier: Modifier = Modifier,
     topBarTitle: String? = null,
-    floatingActionButtonIcon: ImageVector = Icons.Default.Add,
-    onFloatingActionButtonClick: () -> Unit = {},
-    isFloatingActionButtonVisible: Boolean = false,
+    floatingActionButton: @Composable () -> Unit = {},
     scaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberStandardBottomSheetState(
             skipHiddenState = false,
@@ -158,28 +141,8 @@ fun PresencifyBottomSheetScaffold(
                 )
             }
         },
+        floatingActionButton = floatingActionButton,
         containerColor = Color.Transparent,
-        content = { paddingValues ->
-            Box(modifier = Modifier.padding(paddingValues)) {
-                content(paddingValues)
-
-                // FAB positioned at bottom end
-                if (isFloatingActionButtonVisible) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(16.dp),
-                        contentAlignment = Alignment.BottomEnd
-                    ) {
-                        FloatingActionButton(onClick = onFloatingActionButtonClick) {
-                            Icon(
-                                imageVector = floatingActionButtonIcon,
-                                contentDescription = "Floating Action Button"
-                            )
-                        }
-                    }
-                }
-            }
-        }
+        content = content
     )
 }

@@ -29,6 +29,9 @@ fun ${NAME}Root(
     EventsEffect(viewModel.eventFlow) { event ->
         when (event) {
             is ${NAME}Event.NavigateBack -> navController.navigateUp()
+            is ${NAME}Event.NavigateToAddEdit -> {
+                
+            }
         }
     }
 
@@ -67,6 +70,10 @@ import edu.watumull.presencify.core.design.systems.components.dialog.PresencifyA
 import edu.watumull.presencify.core.design.systems.components.dialog.PresencifyLoadingDialog
 import edu.watumull.presencify.core.presentation.UiConstants
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -78,6 +85,11 @@ fun ${NAME}Screen(
         backPress = { onAction(${NAME}Action.BackButtonClick) },
         topBarTitle = "${NAME}",
         sheetContent = { ${NAME}BottomSheetContent(state = state, onAction = onAction) },
+        floatingActionButton = {
+            FloatingActionButton(onClick = { onAction(${NAME}Action.FloatingActionButtonClick) }) {
+                Icon(Icons.Default.Add, contentDescription = "Add")
+            }
+        },
     ) { paddingValues ->
         when (state.viewState) {
             is ${NAME}State.ViewState.Loading -> {
@@ -293,6 +305,9 @@ class ${NAME}ViewModel :
             ${NAME}Action.Search -> {
 
             }
+            is ${NAME}Action.FloatingActionButtonClick -> {
+                sendEvent(${NAME}Event.NavigateToAddEdit)
+            }
         }
     }
 }
@@ -346,6 +361,7 @@ data class ${NAME}State(
 
 sealed interface ${NAME}Event {
     data object NavigateBack : ${NAME}Event
+    data object NavigateToAddEdit : ${NAME}Event
 }
 
 # =============================================================================
@@ -366,6 +382,7 @@ sealed interface ${NAME}Action {
     data object ResetFilters : ${NAME}Action
     data object ApplyFilters : ${NAME}Action
     data object Refresh : ${NAME}Action
+    data object FloatingActionButtonClick : ${NAME}Action
 }
 
 // required if there are multiple different confirmation operations need to be done on screen

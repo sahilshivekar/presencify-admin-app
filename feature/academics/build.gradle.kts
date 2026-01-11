@@ -67,6 +67,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(project(":core:presentation"))
+                implementation(project(":core:design-systems"))
                 implementation(project(":core:domain"))
                 // Presentation/UI
                 implementation(compose.runtime)
