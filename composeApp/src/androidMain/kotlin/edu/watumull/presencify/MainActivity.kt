@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
-        initKoin()
+        initKoin(applicationContext)
 
         // Set the activity provider for ShareUtils
         ShareUtils.setActivityProvider { this }

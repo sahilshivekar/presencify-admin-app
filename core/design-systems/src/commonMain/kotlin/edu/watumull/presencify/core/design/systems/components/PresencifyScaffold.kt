@@ -25,6 +25,7 @@ import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -107,7 +108,7 @@ fun PresencifyBottomSheetScaffold(
     backPress: () -> Unit,
     modifier: Modifier = Modifier,
     topBarTitle: String? = null,
-    floatingActionButton: @Composable () -> Unit = {},
+    floatingActionButton: (@Composable () -> Unit)? = null,
     scaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberStandardBottomSheetState(
             skipHiddenState = false,
@@ -141,8 +142,21 @@ fun PresencifyBottomSheetScaffold(
                 )
             }
         },
-        floatingActionButton = floatingActionButton,
         containerColor = Color.Transparent,
-        content = content
+        content = { paddingValues ->
+            Box(modifier = Modifier.padding(paddingValues)) {
+                content(paddingValues)
+                floatingActionButton?.let {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        contentAlignment = Alignment.BottomEnd
+                    ) {
+                        floatingActionButton()
+                    }
+                }
+            }
+        }
     )
 }
