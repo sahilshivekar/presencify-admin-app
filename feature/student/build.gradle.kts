@@ -15,7 +15,7 @@ kotlin {
     // which platforms this KMP module supports.
     // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
     androidLibrary {
-        namespace = "edu.watumull.presencify.feature.admin.profile"
+        namespace = "edu.watumull.presencify.feature.student"
         compileSdk = 36
         minSdk = 24
 
@@ -36,7 +36,7 @@ kotlin {
     // A step-by-step guide on how to include this library in an XCode
     // project can be found here:
     // https://developer.android.com/kotlin/multiplatform/migrate
-    val xcfName = "feature:admin-profileKit"
+    val xcfName = "feature:studentKit"
 
     iosX64 {
         binaries.framework {

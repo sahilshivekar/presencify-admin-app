@@ -15,7 +15,7 @@ kotlin {
     // which platforms this KMP module supports.
     // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
     androidLibrary {
-        namespace = "edu.watumull.presencify.feature.teacher.profile"
+        namespace = "edu.watumull.presencify.feature.admin.mgt"
         compileSdk = 36
         minSdk = 24
 
@@ -36,7 +36,7 @@ kotlin {
     // A step-by-step guide on how to include this library in an XCode
     // project can be found here:
     // https://developer.android.com/kotlin/multiplatform/migrate
-    val xcfName = "feature:teacher-profileKit"
+    val xcfName = "feature:admin-mgtKit"
 
     iosX64 {
         binaries.framework {
@@ -104,6 +104,7 @@ kotlin {
                 // Image Loading (Coil)
                 implementation(libs.coil.compose)
                 implementation(libs.coil.network.ktor)
+
                 implementation(libs.compose.material.icons.core)
                 implementation(libs.compose.material.icons.extended)
             }
