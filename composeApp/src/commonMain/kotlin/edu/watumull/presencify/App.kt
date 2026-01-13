@@ -25,14 +25,12 @@ import edu.watumull.presencify.core.domain.model.auth.UserRole
 import edu.watumull.presencify.core.presentation.global_snackbar.ObserveAsEvents
 import edu.watumull.presencify.core.presentation.global_snackbar.SnackbarController
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
 
 // Define the CompositionLocal for UserRole
 val LocalUserRole = compositionLocalOf<UserRole?> { null }
 
 @Composable
-@Preview
 fun App() {
     val roleRepository = koinInject<RoleRepository>()
     val userRole by roleRepository.getUserRole().collectAsState(initial = null)
@@ -69,9 +67,7 @@ fun App() {
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Button(onClick = { }) {
-                    Text("Click me!")
-                }
+
             }
         }
     }

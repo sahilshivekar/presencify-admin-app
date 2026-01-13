@@ -1,39 +1,38 @@
 [versions]
 agp = "8.10.0"
-android-compileSdk = "34"
+android-compileSdk = "35"
 android-minSdk = "24"
-android-targetSdk = "34"
+android-targetSdk = "35"
 androidx-activity = "1.10.1"
 androidx-appcompat = "1.7.1"
 androidx-core = "1.15.0"
 androidx-espresso = "3.6.1"
 androidx-lifecycle = "2.9.2"
 androidx-testExt = "1.2.1"
-composeHotReload = "1.0.0"
-composeMultiplatform = "1.8.2"
+composeMultiplatform = "1.10.0"
 androidx-compose = "1.5.1"
 androidx-compose-material = "1.7.6"
 junit = "4.13.2"
-kotlin = "2.1.0"
+kotlin = "2.1.20"
 kotlinx-coroutines = "1.9.0"
 
-ksp = "2.1.0-1.0.29"          # Must match Kotlin version
+#ksp = "2.1.0-1.0.29"          # Must match Kotlin version
 kotlinx-collections-immutable = "0.3.7"
-room = "2.7.0-alpha11"        # Required for KMP support
-sqlite = "2.5.0-alpha11"      # Bundled SQLite for KMP
-koin = "4.0.0"
+#room = "2.7.0-alpha11"        # Required for KMP support
+#sqlite = "2.5.0-alpha11"      # Bundled SQLite for KMP
+koin = "4.1.0-RC1"
 ktor = "3.0.1"
 coil = "3.0.4"
 datastore = "1.1.1"
-navigation = "2.8.0-alpha10"  # JetBrains Navigation
+navigation = "2.9.1"  # JetBrains Navigation
 datetime = "0.6.1"
 serialization = "1.7.3"
 turbine = "1.2.0"
-kotlinStdlib = "2.1.0"
+kotlinStdlib = "2.1.20"
 runner = "1.7.0"
 core = "1.7.0"
 okio = "3.9.0"
-settings = "1.1.1"
+settings = "1.2.0"
 securityCrypto = "1.1.0-alpha06"
 
 [libraries]
@@ -80,9 +79,9 @@ ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "k
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 
 # --- ROOM (Database) ---
-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+#room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+#room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+#sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 
 # --- DATASTORE (Storage) ---
 datastore-preferences = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastore" }
@@ -97,8 +96,12 @@ filekit-dialogs = { module = "io.github.vinceglb:filekit-dialogs", version = "0.
 filekit-dialogs-compose = { module = "io.github.vinceglb:filekit-dialogs-compose", version = "0.10.0-beta04" }
 
 # --- COMPOSE ICONS ---
-compose-materialIconsExtended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "composeMultiplatform" }
-
+# Standard (for Android/iOS)
+compose-material-icons-core = { module = "org.jetbrains.compose.material:material-icons-core", version = "1.7.3" }
+compose-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version = "1.7.3" }
+# Desktop-specific (To fix Java 21 crash)
+compose-material-icons-core-desktop = { module = "org.jetbrains.compose.material:material-icons-core-desktop", version = "1.7.3" }
+compose-material-icons-extended-desktop = { module = "org.jetbrains.compose.material:material-icons-extended-desktop", version = "1.7.3" }
 # --- TESTING ---
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
@@ -116,14 +119,13 @@ androidx-security-crypto = { module = "androidx.security:security-crypto", versi
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
-composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "composeHotReload" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 
 # --- NEW PLUGINS ---
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-room = { id = "androidx.room", version.ref = "room" }
+#ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+#room = { id = "androidx.room", version.ref = "room" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 androidKotlinMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 androidLint = { id = "com.android.lint", version.ref = "agp" }

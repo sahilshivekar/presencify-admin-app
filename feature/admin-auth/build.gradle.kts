@@ -71,14 +71,14 @@ kotlin {
                 implementation(project(":core:domain"))
                 implementation(libs.kotlin.stdlib)
                 // Presentation/UI
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material3)
-                implementation(compose.material)
-                implementation(compose.materialIconsExtended)
-                implementation(compose.ui)
-                implementation(compose.components.resources)
-                implementation(compose.components.uiToolingPreview)
+                implementation("org.jetbrains.compose.runtime:runtime:1.10.0")
+                implementation("org.jetbrains.compose.foundation:foundation:1.10.0")
+                implementation("org.jetbrains.compose.material3:material3:1.9.0")
+                implementation("org.jetbrains.compose.material:material:1.10.0")
+                implementation("org.jetbrains.compose.ui:ui:1.10.0")
+                implementation("org.jetbrains.compose.components:components-resources:1.10.0")
+                implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.10.0")
+
                 // Lifecycle & Navigation
                 implementation(libs.androidx.lifecycle.viewmodelCompose)
                 implementation(libs.androidx.lifecycle.runtimeCompose)
@@ -99,8 +99,8 @@ kotlin {
                 implementation(libs.ktor.client.logging)
                 implementation(libs.ktor.serialization.kotlinx.json)
                 // Database (Room) & Storage
-                implementation(libs.room.runtime)
-                implementation(libs.sqlite.bundled)
+//                implementation(libs.room.runtime)
+//                implementation(libs.sqlite.bundled)
                 implementation(libs.datastore.preferences)
                 // Image Loading (Coil)
                 implementation(libs.coil.compose)
@@ -119,6 +119,8 @@ kotlin {
                 // Add Android-specific dependencies here. Note that this source set depends on
                 // commonMain by default and will correctly pull the Android artifacts of any KMP
                 // dependencies declared in commonMain.
+                implementation(libs.compose.material.icons.core)
+                implementation(libs.compose.material.icons.extended)
             }
         }
 
@@ -137,6 +139,15 @@ kotlin {
                 // part of KMP’s default source set hierarchy. Note that this source set depends
                 // on common by default and will correctly pull the iOS artifacts of any
                 // KMP dependencies declared in commonMain.
+                implementation(libs.compose.material.icons.core)
+                implementation(libs.compose.material.icons.extended)
+            }
+        }
+
+        jvmMain {
+            dependencies {
+                implementation(libs.compose.material.icons.core.desktop)
+                implementation(libs.compose.material.icons.extended.desktop)
             }
         }
     }

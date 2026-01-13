@@ -6,17 +6,16 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-//    alias(libs.plugins.composeHotReload)
     // New Plugins
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.room)
+//    alias(libs.plugins.ksp)
+//    alias(libs.plugins.room)
     alias(libs.plugins.kotlinSerialization)
 }
 
 // FIX 1: Pass the path as a String, not a File object
-room {
-    schemaDirectory("$projectDir/schemas")
-}
+//room {
+//    schemaDirectory("$projectDir/schemas")
+//}
 
 kotlin {
     compilerOptions {
@@ -44,14 +43,16 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-            implementation(compose.ui)
 
             // --- Android Specific ---
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.koin.android)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.compose.material.icons.extended)
+
+            implementation(libs.compose.material.icons.core)
+            implementation(libs.compose.material.icons.extended)
         }
 
         commonMain.dependencies {
@@ -62,15 +63,14 @@ kotlin {
 
 
             // UI
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.material)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-            // Add extended icons if needed
-            // implementation(compose.materialIconsExtended)
+            implementation("org.jetbrains.compose.runtime:runtime:1.10.0")
+            implementation("org.jetbrains.compose.foundation:foundation:1.10.0")
+            implementation("org.jetbrains.compose.material3:material3:1.9.0")
+            implementation("org.jetbrains.compose.material:material:1.10.0")
+            implementation("org.jetbrains.compose.ui:ui:1.10.0")
+            implementation("org.jetbrains.compose.components:components-resources:1.10.0")
+            implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.10.0")
+
 
             // Lifecycle & Navigation
             implementation(libs.androidx.lifecycle.viewmodelCompose)
@@ -96,8 +96,8 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
 
             // Database (Room) & Storage
-            implementation(libs.room.runtime)
-            implementation(libs.sqlite.bundled)
+//            implementation(libs.room.runtime)
+//            implementation(libs.sqlite.bundled)
             implementation(libs.datastore.preferences)
 
             // Image Loading (Coil)
@@ -114,22 +114,26 @@ kotlin {
             implementation(libs.koin.test)
 
             @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-            implementation(compose.uiTest)
+            implementation("org.jetbrains.compose.ui:ui-test:1.10.0")
         }
 
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
             implementation(libs.ktor.client.cio)
+            implementation(libs.compose.material.icons.core.desktop)
+            implementation(libs.compose.material.icons.extended.desktop)
         }
 
         // FIX 2: Changed 'desktopTest' to 'jvmTest' to match the 'jvm()' target defined above
         jvmTest.dependencies {
-            implementation(compose.desktop.uiTestJUnit4)
+            implementation("org.jetbrains.compose.ui:ui-test-junit4:1.10.0")
         }
 
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
+            implementation(libs.compose.material.icons.core)
+            implementation(libs.compose.material.icons.extended)
         }
     }
 }
@@ -138,11 +142,11 @@ kotlin {
 dependencies {
     // Note: KSP dependencies are usually added at the top-level dependencies block
     // targeting specific source sets using "ksp<Target>"
-    add("kspCommonMainMetadata", libs.room.compiler)
-    add("kspAndroid", libs.room.compiler)
-    add("kspJvm", libs.room.compiler)
-    add("kspIosArm64", libs.room.compiler)
-    add("kspIosSimulatorArm64", libs.room.compiler)
+//    add("kspCommonMainMetadata", libs.room.compiler)
+//    add("kspAndroid", libs.room.compiler)
+//    add("kspJvm", libs.room.compiler)
+//    add("kspIosArm64", libs.room.compiler)
+//    add("kspIosSimulatorArm64", libs.room.compiler)
 
     debugImplementation(compose.uiTooling)
 
