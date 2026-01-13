@@ -4,24 +4,18 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import edu.watumull.presencify.core.data.repository.auth.RoleRepository
 import edu.watumull.presencify.core.design.systems.theme.PresencifyTheme
 import edu.watumull.presencify.core.domain.model.auth.UserRole
+import edu.watumull.presencify.core.presentation.UiConstants
 import edu.watumull.presencify.core.presentation.global_snackbar.ObserveAsEvents
 import edu.watumull.presencify.core.presentation.global_snackbar.SnackbarController
 import kotlinx.coroutines.launch
@@ -62,12 +56,20 @@ fun App() {
 
             Column(
                 modifier = Modifier
-                    .background(MaterialTheme.colorScheme.primaryContainer)
+                    .background(MaterialTheme.colorScheme.background)
                     .safeContentPadding()
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
+                Column(
+                    modifier = Modifier
+                        .background(MaterialTheme.colorScheme.background)
+                        .safeContentPadding()
+                        .widthIn(max = UiConstants.MAX_CONTENT_WIDTH),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
 
+                }
             }
         }
     }

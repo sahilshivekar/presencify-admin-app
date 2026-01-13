@@ -103,6 +103,9 @@ kotlin {
             // Image Loading (Coil)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor)
+
+            implementation(libs.compose.material.icons.core)
+            implementation(libs.compose.material.icons.extended)
         }
 
         commonTest.dependencies {

@@ -9,14 +9,9 @@ import edu.watumull.presencify.core.data.network.academics.ApiEndpoints.UPDATE_U
 import edu.watumull.presencify.core.data.repository.safeCall
 import edu.watumull.presencify.core.domain.DataError
 import edu.watumull.presencify.core.domain.Result
-import io.ktor.client.HttpClient
-import io.ktor.client.request.delete
-import io.ktor.client.request.get
-import io.ktor.client.request.post
-import io.ktor.client.request.put
-import io.ktor.client.request.setBody
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
+import io.ktor.client.*
+import io.ktor.client.request.*
+import io.ktor.http.*
 
 class KtorRemoteUniversityDataSource(
     private val httpClient: HttpClient

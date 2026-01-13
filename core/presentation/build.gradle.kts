@@ -71,6 +71,9 @@ kotlin {
                 implementation("org.jetbrains.compose.ui:ui:1.10.0")
                 implementation("org.jetbrains.compose.components:components-resources:1.10.0")
                 implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.10.0")
+                // Material Icons
+                implementation(libs.compose.material.icons.core)
+                implementation(libs.compose.material.icons.extended)
                 // Lifecycle & Navigation
                 implementation(libs.androidx.lifecycle.viewmodelCompose)
                 implementation(libs.androidx.lifecycle.runtimeCompose)
@@ -84,7 +87,13 @@ kotlin {
                 implementation(libs.filekit.dialogs)
                 implementation(libs.filekit.dialogs.compose)
 
+                // Image loading (Coil)
+                implementation(libs.coil.compose)
+                implementation(libs.coil.network.ktor)
+
                 implementation(libs.kotlinx.datetime)
+
+                implementation(libs.kotlinx.collections.immutable)
 
                 implementation(project(":core:domain"))
                 implementation(project(":core:design-systems"))

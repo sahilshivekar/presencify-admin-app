@@ -71,12 +71,12 @@ kotlin {
                 implementation(project(":core:domain"))
                 // Presentation/UI
                 implementation("org.jetbrains.compose.runtime:runtime:1.10.0")
-            implementation("org.jetbrains.compose.foundation:foundation:1.10.0")
-            implementation("org.jetbrains.compose.material3:material3:1.9.0")
-            implementation("org.jetbrains.compose.material:material:1.10.0")
-            implementation("org.jetbrains.compose.ui:ui:1.10.0")
-            implementation("org.jetbrains.compose.components:components-resources:1.10.0")
-            implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.10.0")
+                implementation("org.jetbrains.compose.foundation:foundation:1.10.0")
+                implementation("org.jetbrains.compose.material3:material3:1.9.0")
+                implementation("org.jetbrains.compose.material:material:1.10.0")
+                implementation("org.jetbrains.compose.ui:ui:1.10.0")
+                implementation("org.jetbrains.compose.components:components-resources:1.10.0")
+                implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.10.0")
                 // Lifecycle & Navigation
                 implementation(libs.androidx.lifecycle.viewmodelCompose)
                 implementation(libs.androidx.lifecycle.runtimeCompose)
@@ -90,6 +90,10 @@ kotlin {
                 implementation(libs.koin.core)
                 implementation(libs.koin.compose)
                 implementation(libs.koin.compose.viewmodel)
+                implementation(libs.compose.material.icons.core)
+                implementation(libs.compose.material.icons.extended)
+                implementation(libs.coil.compose)
+                implementation(libs.coil.network.ktor)
             }
             dependencies {
                 implementation(libs.kotlin.stdlib)

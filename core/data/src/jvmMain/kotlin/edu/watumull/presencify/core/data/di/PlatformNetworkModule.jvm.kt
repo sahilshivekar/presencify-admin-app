@@ -1,7 +1,7 @@
 package edu.watumull.presencify.core.data.di
 
-import io.ktor.client.engine.HttpClientEngine
-import io.ktor.client.engine.cio.CIO
+import io.ktor.client.engine.*
+import io.ktor.client.engine.cio.*
 import org.koin.core.module.Module
 import org.koin.dsl.module
 

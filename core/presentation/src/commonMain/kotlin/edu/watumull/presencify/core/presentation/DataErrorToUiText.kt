@@ -1,16 +1,7 @@
 package edu.watumull.presencify.core.presentation
 
 import edu.watumull.presencify.core.domain.DataError
-import presencify.core.presentation.generated.resources.Res
-import presencify.core.presentation.generated.resources.error_access_denied
-import presencify.core.presentation.generated.resources.error_access_forbidden
-import presencify.core.presentation.generated.resources.error_data_processing
-import presencify.core.presentation.generated.resources.error_no_internet_connection
-import presencify.core.presentation.generated.resources.error_rate_limit_exceeded
-import presencify.core.presentation.generated.resources.error_request_timeout
-import presencify.core.presentation.generated.resources.error_server
-import presencify.core.presentation.generated.resources.error_storage_full
-import presencify.core.presentation.generated.resources.error_unexpected
+import presencify.core.presentation.generated.resources.*
 
 fun DataError.toUiText(): UiText {
 

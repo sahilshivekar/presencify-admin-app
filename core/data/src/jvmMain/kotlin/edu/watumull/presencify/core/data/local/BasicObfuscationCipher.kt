@@ -1,6 +1,6 @@
 package edu.watumull.presencify.core.data.local
 
-import java.util.Base64
+import java.util.*
 
 /**
  * Very simple obfuscation: XOR with a derived key, then Base64.

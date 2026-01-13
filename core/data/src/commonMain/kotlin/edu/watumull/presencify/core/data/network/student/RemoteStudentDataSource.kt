@@ -1,10 +1,6 @@
 package edu.watumull.presencify.core.data.network.student
 
-import edu.watumull.presencify.core.data.dto.student.StudentBatchDto
-import edu.watumull.presencify.core.data.dto.student.StudentDivisionDto
-import edu.watumull.presencify.core.data.dto.student.StudentDto
-import edu.watumull.presencify.core.data.dto.student.StudentListWithTotalCountDto
-import edu.watumull.presencify.core.data.dto.student.StudentSemesterDto
+import edu.watumull.presencify.core.data.dto.student.*
 import edu.watumull.presencify.core.domain.DataError
 import edu.watumull.presencify.core.domain.Result
 import edu.watumull.presencify.core.domain.enums.AdmissionType

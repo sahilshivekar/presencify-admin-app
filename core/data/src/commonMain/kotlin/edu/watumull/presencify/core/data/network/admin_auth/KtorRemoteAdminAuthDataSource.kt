@@ -14,13 +14,9 @@ import edu.watumull.presencify.core.data.network.admin_auth.ApiEndpoints.VERIFY_
 import edu.watumull.presencify.core.data.repository.safeCall
 import edu.watumull.presencify.core.domain.DataError
 import edu.watumull.presencify.core.domain.Result
-import io.ktor.client.HttpClient
-import io.ktor.client.request.get
-import io.ktor.client.request.post
-import io.ktor.client.request.put
-import io.ktor.client.request.setBody
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
+import io.ktor.client.*
+import io.ktor.client.request.*
+import io.ktor.http.*
 
 class KtorRemoteAdminAuthDataSource(
     private val httpClient: HttpClient

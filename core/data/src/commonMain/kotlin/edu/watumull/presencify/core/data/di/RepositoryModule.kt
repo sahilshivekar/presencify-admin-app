@@ -1,12 +1,6 @@
 package edu.watumull.presencify.core.data.di
 
-import edu.watumull.presencify.core.data.repository.academics.BatchRepositoryImpl
-import edu.watumull.presencify.core.data.repository.academics.BranchRepositoryImpl
-import edu.watumull.presencify.core.data.repository.academics.CourseRepositoryImpl
-import edu.watumull.presencify.core.data.repository.academics.DivisionRepositoryImpl
-import edu.watumull.presencify.core.data.repository.academics.SchemeRepositoryImpl
-import edu.watumull.presencify.core.data.repository.academics.SemesterRepositoryImpl
-import edu.watumull.presencify.core.data.repository.academics.UniversityRepositoryImpl
+import edu.watumull.presencify.core.data.repository.academics.*
 import edu.watumull.presencify.core.data.repository.admin.AdminRepositoryImpl
 import edu.watumull.presencify.core.data.repository.admin_auth.AdminAuthRepositoryImpl
 import edu.watumull.presencify.core.data.repository.attendance.AttendanceRepositoryImpl
@@ -17,13 +11,7 @@ import edu.watumull.presencify.core.data.repository.student.StudentRepositoryImp
 import edu.watumull.presencify.core.data.repository.student_auth.StudentAuthRepositoryImpl
 import edu.watumull.presencify.core.data.repository.teacher.TeacherRepositoryImpl
 import edu.watumull.presencify.core.data.repository.teacher_auth.TeacherAuthRepositoryImpl
-import edu.watumull.presencify.core.domain.repository.academics.BatchRepository
-import edu.watumull.presencify.core.domain.repository.academics.BranchRepository
-import edu.watumull.presencify.core.domain.repository.academics.CourseRepository
-import edu.watumull.presencify.core.domain.repository.academics.DivisionRepository
-import edu.watumull.presencify.core.domain.repository.academics.SchemeRepository
-import edu.watumull.presencify.core.domain.repository.academics.SemesterRepository
-import edu.watumull.presencify.core.domain.repository.academics.UniversityRepository
+import edu.watumull.presencify.core.domain.repository.academics.*
 import edu.watumull.presencify.core.domain.repository.admin.AdminRepository
 import edu.watumull.presencify.core.domain.repository.admin_auth.AdminAuthRepository
 import edu.watumull.presencify.core.domain.repository.attendance.AttendanceRepository

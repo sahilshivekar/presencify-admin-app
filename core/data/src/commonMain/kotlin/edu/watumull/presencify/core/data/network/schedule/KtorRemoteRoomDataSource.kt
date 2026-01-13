@@ -15,15 +15,9 @@ import edu.watumull.presencify.core.domain.Result
 import edu.watumull.presencify.core.domain.enums.RoomSortBy
 import edu.watumull.presencify.core.domain.enums.RoomSortOrder
 import edu.watumull.presencify.core.domain.enums.RoomType
-import io.ktor.client.HttpClient
-import io.ktor.client.request.delete
-import io.ktor.client.request.get
-import io.ktor.client.request.parameter
-import io.ktor.client.request.post
-import io.ktor.client.request.put
-import io.ktor.client.request.setBody
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
+import io.ktor.client.*
+import io.ktor.client.request.*
+import io.ktor.http.*
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 

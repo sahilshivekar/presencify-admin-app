@@ -79,6 +79,12 @@ kotlin {
                 implementation(libs.koin.core)
                 implementation(libs.koin.compose)
                 implementation(libs.koin.compose.viewmodel)
+
+                implementation(libs.compose.material.icons.core)
+                implementation(libs.compose.material.icons.extended)
+
+                implementation(libs.coil.compose)
+                implementation(libs.coil.network.ktor)
             }
             dependencies {
                 implementation(libs.kotlin.stdlib)

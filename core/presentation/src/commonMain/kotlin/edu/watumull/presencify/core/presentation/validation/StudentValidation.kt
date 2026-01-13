@@ -2,16 +2,16 @@ package edu.watumull.presencify.core.presentation.validation
 
 import edu.watumull.presencify.core.domain.enums.AdmissionType
 import edu.watumull.presencify.core.domain.enums.Gender
-import kotlinx.datetime.Clock
+import edu.watumull.presencify.core.presentation.utils.DateTimeUtils
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.todayIn
 
+@Suppress("DEPRECATION")
 fun LocalDate?.validateAsDob(): ValidationResult {
     // Optional field
     if (this == null) return ValidationResult(successful = true)
 
-    val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
+    val today = DateTimeUtils.getCurrentDate()
+
     if (this >= today) {
         return ValidationResult(successful = false, errorMessage = "Date of birth must be in the past")
     }

@@ -72,12 +72,12 @@ kotlin {
                 implementation(libs.kotlin.stdlib)
                 // Presentation/UI
                 implementation("org.jetbrains.compose.runtime:runtime:1.10.0")
-            implementation("org.jetbrains.compose.foundation:foundation:1.10.0")
-            implementation("org.jetbrains.compose.material3:material3:1.9.0")
-            implementation("org.jetbrains.compose.material:material:1.10.0")
-            implementation("org.jetbrains.compose.ui:ui:1.10.0")
-            implementation("org.jetbrains.compose.components:components-resources:1.10.0")
-            implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.10.0")
+                implementation("org.jetbrains.compose.foundation:foundation:1.10.0")
+                implementation("org.jetbrains.compose.material3:material3:1.9.0")
+                implementation("org.jetbrains.compose.material:material:1.10.0")
+                implementation("org.jetbrains.compose.ui:ui:1.10.0")
+                implementation("org.jetbrains.compose.components:components-resources:1.10.0")
+                implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.10.0")
                 // Lifecycle & Navigation
                 implementation(libs.androidx.lifecycle.viewmodelCompose)
                 implementation(libs.androidx.lifecycle.runtimeCompose)

@@ -23,6 +23,16 @@ enum class SemesterNumber(val value: Int) : DisplayLabelProvider {
 
     override fun toDisplayLabel(): String = "Semester $value"
 
+    fun toAcademicYear(): String {
+        return when (value) {
+            1, 2 -> "FE"
+            3, 4 -> "SE"
+            5, 6 -> "TE"
+            7, 8 -> "BE"
+            else -> "N/A"
+        }
+    }
+
     companion object {
         fun fromValue(value: Int): SemesterNumber? = entries.find { it.value == value }
     }

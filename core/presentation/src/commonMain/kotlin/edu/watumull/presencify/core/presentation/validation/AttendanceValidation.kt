@@ -1,16 +1,16 @@
 package edu.watumull.presencify.core.presentation.validation
 
-import kotlinx.datetime.Clock
+import edu.watumull.presencify.core.presentation.utils.DateTimeUtils
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.todayIn
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 fun LocalDate?.validateAsAttendanceDate(): ValidationResult {
     if (this == null) {
         return ValidationResult(successful = false, errorMessage = "This field is required")
     }
+    val today = DateTimeUtils.getCurrentDate()
 
-    val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
     if (this > today) {
         return ValidationResult(successful = false, errorMessage = "Date cannot be in the future")
     }
