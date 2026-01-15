@@ -259,3 +259,78 @@ Presencify/
   - Use .toReadableString() extension functions on LocalDate, LocalTime from DateTimeUtils for displaying dates/times in UI.
 - **Numbers:** Use localized decimal formatting in UI where applicable.
 - **Academic Year Display:** Use `SemesterNumber.toAcademicYear()` extension function from domain model to convert semester numbers to academic year strings (FE, SE, TE, BE) when displaying student's current year of study.
+
+---
+
+## Migration Rules: From Old Android to New KMP
+
+When migrating screens or logic from the old Android repository to this KMP project, follow these strict conversion rules:
+
+### 1. Data Type & Enum Mapping
+
+The old app used raw Strings and Integers for categorical data. The new app must use type-safe Enums located in `:core:domain:src/commonMain/kotlin/edu/watumull/presencify/core/domain/enums/`.
+
+- **Semester Number:** Convert old `Int` values to `SemesterNumber` enum
+- **Admission Type:** Convert old `String` values to `AdmissionType` enum  
+- **Class Type:** Convert old `String` values (Theory/Practical) to `ClassType` enum
+- **Day of Week:** Convert old `String` values to `DayOfWeek` enum
+- **Gender:** Convert old `String` values to `Gender` enum
+- **Teacher Role:** Convert old `String` values to `TeacherRole` enum
+
+### 2. UI Component Consolidation
+
+To optimize for development speed, ignore the "one file per component" structure of the old app.
+
+- **Single File Policy:** All UI-related composables for a specific screen (the Screen, ScreenContent, item rows, and headers) must reside in the same `${NAME}Screen.kt` file. Include `@Preview`.
+
+### 3. PresencifyDropDownBox & Type Safety
+
+The old app used `PresencifyDropDownBox` with simple strings. The new app requires generic type safety:
+
+- The generic type `T` passed to the dropdown must implement the `DisplayLabelProvider` interface
+- Use the `item.toDisplayLabel()` function to provide the text for the `itemToString` lambda parameter
+
+**Example:**
+```kotlin
+PresencifyDropDownBox<SemesterNumber>(
+    items = SemesterNumber.entries,
+    itemToString = { it.toDisplayLabel() },
+    // ...other parameters
+)
+```
+
+### 4. Navigation Refactoring
+
+- **Old Way:** String-based routes and manual argument bundle fetching
+- **New Way (Serializable):** Routes are defined as `@Serializable` objects or classes
+- **Root Pattern:** Every screen has a `${NAME}Root`
+- **EventsEffect:** Use `EventsEffect` inside the Root composable to collect and handle `${NAME}Event` (one-shot navigation)
+
+### 5. MVI Pattern: Actions vs. Events
+
+The old app used a single "Event" class for everything. You must now split these:
+
+- **`${NAME}Action`:** Represents User Intents (e.g., `BackButtonClick`, `UpdateSearchQuery`, `DismissDialog`). These are handled in the ViewModel via `handleAction`
+- **`${NAME}Event`:** Represents One-shot side effects (e.g., `NavigateBack`, `NavigateToStudentDetails`). These are emitted by the ViewModel and collected in the Root
+
+### 6. ViewModel & State Management
+
+- **BaseViewModel:** All ViewModels must extend `BaseViewModel<State, Event, Action>`
+- **Loading UX:** 
+  - Observe how the old app used `isLoading` in `PresencifyButton` to change text/show spinners. Replicate this behavior
+  - When `state.isLoading` is true, disable all associated `PresencifyTextField` components and buttons to prevent duplicate submissions or data corruption
+
+### 7. Migration Checklist
+
+When migrating a screen from the old Android app:
+
+1. ✅ Convert all String/Int categorical data to appropriate Enums
+2. ✅ Consolidate all UI composables into single `${NAME}Screen.kt` file  
+3. ✅ Update dropdowns to use `DisplayLabelProvider` interface
+4. ✅ Convert string routes to `@Serializable` route classes
+5. ✅ Split old "Event" class into separate Action and Event classes
+6. ✅ Ensure ViewModel extends `BaseViewModel<State, Event, Action>`
+7. ✅ Implement proper loading state management with UI disable logic
+8. ✅ Use `EventsEffect` in Root for navigation event handling
+9. ✅ Follow current project's MVI pattern and naming conventions
+
