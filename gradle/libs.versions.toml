@@ -26,7 +26,7 @@ coil = "3.0.4"
 datastore = "1.1.1"
 navigation = "2.9.1"  # JetBrains Navigation
 datetime = "0.6.1"
-serialization = "1.7.3"
+serialization = "1.8.0"  # Compatible with Kotlin 2.1.20
 turbine = "1.2.0"
 kotlinStdlib = "2.1.20"
 runner = "1.7.0"
@@ -115,6 +115,13 @@ androidx-core = { group = "androidx.test", name = "core", version.ref = "core" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 settings-core = { module = "com.russhwolf:multiplatform-settings", version.ref = "settings" }
 androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCrypto" }
+
+# Unified Preview annotation for commonMain (JetBrains artifact, but uses androidx package)
+compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "composeMultiplatform" }
+
+# Required for the Android Studio Design tab to render the preview
+compose-ui-tooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "composeMultiplatform" }
+
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

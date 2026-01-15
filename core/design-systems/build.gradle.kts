@@ -138,3 +138,13 @@ kotlin {
     }
 
 }
+
+compose.resources {
+    // This makes the generated 'Res' class and all resource accessors
+    // public so other modules can see them.
+    publicResClass = true
+
+    // Optional: You can also customize the package name if you want it to be
+    // consistent across the app
+    packageOfResClass = "edu.watumull.presencify.core.design.systems"
+}

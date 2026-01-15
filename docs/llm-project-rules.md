@@ -5,10 +5,21 @@ These rules describe how to structure, name, and implement screens in Presencify
 ## Directory Structure
 
 Presencify/
+├── .git/                       # Git version control
+├── .gitignore                  # Git ignore file
+├── .gradle/                    # Gradle cache and build artifacts
+├── .idea/                      # IntelliJ IDEA project files
+├── .kotlin/                    # Kotlin compiler cache
+├── .run/                       # IDE run configurations
+├── build/                      # Project-level build outputs
 ├── composeApp/                 # Main App Host & Composition Root
 │   └── src/commonMain/kotlin/edu/watumull/presencify/
 │       ├── App.kt              # Entry point: LocalUserRole provider, Global Snackbar host
-│       └── di/                 # Koin Aggregation (aggregates all feature & core modules)
+│       ├── di/                 # Koin Aggregation (aggregates all feature & core modules)
+│       └── navigation/         # App-level navigation coordination
+│           ├── AppNavHost.kt   # Main navigation host with all feature nav graphs
+│           ├── home/           # Home screen navigation components
+│           └── navcontroller_extensions/ # Navigation helper functions for each feature
 │
 ├── core/                       # Shared infrastructure (Internal logic)
 │   ├── data/                   # Centralized Data Layer (ALL DTOs, Mappers, Repo Impls)
@@ -35,24 +46,36 @@ Presencify/
 │   └── design-systems/         # Custom UI Kit (Theme & Pure UI Components)
 │       └── src/commonMain/kotlin/edu/watumull/presencify/core/design/systems/
 │           ├── components/     # PresencifyScaffold, SearchBar, Buttons, Dialogs
-│           └── theme/          # AppTheme, ColorPalette, Typography
+│           ├── theme/          # AppTheme, ColorPalette, Typography
+│           └── composeResources/ # Public resources (drawables, strings, etc.)
+│
+├── docs/                       # Documentation files
+│   └── llm-project-rules.md    # This project rules document
 │
 ├── feature/                    # Pure Presentation Modules (UI & ViewModels Only)
-│   │   # Package: edu.watumull.presencify.feature.<module>.<domain>.<screen>
-│   │   # Files: <Name>Root, <Name>Screen, <Name>ViewModel, <Name>State/Event/Action
+│   │   # Each feature contains: di/, navigation/, <screen1>/, <screen2>/, etc.
+│   │   # di/ - Koin dependency injection module for feature ViewModels
+│   │   # navigation/ - Feature routes and navigation graph definitions
+│   │   # <screen>/ - Individual screen files (Root, Screen, ViewModel, State, Event, Action)
 │   ├── academics/              # Manage Batch, Course, Semester, Branch, Scheme, University
-│   ├── attendance/             # Attendance tracking and aggregated reporting
-│   ├── schedule/               # Manage Timetables, Rooms, and Class Sessions
 │   ├── admin-auth/             # Admin login flow
-│   ├── admin-profile/          # Admin profile management
+│   ├── admin-mgt/              # Admin management features
+│   ├── attendance/             # Attendance tracking and aggregated reporting
+│   ├── onboarding/             # Onboarding screen to select role for user
+│   ├── schedule/               # Manage Timetables, Rooms, and Class Sessions
 │   ├── student-auth/           # Student login flow
-│   ├── student-profile/        # Student profile view
 │   ├── teacher-auth/           # Teacher login flow
-│   ├── teacher-profile/        # Teacher profile view
 │   └── users/                  # Search/Manage Teachers and Students
 │
+├── gradle/                     # Gradle wrapper and version catalog
+│   ├── libs.versions.toml      # Version catalog for dependencies
+│   └── wrapper/                # Gradle wrapper files
 ├── iosApp/                     # Swift project for iOS-specific build configuration
-├── gradle/                     # Version catalog (libs.versions.toml)
+├── gradle.properties           # Project-wide Gradle properties
+├── gradlew                     # Gradle wrapper script (Unix)
+├── gradlew.bat                 # Gradle wrapper script (Windows)
+├── local.properties            # Local development properties (SDK paths, etc.)
+├── README.md                   # Project documentation
 ├── build.gradle.kts            # Project-level build script
 └── settings.gradle.kts         # Module inclusion script
 
@@ -71,6 +94,10 @@ Presencify/
   - [PresencifySearchScreenTemplate.txt](Presencify/core/presentation/src/commonMain/kotlin/edu/watumull/presencify/core/presentation/files_templates/PresencifySearchScreenTemplate.txt)
  - **Root:** Inject VM via Koin (`koinViewModel()`), observe one-shot `Event`s with `EventsEffect`. Handle intra-feature navigation using the feature’s own `NavController` (via that feature’s `NavGraphBuilder` extension). For cross-feature navigation, `composeApp` passes lambdas into `Root` (e.g., `onNavigateToLogin()`, `onNavigateToStudent(id)`), and `Root` calls those lambdas when handling events. Every screen has a `Root`.
 - **Screen:** Render `state.viewState` (Loading/Error/Content) inside scaffold; forward user intents to `onAction`.
+ - **Initial ViewState:** Choose appropriate initial state based on screen type:
+   - **Search Screens:** Start with `ViewState.Content` (empty results) since search bar and filters are immediately interactive
+   - **Add/Edit Screens:** Start with `ViewState.Content` since input fields are immediately available for user interaction
+   - **Details Screens:** Start with `ViewState.Loading` when data needs to be fetched from server
  - **ViewModel:** Extend `BaseViewModel<State, Event, Action>` (see [BaseViewModel.kt](Presencify/core/presentation/src/commonMain/kotlin/edu/watumull/presencify/core/presentation/utils/BaseViewModel.kt)); keep `Action`s (user intents) separate from `Event`s (one-shots like navigation/snackbar); update state synchronously; do async work in `viewModelScope.launch` and emit follow-up actions/events.
  - **Concurrency:** Prefer cancellable operations (e.g., cancel previous search on query change) and use structured concurrency patterns (e.g., `SupervisorJob`) for grouped work.
  - **Event Handling:** `EventsEffect` collects only while the screen is STARTED to prevent duplicate handling; use it for navigation.
@@ -126,10 +153,11 @@ Presencify/
   - **Intra-feature navigation:** `Root` uses its feature-specific `NavController` and `NavGraphBuilder` extension to navigate internal routes.
   - **Cross-feature navigation:** `composeApp` provides lambdas to `Root` to perform app-level navigation. `Root` invokes these lambdas when handling events. Features must not import other feature routes or `NavController`s.
  - **Args Passing:** Pass IDs only for simplicity; avoid passing DTOs.
- - **Submit Policy:** After successful create/update operation on speicifc screen, show a global snackbar and navigate to there details screen (keep the create/update screen in the backstack as the user might navigateUp to make edit).
+ - **Submit Policy:** After successful create/update operation on specific screen, show a global snackbar and navigate to their details screen (remove the edit/create screen from the backstack as the details screen will have edit button too. If user clicks on edit button, then pop the details screen and navigate to edit screen).
  - **Deep Links:** Future work; no current constraints.
  - **Event Naming (multi-arg):** Prefer `NavigateTo<Screen>(id, tab?)` for multi-argument navigation (avoid opaque parameter objects).
  - **Unsaved Changes:** If edits are present and the user navigates back, show a confirmation dialog (`DialogType.CONFIRM_NORMAL_ACTION`).
+ - **Dependency Injection:** Use `koinViewModel()` for dependency injection in Root composables
 
 ## Networking & Error Mapping
 - **Result Type:** Data/domain operations return `Result<D, DataError.Remote>` (see [Result.kt](Presencify/core/domain/src/commonMain/kotlin/edu/watumull/presencify/core/domain/Result.kt)).
@@ -154,8 +182,30 @@ Presencify/
  - **Required Markers:** Indicate required fields with an asterisk by building annotated text and appending a red `*`.
  - **IME Actions:** Standardize IME actions per field (`Next`, `Done`, `Search`) for consistent form flows.
  - **Lists:** Standardize item spacing at 12dp across the app. Prefer grouped spacing over dividers unless necessary.
- - **Buttons & Inputs:** Stritcly use components from `PresencifyButtons.kt`, `PresencifyTextField.kt` instead of normal Buttons, TextFileds, and use design-system cards.
  - **List Rows:** Prefer `ListItem` or cards with ripple for entity items.
+ - **Color Usage:** Always explicitly specify colors for all Composables (Text, Column background, Surface, etc.) using `MaterialTheme.colorScheme.<color>` except when using Presencify design-system components which already have appropriate theming applied. Never use hardcoded color values or Color.Unspecified.
+ - **Design System Components:** Strictly use only Presencify-prefixed components for:
+   - Buttons: `PresencifyPrimaryButton`, `PresencifySecondaryButton`, `PresencifyTextButton`, etc.
+   - Text Fields: `PresencifyTextField`, `PresencifyPasswordField`, etc.
+   - Cards: `PresencifyCard`, `PresencifyOutlinedCard`, etc.
+   - Dropdown: `PresencifyDropdownBox`
+   - List Items: `PresencifyListItem`
+   - Search Bar: `PresencifySearchBar`
+   - Tabs: `PresencifyTab`, `PresencifyTabRow`
+   Never use standard Material3 Button, TextField, Card, DropdownMenu, ListItem, SearchBar, or TabRow directly.
+ - **Entity List Items:** Always use existing standardized list item composables for compact entity views:
+   - `BatchListItem` for Batch entities
+   - `BranchListItem` for Branch entities
+   - `ClassSessionListItem` for Class Session entities
+   - `CourseListItem` for Course entities
+   - `DivisionListItem` for Division entities
+   - `RoomListItem` for Room entities
+   - `SchemeListItem` for Scheme entities
+   - `SemesterListItem` for Semester entities
+   - `StudentListItem` for Student entities
+   - `TeacherListItem` for Teacher entities
+   - `TimetableListItem` for Timetable entities
+   Use these consistently whenever a compact view of these entities is required. Detailed views should only be on their respective `<Entity>DetailsScreen.kt` files.
 
 ## Performance & Caching
 - **Images:** Use Coil for image loading/caching.
@@ -184,10 +234,28 @@ Presencify/
 
 ## Resources & Assets
 - **Strings:** For rapid development and English-only, avoid creating new string resources for general UI copy; prefer dynamic strings. Data error messages continue to use resources via `DataError.toUiText()`.
-- **Colors:** Do not define new palette entries or ad-hoc colors in features; use existing design-system colors only which will be easiliy accessible with MaterialTheme.colorScheme.<color>.
- - **File Uploads (CSV):** Validate size and MIME type and show clear error messages.
+- **Colors:** Do not define new palette entries or ad-hoc colors in features; use existing design-system colors only which will be easily accessible with `MaterialTheme.colorScheme.<color>`.
+- **Drawables & Resources:** Always use resources from the design-systems module for drawables and other assets. The design-systems module has a public Res class configured as follows:
+  ```kotlin
+  compose.resources {
+      // This makes the generated 'Res' class and all resource accessors
+      // public so other modules can see them.
+      publicResClass = true
+      
+      // Optional: You can also customize the package name if you want it to be
+      // consistent across the app
+      packageOfResClass = "edu.watumull.presencify.core.design.systems"
+  }
+  ```
+  Import and use resources like: `import edu.watumull.presencify.core.design.systems.Res` and access drawable resources via `Res.drawable.<resource_name>`.
+- **File Uploads (CSV):** Validate size and MIME type and show clear error messages.
 
 ## Data & Serialization
 - **UUIDs:** Use validators in `core/presentation/validation` for all IDs.
-- **Dates & Times:** Use `LocalDate`/`LocalTime` strictly in state and domain models; for UI display, use utilities from `DateTimeUtils.kt`.
+- **Dates & Times:** Use `LocalDate`/`LocalTime`/`LocalDateTime` strictly in state and domain models. Always use `DateTimeUtils` utilities for:
+  - Getting current date/time: `DateTimeUtils.getCurrentLocalDate()`, `DateTimeUtils.getCurrentLocalTime()`, `DateTimeUtils.getCurrentLocalDateTime()`
+  - Date calculations: `DateTimeUtils.getDaysInMonth()`, `DateTimeUtils.isLeapYear()`
+  Never use `LocalDate.now()`, `LocalTime.now()`, `LocalDateTime.now()`, or `Clock.System.now()` directly.
+  - Use .toReadableString() extension functions on LocalDate, LocalTime from DateTimeUtils for displaying dates/times in UI.
 - **Numbers:** Use localized decimal formatting in UI where applicable.
+- **Academic Year Display:** Use `SemesterNumber.toAcademicYear()` extension function from domain model to convert semester numbers to academic year strings (FE, SE, TE, BE) when displaying student's current year of study.

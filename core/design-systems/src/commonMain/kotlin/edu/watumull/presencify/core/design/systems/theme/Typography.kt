@@ -6,8 +6,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import edu.watumull.presencify.core.design.systems.*
 import org.jetbrains.compose.resources.Font
-import presencify.core.design_systems.generated.resources.*
 
 @Composable
 fun fontFamily(): FontFamily = FontFamily(

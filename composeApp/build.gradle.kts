@@ -60,7 +60,15 @@ kotlin {
             implementation(project(":core:domain"))
             implementation(project(":core:design-systems"))
             implementation(project(":core:presentation"))
-
+            implementation(project(":feature:admin-auth"))
+            implementation(project(":feature:student-auth"))
+            implementation(project(":feature:teacher-auth"))
+            implementation(project(":feature:attendance"))
+            implementation(project(":feature:schedule"))
+            implementation(project(":feature:onboarding"))
+            implementation(project(":feature:academics"))
+            implementation(project(":feature:users"))
+            implementation(project(":feature:admin-mgt"))
 
             // UI
             implementation("org.jetbrains.compose.runtime:runtime:1.10.0")

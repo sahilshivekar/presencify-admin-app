@@ -1,0 +1,65 @@
+package edu.watumull.presencify.navigation
+
+import androidx.compose.runtime.Composable
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import edu.watumull.presencify.core.presentation.navigation.NavRoute
+import edu.watumull.presencify.feature.academics.navigation.academicsNavGraph
+import edu.watumull.presencify.feature.admin.auth.navigation.adminAuthNavGraph
+import edu.watumull.presencify.feature.admin.mgt.navigation.adminMgtNavGraph
+import edu.watumull.presencify.feature.attendance.navigation.attendanceNavGraph
+import edu.watumull.presencify.feature.onboarding.navigation.onboardingNavGraph
+import edu.watumull.presencify.feature.schedule.navigation.scheduleNavGraph
+import edu.watumull.presencify.feature.student.auth.navigation.studentAuthNavGraph
+import edu.watumull.presencify.feature.teacher.auth.navigation.teacherAuthNavGraph
+import edu.watumull.presencify.feature.users.navigation.usersNavGraph
+import edu.watumull.presencify.navigation.home.Home
+import edu.watumull.presencify.navigation.navcontroller_extensions.navigateToAdminLogin
+import edu.watumull.presencify.navigation.navcontroller_extensions.navigateToStudentLogin
+import edu.watumull.presencify.navigation.navcontroller_extensions.navigateToTeacherLogin
+
+@Composable
+fun AppNavHost(
+    startDestination: NavRoute,
+) {
+    val rootNavController = rememberNavController()
+
+    NavHost(
+        navController = rootNavController,
+        startDestination = startDestination
+    ) {
+        composable<Home> {
+            Home(rootNavController = rootNavController)
+        }
+
+        academicsNavGraph()
+
+        onboardingNavGraph(
+            navigateToStudentLogin = {
+                rootNavController.navigateToStudentLogin()
+            },
+            navigateToTeacherLogin = {
+                rootNavController.navigateToTeacherLogin()
+            },
+            navigateToAdminLogin = {
+                rootNavController.navigateToAdminLogin()
+            }
+        )
+
+        attendanceNavGraph()
+
+        usersNavGraph()
+
+        scheduleNavGraph()
+
+        adminAuthNavGraph()
+
+        adminMgtNavGraph()
+
+        studentAuthNavGraph()
+
+        teacherAuthNavGraph()
+
+    }
+}

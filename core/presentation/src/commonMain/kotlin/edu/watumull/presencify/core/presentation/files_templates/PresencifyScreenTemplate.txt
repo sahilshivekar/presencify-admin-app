@@ -21,14 +21,14 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun ${NAME}Root(
-    navController: NavHostController,
+    onBackButtonClick: () -> Unit,
 ) {
     val viewModel: ${NAME}ViewModel = koinViewModel()
     val state by viewModel.stateFlow.collectAsStateWithLifecycle()
 
     EventsEffect(viewModel.eventFlow) { event ->
         when (event) {
-            is ${NAME}Event.NavigateBack -> navController.navigateUp()
+            is ${NAME}Event.NavigateBack -> onBackButtonClick()
         }
     }
 
@@ -61,6 +61,7 @@ import edu.watumull.presencify.core.design.systems.components.dialog.PresencifyA
 import edu.watumull.presencify.core.presentation.UiConstants
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material3.MaterialTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -135,14 +136,15 @@ private fun ${NAME}ScreenContent(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .widthIn(max = UiConstants.MAX_CONTENT_WIDTH),
+                .widthIn(max = UiConstants.MAX_CONTENT_WIDTH)
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {

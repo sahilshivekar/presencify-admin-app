@@ -1,35 +1,33 @@
 package edu.watumull.presencify
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarDuration
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.SnackbarResult
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import edu.watumull.presencify.core.data.repository.auth.RoleRepository
+import androidx.compose.ui.unit.dp
+import edu.watumull.presencify.core.design.systems.Res
+import edu.watumull.presencify.core.design.systems.presencify_logo_circle_svg
 import edu.watumull.presencify.core.design.systems.theme.PresencifyTheme
 import edu.watumull.presencify.core.domain.model.auth.UserRole
-import edu.watumull.presencify.core.presentation.UiConstants
 import edu.watumull.presencify.core.presentation.global_snackbar.ObserveAsEvents
 import edu.watumull.presencify.core.presentation.global_snackbar.SnackbarController
+import edu.watumull.presencify.navigation.AppNavHost
 import kotlinx.coroutines.launch
-import org.koin.compose.koinInject
+import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
 
 // Define the CompositionLocal for UserRole
 val LocalUserRole = compositionLocalOf<UserRole?> { null }
 
 @Composable
 fun App() {
-    val roleRepository = koinInject<RoleRepository>()
-    val userRole by roleRepository.getUserRole().collectAsState(initial = null)
+    val viewModel = koinViewModel<AppViewModel>()
+    val state by viewModel.state.collectAsState()
 
-    CompositionLocalProvider(LocalUserRole provides userRole) {
+    CompositionLocalProvider(LocalUserRole provides state.userRole) {
 
         PresencifyTheme {
 
@@ -54,23 +52,33 @@ fun App() {
                 }
             }
 
-            Column(
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.background)
-                    .safeContentPadding()
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Column(
-                    modifier = Modifier
-                        .background(MaterialTheme.colorScheme.background)
-                        .safeContentPadding()
-                        .widthIn(max = UiConstants.MAX_CONTENT_WIDTH),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-
-                }
-            }
+            state.startDestination?.let { destination ->
+                AppNavHost(destination)
+            } ?: SplashScreen()
         }
+    }
+}
+
+
+@Composable
+fun SplashScreen() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Image(
+            painter = painterResource(Res.drawable.presencify_logo_circle_svg),
+            contentDescription = null,
+            modifier = Modifier.size(100.dp)
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "Presencify",
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.onBackground,
+        )
     }
 }
