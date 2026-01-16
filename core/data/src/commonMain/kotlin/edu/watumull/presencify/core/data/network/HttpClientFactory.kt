@@ -1,3 +1,5 @@
+package edu.watumull.presencify.core.data.network
+
 import edu.watumull.presencify.core.data.dto.auth.TokenDto
 import edu.watumull.presencify.core.data.repository.auth.RoleRepository
 import edu.watumull.presencify.core.data.repository.auth.TokenRepository

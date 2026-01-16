@@ -35,7 +35,7 @@ fun HomeBottomNavigationBar(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight(),
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
         contentColor = MaterialTheme.colorScheme.onSurface
     ) {
         bottomNavBarItems.forEach { item ->

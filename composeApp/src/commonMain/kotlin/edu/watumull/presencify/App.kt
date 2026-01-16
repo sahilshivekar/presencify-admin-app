@@ -53,7 +53,17 @@ fun App() {
             }
 
             state.startDestination?.let { destination ->
-                AppNavHost(destination)
+                Scaffold(
+                    snackbarHost = {
+                        SnackbarHost(
+                            hostState = snackbarHostState,
+                            modifier = Modifier.padding(16.dp),
+                        )
+                    },
+                    contentWindowInsets = WindowInsets(0.dp)
+                ) {
+                    AppNavHost(destination)
+                }
             } ?: SplashScreen()
         }
     }

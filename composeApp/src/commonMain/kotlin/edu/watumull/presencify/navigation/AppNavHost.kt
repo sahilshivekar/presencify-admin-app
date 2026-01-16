@@ -16,15 +16,7 @@ import edu.watumull.presencify.feature.teacher.auth.navigation.teacherAuthNavGra
 import edu.watumull.presencify.feature.users.navigation.usersNavGraph
 import edu.watumull.presencify.navigation.home.Home
 import edu.watumull.presencify.navigation.home.navigateToHome
-import edu.watumull.presencify.navigation.navcontroller_extensions.navigateToAddAdmin
-import edu.watumull.presencify.navigation.navcontroller_extensions.navigateToAdminDetails
-import edu.watumull.presencify.navigation.navcontroller_extensions.navigateToAdminForgotPassword
-import edu.watumull.presencify.navigation.navcontroller_extensions.navigateToAdminLogin
-import edu.watumull.presencify.navigation.navcontroller_extensions.navigateToAdminVerifyCode
-import edu.watumull.presencify.navigation.navcontroller_extensions.navigateToSelectRole
-import edu.watumull.presencify.navigation.navcontroller_extensions.navigateToStudentLogin
-import edu.watumull.presencify.navigation.navcontroller_extensions.navigateToTeacherLogin
-import edu.watumull.presencify.navigation.navcontroller_extensions.navigateToUpdateAdminPassword
+import edu.watumull.presencify.navigation.navcontroller_extensions.*
 
 @Composable
 fun AppNavHost(

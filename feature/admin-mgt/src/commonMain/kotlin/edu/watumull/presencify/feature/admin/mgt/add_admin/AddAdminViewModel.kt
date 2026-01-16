@@ -9,9 +9,9 @@ import edu.watumull.presencify.core.presentation.global_snackbar.SnackbarControl
 import edu.watumull.presencify.core.presentation.global_snackbar.SnackbarEvent
 import edu.watumull.presencify.core.presentation.toUiText
 import edu.watumull.presencify.core.presentation.utils.BaseViewModel
+import edu.watumull.presencify.core.presentation.validation.validateAsAdminUsername
 import edu.watumull.presencify.core.presentation.validation.validateAsEmail
 import edu.watumull.presencify.core.presentation.validation.validateAsPassword
-import edu.watumull.presencify.core.presentation.validation.validateAsAdminUsername
 import kotlinx.coroutines.launch
 
 class AddAdminViewModel(

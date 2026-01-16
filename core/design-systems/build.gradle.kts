@@ -16,6 +16,9 @@ kotlin {
         compileSdk = 36
         minSdk = 24
 
+        // Enable Android resources support for KMP
+        experimentalProperties["android.experimental.kmp.enableAndroidResources"] = true
+
         withHostTestBuilder {
         }
 

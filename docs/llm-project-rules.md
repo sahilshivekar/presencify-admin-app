@@ -102,6 +102,14 @@ Presencify/
  - **Concurrency:** Prefer cancellable operations (e.g., cancel previous search on query change) and use structured concurrency patterns (e.g., `SupervisorJob`) for grouped work.
  - **Event Handling:** `EventsEffect` collects only while the screen is STARTED to prevent duplicate handling; use it for navigation.
  - **Loading UI:** Prefer shimmer placeholders for loading content; avoid modal loading dialogs.
+ - **ViewState Usage:** Use loading and error states in scaffold (from PresencifyScreenTemplate.txt) only for:
+   - Details screens where the entire screen content depends on API data
+   - Screens where the primary content is loaded from a server API
+   - Do NOT use ViewState loading/error handling for:
+     - Add/Edit screens (they have static forms and don't depend on API data for initial render)
+     - Search screens (they have static search components and handle loading within results)
+     - Screens with primarily static UI components
+ - **Icons:** Always use Material3 icons from `Icons.Default.*`, `Icons.Filled.*`, `Icons.Outlined.*`. Never create or use XML drawable files for icons.
  - **Search Flow:** For search-like flows, use `debounce(300ms)` and `collectLatest` to cancel in-flight work.
  - **Navigation Extensions:** Each feature defines its own `NavGraphBuilder` extension for routes and uses `composableWithSlideTransitions` for consistent enter/exit transitions.
 
@@ -182,17 +190,24 @@ Presencify/
    }
    ```
  - **Args Passing:** Pass IDs only for simplicity; avoid passing DTOs.
- - **Submit Policy:** After successful create/update operation on specific screen, show a global snackbar and navigate to their details screen (remove the edit/create screen from the backstack as the details screen will have edit button too. If user clicks on edit button, then pop the details screen and navigate to edit screen).
+ - **Submit Policy:** After successful create/update operation on add/edit screens, show a global snackbar and navigate up (pop the current screen from backstack). Do not navigate to details screens.
+ - **Previews:** Never create `@Preview` composables for screens or UI components.
  - **Deep Links:** Future work; no current constraints.
  - **Event Naming (multi-arg):** Prefer `NavigateTo<Screen>(id, tab?)` for multi-argument navigation (avoid opaque parameter objects).
  - **Unsaved Changes:** If edits are present and the user navigates back, show a confirmation dialog (`DialogType.CONFIRM_NORMAL_ACTION`).
  - **Dependency Injection:** Use `koinViewModel()` for dependency injection in Root composables
+ - **New Feature Screens:** When creating a new screen in a feature module:
+   1. **DI Module:** Add the ViewModel to the feature's DI module (usually `<FeatureName>Module.kt`)
+   2. **Navigation Setup:** Add necessary navigation lambdas to the feature's NavGraph in `AppNavHost.kt`
+   3. **NavController Extensions:** Use the appropriate extension function from `navcontroller_extensions` directory for navigation in the AppNavHost.kt for specific navgraphs
 
 ## Networking & Error Mapping
 - **Result Type:** Data/domain operations return `Result<D, DataError.Remote>` (see [Result.kt](Presencify/core/domain/src/commonMain/kotlin/edu/watumull/presencify/core/domain/Result.kt)).
   - **Error to UI:** Map errors to user-facing text via `DataError.toUiText()` (see [DataErrorToUiText.kt](Presencify/core/presentation/src/commonMain/kotlin/edu/watumull/presencify/core/presentation/DataErrorToUiText.kt)).
- - **Business Logic Errors:** Display server-provided business messages using `DialogType.ERROR`.
- - **Offline Mode:** On `NoInternet`, show a dialog; no offline caching planned.
+- **UiText Usage:** Always use `UiText` for server error messages and dialog content. Follow this pattern consistently:
+  - **Dialog State:** Use `UiText?` for dialog message property: `message: UiText? = null`
+  - **Error Mapping:** Convert `DataError` to `UiText` using `error.toUiText()` extension
+  - **UI Rendering:** Convert `UiText` to string in Composables using `message.asString()`
 
 ## Naming & Packaging
 - **Packages:** Use `edu.watumull.presencify.feature.<domain>.<screen>` inside the feature module. Modules can host multiple screens (e.g., `feature/users` with `SearchStudent`, `AddEditStudent`, `SearchTeacher`).
@@ -320,7 +335,7 @@ The old app used raw Strings and Integers for categorical data. The new app must
 
 To optimize for development speed, ignore the "one file per component" structure of the old app.
 
-- **Single File Policy:** All UI-related composables for a specific screen (the Screen, ScreenContent, item rows, and headers) must reside in the same `${NAME}Screen.kt` file. Include `@Preview`.
+- **Single File Policy:** All UI-related composables for a specific screen (the Screen, ScreenContent, item rows, and headers) must reside in the same `${NAME}Screen.kt` file. Do not create `@Preview` composables.
 
 ### 3. PresencifyDropDownBox & Type Safety
 

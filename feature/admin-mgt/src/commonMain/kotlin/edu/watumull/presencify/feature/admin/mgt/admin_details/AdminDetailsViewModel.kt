@@ -7,13 +7,13 @@ import edu.watumull.presencify.core.domain.onError
 import edu.watumull.presencify.core.domain.onSuccess
 import edu.watumull.presencify.core.domain.repository.admin.AdminRepository
 import edu.watumull.presencify.core.domain.repository.admin_auth.AdminAuthRepository
-import edu.watumull.presencify.core.presentation.global_snackbar.SnackbarAction
+import edu.watumull.presencify.core.presentation.UiText
 import edu.watumull.presencify.core.presentation.global_snackbar.SnackbarController
 import edu.watumull.presencify.core.presentation.global_snackbar.SnackbarEvent
 import edu.watumull.presencify.core.presentation.toUiText
 import edu.watumull.presencify.core.presentation.utils.BaseViewModel
-import edu.watumull.presencify.core.presentation.validation.validateAsEmail
 import edu.watumull.presencify.core.presentation.validation.validateAsAdminUsername
+import edu.watumull.presencify.core.presentation.validation.validateAsEmail
 import kotlinx.coroutines.launch
 
 class AdminDetailsViewModel(
@@ -268,23 +268,26 @@ class AdminDetailsViewModel(
     }
 
     private fun showRemoveAccountDialog() {
-        viewModelScope.launch {
-            SnackbarController.sendEvent(
-                SnackbarEvent(
-                    message = "Are you sure you want to remove your account?",
-                    action = SnackbarAction(
-                        name = "Remove",
-                        action = {
-                            removeAdmin()
-                        }
-                    )
+        updateState {
+            it.copy(
+                dialogState = AdminDetailsState.DialogState(
+                    isVisible = true,
+                    dialogType = DialogType.CONFIRM_RISKY_ACTION,
+                    dialogIntention = DialogIntention.REMOVE_ACCOUNT_CONFIRMATION,
+                    title = "Remove Account",
+                    message = UiText.DynamicString("Are you sure you want to remove your account? This action cannot be undone.")
                 )
             )
         }
     }
 
     private fun removeAdmin() {
-        updateState { it.copy(isRemovingAccount = true) }
+        updateState {
+            it.copy(
+                isRemovingAccount = true,
+                dialogState = null // Dismiss confirmation dialog
+            )
+        }
 
         viewModelScope.launch {
             adminRepository.removeAdmin()

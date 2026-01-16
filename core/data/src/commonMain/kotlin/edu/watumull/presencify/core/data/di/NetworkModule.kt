@@ -1,6 +1,6 @@
 package edu.watumull.presencify.core.data.di
 
-import HttpClientFactory
+import edu.watumull.presencify.core.data.network.HttpClientFactory
 import edu.watumull.presencify.core.data.network.academics.*
 import edu.watumull.presencify.core.data.network.admin.KtorRemoteAdminDataSource
 import edu.watumull.presencify.core.data.network.admin.RemoteAdminDataSource

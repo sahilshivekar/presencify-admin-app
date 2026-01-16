@@ -23,7 +23,7 @@ fun HomeNavigationRail(
 ) {
     NavigationRail(
         modifier = modifier,
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
         contentColor = MaterialTheme.colorScheme.onSurface
     ) {
         Spacer(Modifier.height(16.dp))

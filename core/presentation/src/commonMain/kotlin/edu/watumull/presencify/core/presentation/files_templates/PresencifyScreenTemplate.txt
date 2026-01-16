@@ -40,6 +40,9 @@ fun ${NAME}Root(
 
 # =============================================================================
 # 2. ${NAME}Screen.kt - UI Screen component
+# NOTE: Use ViewState loading/error handling ONLY for details screens or when
+# the entire screen content depends on API data. For add/edit/search screens,
+# remove the ViewState handling and go directly to ScreenContent.
 # =============================================================================
 
 #if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "") package ${PACKAGE_NAME} #end
@@ -56,10 +59,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.material3.ExperimentalMaterial3Api
 import edu.watumull.presencify.core.design.systems.components.PresencifyScaffold
 import edu.watumull.presencify.core.design.systems.components.PresencifyNoResultsIndicator
-import edu.watumull.presencify.core.design.systems.components.dialog.PresencifyLoadingDialog
+import edu.watumull.presencify.core.design.systems.components.PresencifyDefaultLoadingScreen
 import edu.watumull.presencify.core.design.systems.components.dialog.PresencifyAlertDialog
 import edu.watumull.presencify.core.presentation.UiConstants
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.MaterialTheme
 
@@ -75,14 +77,12 @@ fun ${NAME}Screen(
     ) { paddingValues ->
         when (state.viewState) {
             is ${NAME}State.ViewState.Loading -> {
-                PresencifyLoadingDialog(
-                    isVisible = true
-                )
+                PresencifyDefaultLoadingScreen()
             }
 
             is ${NAME}State.ViewState.Error -> {
                 PresencifyNoResultsIndicator(
-                    text = state.viewState.message
+                    text = state.viewState.message.asString()
                 )
             }
 
@@ -115,16 +115,6 @@ fun ${NAME}Screen(
         )
     }
 
-
-}
-
-@Preview
-@Composable
-private fun ${NAME}ScreenPreview() {
-    ${NAME}Screen(
-        state = ${NAME}State(viewState = ${NAME}State.ViewState.Content),
-        onAction = {}
-    )
 }
 
 @Composable
@@ -197,6 +187,7 @@ class ${NAME}ViewModel :
 #if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "") package ${PACKAGE_NAME} #end
 
 import edu.watumull.presencify.core.design.systems.components.dialog.DialogType
+import edu.watumull.presencify.core.presentation.UiText
 
 data class ${NAME}State(
     val viewState: ViewState = ViewState.Loading,
@@ -204,7 +195,7 @@ data class ${NAME}State(
 ) {
     sealed interface ViewState {
         data object Loading : ViewState
-        data class Error(val message: String) : ViewState
+        data class Error(val message: UiText) : ViewState
         data object Content : ViewState
     }
 

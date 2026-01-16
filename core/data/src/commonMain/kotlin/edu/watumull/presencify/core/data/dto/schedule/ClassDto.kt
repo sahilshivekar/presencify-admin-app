@@ -6,6 +6,7 @@ import edu.watumull.presencify.core.data.dto.attendance.AttendanceDto
 import edu.watumull.presencify.core.data.dto.teacher.TeacherDto
 import edu.watumull.presencify.core.domain.enums.ClassType
 import edu.watumull.presencify.core.domain.enums.DayOfWeek
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -19,8 +20,8 @@ data class ClassDto(
     val dayOfWeek: DayOfWeek,
     val roomId: String,
     val batchId: String? = null,
-    val activeFrom: String,
-    val activeTill: String,
+    val activeFrom: LocalDate,
+    val activeTill: LocalDate,
     val classType: ClassType,
     val courseId: String,
     val createdAt: String,

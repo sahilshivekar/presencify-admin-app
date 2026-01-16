@@ -1,26 +1,9 @@
 package edu.watumull.presencify.feature.admin.mgt.admin_details
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.togetherWith
+import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -29,14 +12,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -50,10 +26,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import edu.watumull.presencify.core.design.systems.components.PresencifyButton
-import edu.watumull.presencify.core.design.systems.components.PresencifyOutlinedButton
-import edu.watumull.presencify.core.design.systems.components.PresencifyScaffold
-import edu.watumull.presencify.core.design.systems.components.PresencifyTextField
+import edu.watumull.presencify.core.design.systems.components.*
 import edu.watumull.presencify.core.design.systems.components.dialog.PresencifyAlertDialog
 import edu.watumull.presencify.core.presentation.UiConstants
 
@@ -67,11 +40,25 @@ fun AdminDetailsScreen(
         backPress = { onAction(AdminDetailsAction.ClickBackButton) },
         topBarTitle = "Admin Details",
     ) { paddingValues ->
-        AdminDetailsScreenContent(
-            state = state,
-            onAction = onAction,
-            modifier = Modifier.padding(paddingValues)
-        )
+        when (state.viewState) {
+            is AdminDetailsState.ViewState.Loading -> {
+                PresencifyDefaultLoadingScreen()
+            }
+
+            is AdminDetailsState.ViewState.Error -> {
+                PresencifyNoResultsIndicator(
+                    text = state.viewState.message.asString()
+                )
+            }
+
+            is AdminDetailsState.ViewState.Content -> {
+                AdminDetailsScreenContent(
+                    state = state,
+                    onAction = onAction,
+                    modifier = Modifier.padding(paddingValues)
+                )
+            }
+        }
     }
 
     // Dialog handling
@@ -82,7 +69,13 @@ fun AdminDetailsScreen(
                 dialogType = dialogState.dialogType,
                 title = dialogState.title,
                 message = dialogState.message.asString(),
-                onDismiss = { onAction(AdminDetailsAction.DismissDialog) }
+                onDismiss = { onAction(AdminDetailsAction.DismissDialog) },
+                onConfirm = when (dialogState.dialogIntention) {
+                    DialogIntention.REMOVE_ACCOUNT_CONFIRMATION -> {
+                        { onAction(AdminDetailsAction.ConfirmRemoveAccount) }
+                    }
+                    else -> null
+                }
             )
         }
     }
@@ -94,105 +87,57 @@ private fun AdminDetailsScreenContent(
     onAction: (AdminDetailsAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    when (state.viewState) {
-        is AdminDetailsState.ViewState.Loading -> {
-            LoadingState(modifier = modifier)
-        }
-
-        is AdminDetailsState.ViewState.Content -> {
-            ContentState(
-                state = state,
-                onAction = onAction,
-                modifier = modifier
-            )
-        }
-
-        is AdminDetailsState.ViewState.Error -> {
-            ErrorState(
-                errorMessage = state.viewState.message.asString(),
-                modifier = modifier
-            )
-        }
-    }
-}
-
-@Composable
-private fun LoadingState(modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator(
-            color = MaterialTheme.colorScheme.primary
-        )
-    }
-}
-
-@Composable
-private fun ErrorState(
-    errorMessage: String,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = errorMessage,
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.error
-        )
-    }
-}
-
-@Composable
-private fun ContentState(
-    state: AdminDetailsState,
-    onAction: (AdminDetailsAction) -> Unit,
-    modifier: Modifier = Modifier
-) {
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .padding(horizontal = 16.dp)
-            .verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
     ) {
-        // Profile Icon
-        Spacer(modifier = Modifier.height(16.dp))
-        Icon(
+        Column(
             modifier = Modifier
-                .size(90.dp)
-                .clip(CircleShape),
-            imageVector = Icons.Filled.AccountCircle,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary
-        )
+                .widthIn(max = UiConstants.MAX_CONTENT_WIDTH)
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
+        ) {
+            // Profile Icon
+            Spacer(modifier = Modifier.height(16.dp))
+            Icon(
+                modifier = Modifier
+                    .size(90.dp)
+                    .clip(CircleShape),
+                imageVector = Icons.Filled.AccountCircle,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary
+            )
 
-        // Admin Details Container
-        AdminDetailsContainer(
-            state = state,
-            onAction = onAction
-        )
+            // Admin Details Container
+            AdminDetailsContainer(
+                state = state,
+                onAction = onAction
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        // Password Container
-        PasswordContainer(
-            state = state,
-            onAction = onAction
-        )
+            // Password Container
+            PasswordContainer(
+                state = state,
+                onAction = onAction
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        // Account Settings Container
-        AccountSettingsContainer(
-            state = state,
-            onAction = onAction
-        )
+            // Account Settings Container
+            AccountSettingsContainer(
+                state = state,
+                onAction = onAction
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
+        }
     }
 }
 
@@ -211,8 +156,7 @@ private fun AdminDetailsContainer(
             .widthIn(max = UiConstants.MAX_CONTENT_WIDTH)
             .fillMaxWidth()
             .clip(MaterialTheme.shapes.medium)
-            .background(MaterialTheme.colorScheme.surface)
-            .padding(16.dp),
+            .background(MaterialTheme.colorScheme.surface),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
@@ -222,7 +166,10 @@ private fun AdminDetailsContainer(
         ) {
             Text(
                 text = "Admin Details",
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                ),
                 color = MaterialTheme.colorScheme.onSurface
             )
             IconButton(
@@ -328,8 +275,7 @@ private fun PasswordContainer(
             .widthIn(max = UiConstants.MAX_CONTENT_WIDTH)
             .fillMaxWidth()
             .clip(MaterialTheme.shapes.medium)
-            .background(MaterialTheme.colorScheme.surface)
-            .padding(16.dp),
+            .background(MaterialTheme.colorScheme.surface),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
@@ -388,8 +334,7 @@ private fun AccountSettingsContainer(
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -432,7 +377,7 @@ private fun AccountSettingsContainer(
                     onAction(AdminDetailsAction.ClickVerifyEmail)
                 }
             )
-            HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+            HorizontalDivider()
         }
 
         // Add Admin
@@ -452,7 +397,7 @@ private fun AccountSettingsContainer(
                 onAction(AdminDetailsAction.ClickAddAdmin)
             }
         )
-        HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+        HorizontalDivider()
 
         // Log out
         ListItem(
@@ -480,7 +425,7 @@ private fun AccountSettingsContainer(
                 onAction(AdminDetailsAction.ClickLogout)
             }
         )
-        HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+        HorizontalDivider()
 
         // Remove Account
         ListItem(

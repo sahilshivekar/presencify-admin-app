@@ -1,7 +1,6 @@
 package edu.watumull.presencify.feature.admin.auth.navigation
 
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.toRoute
 import edu.watumull.presencify.core.design.systems.components.composableWithSlideTransitions
 import edu.watumull.presencify.feature.admin.auth.forgot_password.AdminForgotPasswordRoot
 import edu.watumull.presencify.feature.admin.auth.login.AdminLoginRoot

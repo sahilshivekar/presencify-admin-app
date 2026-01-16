@@ -23,7 +23,11 @@ class AdminAuthRepositoryImpl(
         emailOrUsername: String,
         password: String,
     ): Result<LoginAdmin, DataError.Remote> {
-        return remoteDataSource.login(emailOrUsername, password).map { it.toDomain() }
+        return remoteDataSource.login(emailOrUsername, password).onSuccess { tokenDto ->
+            tokenRepository.saveAccessToken(tokenDto.accessToken)
+            tokenRepository.saveRefreshToken(tokenDto.refreshToken)
+            roleRepository.saveUserRole(UserRole.ADMIN)
+        }.map { it.toDomain() }
     }
 
     override suspend fun sendVerificationCodeToEmailForForgotPassword(email: String): Result<SendVerificationCode, DataError.Remote> {

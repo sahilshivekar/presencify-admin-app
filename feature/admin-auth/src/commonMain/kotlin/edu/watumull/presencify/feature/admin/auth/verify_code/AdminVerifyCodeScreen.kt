@@ -1,15 +1,7 @@
 package edu.watumull.presencify.feature.admin.auth.verify_code
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -20,18 +12,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import edu.watumull.presencify.core.design.systems.Res
 import edu.watumull.presencify.core.design.systems.components.PresencifyButton
 import edu.watumull.presencify.core.design.systems.components.PresencifyScaffold
 import edu.watumull.presencify.core.design.systems.components.PresencifyTextField
 import edu.watumull.presencify.core.design.systems.components.dialog.PresencifyAlertDialog
-import edu.watumull.presencify.core.design.systems.presencify_logo_circle_svg
 import edu.watumull.presencify.core.presentation.UiConstants
-import org.jetbrains.compose.resources.painterResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -81,30 +69,8 @@ private fun AdminVerifyCodeScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.Start
         ) {
-            // Logo
-            Image(
-                modifier = Modifier
-                    .padding(top = 36.dp)
-                    .size(80.dp),
-                painter = painterResource(Res.drawable.presencify_logo_circle_svg),
-                contentDescription = "Presencify Logo",
-            )
-
-            Spacer(modifier = Modifier.height(32.dp))
-
-            // Title
-            Text(
-                text = "Verify Code",
-                style = MaterialTheme.typography.headlineSmall.copy(
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onBackground
-                ),
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
             // Description
             Text(
                 text = "Enter the six digit verification code sent to your email address ${state.email}" +

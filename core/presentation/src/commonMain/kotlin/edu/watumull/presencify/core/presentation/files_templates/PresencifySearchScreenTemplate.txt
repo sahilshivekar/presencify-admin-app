@@ -67,9 +67,8 @@ import edu.watumull.presencify.core.design.systems.components.PresencifyBottomSh
 import edu.watumull.presencify.core.design.systems.components.PresencifyNoResultsIndicator
 import edu.watumull.presencify.core.design.systems.components.PresencifySearchBar
 import edu.watumull.presencify.core.design.systems.components.dialog.PresencifyAlertDialog
-import edu.watumull.presencify.core.design.systems.components.dialog.PresencifyLoadingDialog
+import edu.watumull.presencify.core.design.systems.components.PresencifyDefaultLoadingScreen
 import edu.watumull.presencify.core.presentation.UiConstants
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
@@ -94,14 +93,12 @@ fun ${NAME}Screen(
     ) { paddingValues ->
         when (state.viewState) {
             is ${NAME}State.ViewState.Loading -> {
-                PresencifyLoadingDialog(
-                    isVisible = true
-                )
+                PresencifyDefaultLoadingScreen()
             }
 
             is ${NAME}State.ViewState.Error -> {
                 PresencifyNoResultsIndicator(
-                    text = state.viewState.message
+                    text = state.viewState.message.asString()
                 )
             }
 
@@ -134,16 +131,6 @@ fun ${NAME}Screen(
         )
     }
 
-
-}
-
-@Preview
-@Composable
-private fun ${NAME}ScreenPreview() {
-    ${NAME}Screen(
-        state = ${NAME}State(viewState = ${NAME}State.ViewState.Content),
-        onAction = {}
-    )
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -323,6 +310,7 @@ class ${NAME}ViewModel :
 import edu.watumull.presencify.core.design.systems.components.dialog.DialogType
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
+import edu.watumull.presencify.core.presentation.UiText
 
 data class ${NAME}State(
     val viewState: ViewState = ViewState.Loading,
@@ -336,7 +324,7 @@ data class ${NAME}State(
 ) {
     sealed interface ViewState {
         data object Loading : ViewState
-        data class Error(val message: String) : ViewState
+        data class Error(val message: UiText) : ViewState
         data object Content: ViewState
     }
 

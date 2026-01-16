@@ -1,5 +1,6 @@
 package edu.watumull.presencify.core.design.systems.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
@@ -9,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 // Can be used for showing empty search results, failure in loading data on a details screen
@@ -18,7 +20,7 @@ fun PresencifyNoResultsIndicator(
     text: String,
 ) {
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.background).padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -26,7 +28,7 @@ fun PresencifyNoResultsIndicator(
         Icon(
             imageVector = Icons.Default.Warning,
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSurface.copy(alpha = .5f),
+            tint = MaterialTheme.colorScheme.onErrorContainer.copy(alpha = .5f),
             modifier = Modifier.height(70.dp).width(70.dp)
         )
 
@@ -35,7 +37,8 @@ fun PresencifyNoResultsIndicator(
         Text(
             text = text,
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = .5f)
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = .5f),
+            textAlign = TextAlign.Center,
         )
 
     }
