@@ -31,7 +31,7 @@ fun HomeNavHost(
             onNavigateToSearchBranch = rootNavController::navigateToSearchBranch,
             onNavigateToSearchScheme = rootNavController::navigateToSearchScheme,
             onNavigateToSearchCourse = rootNavController::navigateToSearchCourse,
-            onNavigateToSearchUniversity = rootNavController::navigateToSearchUniversity,
+            onNavigateToUniversityDetails = rootNavController::navigateToUniversityDetails,
             onNavigateToSearchSemester = rootNavController::navigateToSearchSemester,
             onNavigateToSearchDivision = rootNavController::navigateToSearchDivision,
             onNavigateToSearchBatch = rootNavController::navigateToSearchBatch

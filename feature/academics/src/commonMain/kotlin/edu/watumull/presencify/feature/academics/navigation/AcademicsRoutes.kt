@@ -40,10 +40,7 @@ sealed interface AcademicsRoutes : NavRoute {
     data class AddEditUniversity(val universityId: String? = null) : AcademicsRoutes
 
     @Serializable
-    data object SearchUniversity : AcademicsRoutes
-
-    @Serializable
-    data class UniversityDetails(val universityId: String) : AcademicsRoutes
+    data object UniversityDetails : AcademicsRoutes
 
     @Serializable
     data class AddEditCourse(val courseId: String? = null) : AcademicsRoutes

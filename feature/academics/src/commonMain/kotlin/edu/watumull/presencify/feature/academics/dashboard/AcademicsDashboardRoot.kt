@@ -12,7 +12,7 @@ fun AcademicsDashboardRoot(
     onNavigateToSearchBranch: () -> Unit,
     onNavigateToSearchScheme: () -> Unit,
     onNavigateToSearchCourse: () -> Unit,
-    onNavigateToSearchUniversity: () -> Unit,
+    onNavigateToUniversityDetails: () -> Unit,
     onNavigateToSearchSemester: () -> Unit,
     onNavigateToSearchDivision: () -> Unit,
     onNavigateToSearchBatch: () -> Unit,
@@ -25,7 +25,7 @@ fun AcademicsDashboardRoot(
             AcademicsDashboardEvent.NavigateToSearchBranch -> onNavigateToSearchBranch()
             AcademicsDashboardEvent.NavigateToSearchScheme -> onNavigateToSearchScheme()
             AcademicsDashboardEvent.NavigateToSearchCourse -> onNavigateToSearchCourse()
-            AcademicsDashboardEvent.NavigateToSearchUniversity -> onNavigateToSearchUniversity()
+            AcademicsDashboardEvent.NavigateToUniversityDetails -> onNavigateToUniversityDetails()
             AcademicsDashboardEvent.NavigateToSearchSemester -> onNavigateToSearchSemester()
             AcademicsDashboardEvent.NavigateToSearchDivision -> onNavigateToSearchDivision()
             AcademicsDashboardEvent.NavigateToSearchBatch -> onNavigateToSearchBatch()

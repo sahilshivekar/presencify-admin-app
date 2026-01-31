@@ -71,19 +71,10 @@ fun NavController.navigateToAddEditUniversity(universityId: String? = null) {
 }
 
 /**
- * Navigate to Search University screen
+ * Navigate to University Details screen (shows all universities)
  */
-fun NavController.navigateToSearchUniversity() {
-    navigate(AcademicsRoutes.SearchUniversity)
-}
-
-/**
- * Navigate to University Details screen
- *
- * @param universityId The ID of the university to view
- */
-fun NavController.navigateToUniversityDetails(universityId: String) {
-    navigate(AcademicsRoutes.UniversityDetails(universityId = universityId))
+fun NavController.navigateToUniversityDetails() {
+    navigate(AcademicsRoutes.UniversityDetails)
 }
 
 /**

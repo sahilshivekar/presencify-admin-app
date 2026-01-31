@@ -8,6 +8,7 @@ import edu.watumull.presencify.feature.academics.add_edit_course.AddEditCourseRo
 import edu.watumull.presencify.feature.academics.add_edit_division.AddEditDivisionRoot
 import edu.watumull.presencify.feature.academics.add_edit_scheme.AddEditSchemeRoot
 import edu.watumull.presencify.feature.academics.add_edit_semester.AddEditSemesterRoot
+import edu.watumull.presencify.feature.academics.add_edit_university.AddEditUniversityRoot
 import edu.watumull.presencify.feature.academics.batch_details.BatchDetailsRoot
 import edu.watumull.presencify.feature.academics.branch_details.BranchDetailsRoot
 import edu.watumull.presencify.feature.academics.course_details.CourseDetailsRoot
@@ -21,12 +22,13 @@ import edu.watumull.presencify.feature.academics.search_division.SearchDivisionR
 import edu.watumull.presencify.feature.academics.search_scheme.SearchSchemeRoot
 import edu.watumull.presencify.feature.academics.search_semester.SearchSemesterRoot
 import edu.watumull.presencify.feature.academics.semester_details.SemesterDetailsRoot
+import edu.watumull.presencify.feature.academics.university_details.UniversityDetailsRoot
 
 fun NavGraphBuilder.academicsDashboard(
     onNavigateToSearchBranch: () -> Unit,
     onNavigateToSearchScheme: () -> Unit,
     onNavigateToSearchCourse: () -> Unit,
-    onNavigateToSearchUniversity: () -> Unit,
+    onNavigateToUniversityDetails: () -> Unit,
     onNavigateToSearchSemester: () -> Unit,
     onNavigateToSearchDivision: () -> Unit,
     onNavigateToSearchBatch: () -> Unit,
@@ -36,7 +38,7 @@ fun NavGraphBuilder.academicsDashboard(
             onNavigateToSearchBranch = onNavigateToSearchBranch,
             onNavigateToSearchScheme = onNavigateToSearchScheme,
             onNavigateToSearchCourse = onNavigateToSearchCourse,
-            onNavigateToSearchUniversity = onNavigateToSearchUniversity,
+            onNavigateToUniversityDetails = onNavigateToUniversityDetails,
             onNavigateToSearchSemester = onNavigateToSearchSemester,
             onNavigateToSearchDivision = onNavigateToSearchDivision,
             onNavigateToSearchBatch = onNavigateToSearchBatch
@@ -50,6 +52,7 @@ fun NavGraphBuilder.academicsNavGraph(
     onNavigateToAddEditBranch: (String?) -> Unit,
     onNavigateToSchemeDetails: (String) -> Unit,
     onNavigateToAddEditScheme: (String?) -> Unit,
+    onNavigateToAddEditUniversity: (String?) -> Unit,
     onNavigateToCourseDetails: (String) -> Unit,
     onNavigateToAddEditCourse: (String?) -> Unit,
     onNavigateToSemesterDetails: (String) -> Unit,
@@ -103,15 +106,17 @@ fun NavGraphBuilder.academicsNavGraph(
     }
 
     composableWithSlideTransitions<AcademicsRoutes.AddEditUniversity> {
-        // TODO: Add screen content
-    }
-
-    composableWithSlideTransitions<AcademicsRoutes.SearchUniversity> {
-        // TODO: Add screen content
+        AddEditUniversityRoot(
+            onNavigateBack = onNavigateBack
+        )
     }
 
     composableWithSlideTransitions<AcademicsRoutes.UniversityDetails> {
-        // TODO: Add screen content
+        UniversityDetailsRoot(
+            onNavigateBack = onNavigateBack,
+            onNavigateToAddUniversity = { onNavigateToAddEditUniversity(null) },
+            onNavigateToEditUniversity = { id -> onNavigateToAddEditUniversity(id) }
+        )
     }
 
     composableWithSlideTransitions<AcademicsRoutes.AddEditCourse> {

@@ -38,6 +38,7 @@ fun AppNavHost(
             onNavigateToAddEditBranch = rootNavController::navigateToAddEditBranch,
             onNavigateToSchemeDetails = rootNavController::navigateToSchemeDetails,
             onNavigateToAddEditScheme = rootNavController::navigateToAddEditScheme,
+            onNavigateToAddEditUniversity = rootNavController::navigateToAddEditUniversity,
             onNavigateToCourseDetails = rootNavController::navigateToCourseDetails,
             onNavigateToAddEditCourse = rootNavController::navigateToAddEditCourse,
             onNavigateToSemesterDetails = rootNavController::navigateToSemesterDetails,
