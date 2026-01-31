@@ -233,7 +233,6 @@ class TeacherDetailsViewModel(
                 dialogState = null
             )
         }
-
         teacherRepository.removeTeacher(teacherId)
             .onSuccess {
                 updateState { it.copy(isRemovingTeacher = false) }

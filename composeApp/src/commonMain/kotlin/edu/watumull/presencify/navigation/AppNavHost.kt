@@ -70,7 +70,11 @@ fun AppNavHost(
             onNavigateToAddEditTeacher = rootNavController::navigateToAddEditTeacher,
         )
 
-        scheduleNavGraph()
+        scheduleNavGraph(
+            onNavigateBack = { rootNavController.navigateUp() },
+            onNavigateToClassDetails = rootNavController::navigateToClassDetails,
+            onNavigateToAddEditClass = rootNavController::navigateToAddEditClass
+        )
 
         adminAuthNavGraph(
             onNavigateToHome = rootNavController::navigateToHome,

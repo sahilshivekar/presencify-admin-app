@@ -15,9 +15,11 @@ suspend inline fun <reified T> safeCall(
     val response = try {
         execute()
     } catch (e: IOException) { // Covers SocketTimeoutException and UnresolvedAddressException
+        e.printStackTrace()
         return Result.Error(DataError.Remote.NoInternet)
     } catch (e: Exception) {
         currentCoroutineContext().ensureActive()
+        e.printStackTrace()
         return Result.Error(DataError.Remote.Unknown)
     }
 
@@ -49,13 +51,7 @@ suspend inline fun <reified T> responseToResult(
             }
         }
 
-        400 -> Result.Error(
-            DataError.Remote.BusinessLogicError(
-                message = response.body<ApiResponseDto<T>>().message
-            )
-        )
-
-        404 -> Result.Error(
+        400,404, 409 -> Result.Error(
             DataError.Remote.BusinessLogicError(
                 message = response.body<ApiResponseDto<T>>().message
             )

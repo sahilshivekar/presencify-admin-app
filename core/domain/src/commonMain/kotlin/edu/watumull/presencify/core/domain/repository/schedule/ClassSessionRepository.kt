@@ -5,6 +5,7 @@ import edu.watumull.presencify.core.domain.Result
 import edu.watumull.presencify.core.domain.enums.ClassType
 import edu.watumull.presencify.core.domain.enums.DayOfWeek
 import edu.watumull.presencify.core.domain.model.schedule.CancelledClass
+import edu.watumull.presencify.core.domain.model.schedule.ClassListWithTotalCount
 import edu.watumull.presencify.core.domain.model.schedule.ClassSession
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
@@ -29,7 +30,7 @@ interface ClassSessionRepository {
         page: Int? = null,
         limit: Int? = null,
         getAll: Boolean? = null
-    ): Result<List<ClassSession>, DataError.Remote>
+    ): Result<ClassListWithTotalCount, DataError.Remote>
 
     suspend fun addClass(
         teacherId: String,

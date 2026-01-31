@@ -8,6 +8,7 @@ import edu.watumull.presencify.core.domain.enums.ClassType
 import edu.watumull.presencify.core.domain.enums.DayOfWeek
 import edu.watumull.presencify.core.domain.map
 import edu.watumull.presencify.core.domain.model.schedule.CancelledClass
+import edu.watumull.presencify.core.domain.model.schedule.ClassListWithTotalCount
 import edu.watumull.presencify.core.domain.model.schedule.ClassSession
 import edu.watumull.presencify.core.domain.repository.schedule.ClassSessionRepository
 import kotlinx.datetime.LocalDate
@@ -36,14 +37,12 @@ class ClassSessionRepositoryImpl(
         page: Int?,
         limit: Int?,
         getAll: Boolean?
-    ): Result<List<ClassSession>, DataError.Remote> {
+    ): Result<ClassListWithTotalCount, DataError.Remote> {
         return remoteDataSource.getClasses(
             searchQuery, timetableId, divisionId, startTime, endTime, activeFrom, activeTill,
             teacherId, dayOfWeek, roomId, batchId, classType, courseId, semesterId, isExtraClass,
             page, limit, getAll
-        ).map { response ->
-            response.classes.map { it.toDomain() }
-        }
+        ).map { it.toDomain() }
     }
 
     override suspend fun addClass(
@@ -69,7 +68,10 @@ class ClassSessionRepositoryImpl(
         return remoteDataSource.getClassById(classId).map { it.toDomain() }
     }
 
-    override suspend fun extendActiveTillDateOfClass(classId: String, newActiveTill: LocalDate): Result<ClassSession, DataError.Remote> {
+    override suspend fun extendActiveTillDateOfClass(
+        classId: String,
+        newActiveTill: LocalDate
+    ): Result<ClassSession, DataError.Remote> {
         return remoteDataSource.extendActiveTillDateOfClass(classId, newActiveTill).map { it.toDomain() }
     }
 

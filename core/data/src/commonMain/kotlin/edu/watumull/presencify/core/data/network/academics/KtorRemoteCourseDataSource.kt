@@ -29,6 +29,7 @@ class KtorRemoteCourseDataSource(
         branchId: String?,
         semesterNumber: SemesterNumber?,
         schemeId: String?,
+        onlyOptional: Boolean,
         page: Int?,
         limit: Int?,
         getAll: Boolean?
@@ -39,6 +40,7 @@ class KtorRemoteCourseDataSource(
                 branchId?.let { parameter("branchId", it) }
                 semesterNumber?.value?.let { parameter("semesterNumber", it) }
                 schemeId?.let { parameter("schemeId", it) }
+                parameter("onlyOptional", onlyOptional)
                 page?.let { parameter("page", it) }
                 limit?.let { parameter("limit", it) }
                 getAll?.let { parameter("getAll", it) }
@@ -49,7 +51,7 @@ class KtorRemoteCourseDataSource(
     override suspend fun addCourse(
         code: String,
         name: String,
-        optionalSubject: String?,
+        optionalCourse: String?,
         schemeId: String
     ): Result<CourseDto, DataError.Remote> {
         return safeCall<CourseDto> {
@@ -58,7 +60,7 @@ class KtorRemoteCourseDataSource(
                 setBody(buildMap {
                     put("code", code)
                     put("name", name)
-                    optionalSubject?.let { put("optionalSubject", it) }
+                    optionalCourse?.let { put("optionalCourse", it) }
                     put("schemeId", schemeId)
                 })
             }
@@ -75,7 +77,7 @@ class KtorRemoteCourseDataSource(
         id: String,
         code: String?,
         name: String?,
-        optionalSubject: String?,
+        optionalCourse: String?,
         schemeId: String?
     ): Result<CourseDto, DataError.Remote> {
         return safeCall<CourseDto> {
@@ -84,7 +86,7 @@ class KtorRemoteCourseDataSource(
                 setBody(buildMap {
                     code?.let { put("code", it) }
                     name?.let { put("name", it) }
-                    optionalSubject?.let { put("optionalSubject", it) }
+                    optionalCourse?.let { put("optionalCourse", it) }
                     schemeId?.let { put("schemeId", it) }
                 })
             }

@@ -10,7 +10,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun SearchCourseRoot(
     onNavigateBack: () -> Unit,
     onNavigateToCourseDetails: (String) -> Unit = {},
-    onNavigateToAddEditCourse: () -> Unit = {},
+    onNavigateToAddEditCourse: (String?) -> Unit = {},
 ) {
     val viewModel: SearchCourseViewModel = koinViewModel()
     val state by viewModel.stateFlow.collectAsStateWithLifecycle()
@@ -27,7 +27,7 @@ fun SearchCourseRoot(
                 onNavigateBack()
             }
             is SearchCourseEvent.NavigateToAddEditCourse -> {
-                onNavigateToAddEditCourse()
+                onNavigateToAddEditCourse(null)
             }
         }
     }
@@ -37,4 +37,3 @@ fun SearchCourseRoot(
         onAction = viewModel::trySendAction
     )
 }
-

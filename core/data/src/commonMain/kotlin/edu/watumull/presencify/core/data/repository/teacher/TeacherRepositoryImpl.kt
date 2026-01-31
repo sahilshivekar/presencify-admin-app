@@ -68,7 +68,6 @@ class TeacherRepositoryImpl(
         gender: Gender?,
         highestQualification: String?,
         phoneNumber: String?,
-        isActive: Boolean?
     ): Result<Teacher, DataError.Remote> {
         return remoteDataSource.updateTeacherDetails(
             id,
@@ -80,7 +79,6 @@ class TeacherRepositoryImpl(
             gender,
             highestQualification,
             phoneNumber,
-            isActive
         ).map { it.toDomain() }
     }
 

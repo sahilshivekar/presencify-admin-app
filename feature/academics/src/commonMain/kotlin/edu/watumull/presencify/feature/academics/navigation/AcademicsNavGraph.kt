@@ -2,13 +2,25 @@ package edu.watumull.presencify.feature.academics.navigation
 
 import androidx.navigation.NavGraphBuilder
 import edu.watumull.presencify.core.design.systems.components.composableWithSlideTransitions
+import edu.watumull.presencify.feature.academics.add_edit_batch.AddEditBatchRoot
+import edu.watumull.presencify.feature.academics.add_edit_branch.AddEditBranchRoot
+import edu.watumull.presencify.feature.academics.add_edit_course.AddEditCourseRoot
+import edu.watumull.presencify.feature.academics.add_edit_division.AddEditDivisionRoot
+import edu.watumull.presencify.feature.academics.add_edit_scheme.AddEditSchemeRoot
+import edu.watumull.presencify.feature.academics.add_edit_semester.AddEditSemesterRoot
+import edu.watumull.presencify.feature.academics.batch_details.BatchDetailsRoot
+import edu.watumull.presencify.feature.academics.branch_details.BranchDetailsRoot
+import edu.watumull.presencify.feature.academics.course_details.CourseDetailsRoot
 import edu.watumull.presencify.feature.academics.dashboard.AcademicsDashboardRoot
+import edu.watumull.presencify.feature.academics.division_details.DivisionDetailsRoot
+import edu.watumull.presencify.feature.academics.scheme_details.SchemeDetailsRoot
 import edu.watumull.presencify.feature.academics.search_batch.SearchBatchRoot
 import edu.watumull.presencify.feature.academics.search_branch.SearchBranchRoot
 import edu.watumull.presencify.feature.academics.search_course.SearchCourseRoot
 import edu.watumull.presencify.feature.academics.search_division.SearchDivisionRoot
 import edu.watumull.presencify.feature.academics.search_scheme.SearchSchemeRoot
 import edu.watumull.presencify.feature.academics.search_semester.SearchSemesterRoot
+import edu.watumull.presencify.feature.academics.semester_details.SemesterDetailsRoot
 
 fun NavGraphBuilder.academicsDashboard(
     onNavigateToSearchBranch: () -> Unit,
@@ -35,49 +47,59 @@ fun NavGraphBuilder.academicsDashboard(
 fun NavGraphBuilder.academicsNavGraph(
     onNavigateBack: () -> Unit,
     onNavigateToBranchDetails: (String) -> Unit,
-    onNavigateToAddEditBranch: () -> Unit,
+    onNavigateToAddEditBranch: (String?) -> Unit,
     onNavigateToSchemeDetails: (String) -> Unit,
-    onNavigateToAddEditScheme: () -> Unit,
+    onNavigateToAddEditScheme: (String?) -> Unit,
     onNavigateToCourseDetails: (String) -> Unit,
-    onNavigateToAddEditCourse: () -> Unit,
+    onNavigateToAddEditCourse: (String?) -> Unit,
     onNavigateToSemesterDetails: (String) -> Unit,
-    onNavigateToAddEditSemester: () -> Unit,
+    onNavigateToAddEditSemester: (String?) -> Unit,
     onNavigateToDivisionDetails: (String) -> Unit,
-    onNavigateToAddEditDivision: () -> Unit,
+    onNavigateToAddEditDivision: (String?) -> Unit,
     onNavigateToBatchDetails: (String) -> Unit,
-    onNavigateToAddEditBatch: () -> Unit,
+    onNavigateToAddEditBatch: (String?) -> Unit,
 ) {
 
     composableWithSlideTransitions<AcademicsRoutes.AddEditBranch> {
-        // TODO: Add screen content
+        AddEditBranchRoot(
+            onNavigateBack = onNavigateBack
+        )
     }
 
     composableWithSlideTransitions<AcademicsRoutes.SearchBranch> {
         SearchBranchRoot(
             onNavigateBack = onNavigateBack,
             onNavigateToBranchDetails = onNavigateToBranchDetails,
-            onNavigateToAddEditBranch = onNavigateToAddEditBranch
+            onNavigateToAddEditBranch = { onNavigateToAddEditBranch(null) }
         )
     }
 
     composableWithSlideTransitions<AcademicsRoutes.BranchDetails> {
-        // TODO: Add screen content
+        BranchDetailsRoot(
+            onNavigateBack = onNavigateBack,
+            onNavigateToEditBranch = { id -> onNavigateToAddEditBranch(id) }
+        )
     }
 
     composableWithSlideTransitions<AcademicsRoutes.AddEditScheme> {
-        // TODO: Add screen content
+        AddEditSchemeRoot(
+            onNavigateBack = onNavigateBack
+        )
     }
 
     composableWithSlideTransitions<AcademicsRoutes.SearchScheme> {
         SearchSchemeRoot(
             onNavigateBack = onNavigateBack,
             onNavigateToSchemeDetails = onNavigateToSchemeDetails,
-            onNavigateToAddEditScheme = onNavigateToAddEditScheme
+            onNavigateToAddEditScheme = { onNavigateToAddEditScheme(null) }
         )
     }
 
     composableWithSlideTransitions<AcademicsRoutes.SchemeDetails> {
-        // TODO: Add screen content
+        SchemeDetailsRoot(
+            onNavigateBack = onNavigateBack,
+            onNavigateToEditScheme = { id -> onNavigateToAddEditScheme(id) }
+        )
     }
 
     composableWithSlideTransitions<AcademicsRoutes.AddEditUniversity> {
@@ -93,19 +115,24 @@ fun NavGraphBuilder.academicsNavGraph(
     }
 
     composableWithSlideTransitions<AcademicsRoutes.AddEditCourse> {
-        // TODO: Add screen content
+        AddEditCourseRoot(
+            onNavigateBack = onNavigateBack
+        )
     }
 
     composableWithSlideTransitions<AcademicsRoutes.SearchCourse> {
         SearchCourseRoot(
             onNavigateBack = onNavigateBack,
             onNavigateToCourseDetails = onNavigateToCourseDetails,
-            onNavigateToAddEditCourse = onNavigateToAddEditCourse
+            onNavigateToAddEditCourse = { onNavigateToAddEditCourse(null) }
         )
     }
 
     composableWithSlideTransitions<AcademicsRoutes.CourseDetails> {
-        // TODO: Add screen content
+        CourseDetailsRoot(
+            onNavigateBack = onNavigateBack,
+            onNavigateToEditCourse = { id -> onNavigateToAddEditCourse(id) }
+        )
     }
 
     composableWithSlideTransitions<AcademicsRoutes.LinkCourseToSemester> {
@@ -117,51 +144,66 @@ fun NavGraphBuilder.academicsNavGraph(
     }
 
     composableWithSlideTransitions<AcademicsRoutes.AddEditBatch> {
-        // TODO: Add screen content
+        AddEditBatchRoot(
+            onNavigateBack = onNavigateBack
+        )
     }
 
     composableWithSlideTransitions<AcademicsRoutes.SearchBatch> {
         SearchBatchRoot(
             onNavigateBack = onNavigateBack,
             onNavigateToBatchDetails = onNavigateToBatchDetails,
-            onNavigateToAddEditBatch = onNavigateToAddEditBatch
+            onNavigateToAddEditBatch = { onNavigateToAddEditBatch(null) }
         )
     }
 
     composableWithSlideTransitions<AcademicsRoutes.BatchDetails> {
-        // TODO: Add screen content
+        BatchDetailsRoot(
+            onNavigateBack = onNavigateBack,
+            onNavigateToEditBatch = { id -> onNavigateToAddEditBatch(id) }
+        )
     }
 
     composableWithSlideTransitions<AcademicsRoutes.AddEditDivision> {
-        // TODO: Add screen content
+        AddEditDivisionRoot(
+            onNavigateBack = onNavigateBack
+        )
     }
 
     composableWithSlideTransitions<AcademicsRoutes.SearchDivision> {
         SearchDivisionRoot(
             onNavigateBack = onNavigateBack,
             onNavigateToDivisionDetails = onNavigateToDivisionDetails,
-            onNavigateToAddEditDivision = onNavigateToAddEditDivision
+            onNavigateToAddEditDivision = { onNavigateToAddEditDivision(null) }
         )
     }
 
     composableWithSlideTransitions<AcademicsRoutes.DivisionDetails> {
-        // TODO: Add screen content
+        DivisionDetailsRoot(
+            onNavigateBack = onNavigateBack,
+            onNavigateToEditDivision = { id -> onNavigateToAddEditDivision(id) }
+        )
     }
 
     composableWithSlideTransitions<AcademicsRoutes.AddEditSemester> {
-        // TODO: Add screen content
+        AddEditSemesterRoot(
+            onNavigateBack = onNavigateBack
+        )
     }
 
     composableWithSlideTransitions<AcademicsRoutes.SearchSemester> {
         SearchSemesterRoot(
             onNavigateBack = onNavigateBack,
             onNavigateToSemesterDetails = onNavigateToSemesterDetails,
-            onNavigateToAddEditSemester = onNavigateToAddEditSemester
+            onNavigateToAddEditSemester = { onNavigateToAddEditSemester(null) }
         )
     }
 
     composableWithSlideTransitions<AcademicsRoutes.SemesterDetails> {
-        // TODO: Add screen content
+        SemesterDetailsRoot(
+            onNavigateBack = onNavigateBack,
+            onNavigateToEditSemester = { id -> onNavigateToAddEditSemester(id) }
+        )
     }
 
 }

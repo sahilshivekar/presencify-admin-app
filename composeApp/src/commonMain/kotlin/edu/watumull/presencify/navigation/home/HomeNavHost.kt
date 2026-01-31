@@ -54,7 +54,10 @@ fun HomeNavHost(
             onNavigateToRemoveFromDropout = rootNavController::navigateToRemoveStudentFromDropout
         )
 
-        scheduleDashboard()
+        scheduleDashboard(
+            onNavigateToSearchRoom = rootNavController::navigateToSearchRoom,
+            onNavigateToSearchClass = rootNavController::navigateToSearchClass
+        )
     }
 }
 

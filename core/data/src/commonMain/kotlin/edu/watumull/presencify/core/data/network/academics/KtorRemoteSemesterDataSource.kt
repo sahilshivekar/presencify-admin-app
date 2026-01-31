@@ -1,7 +1,6 @@
 package edu.watumull.presencify.core.data.network.academics
 
-import edu.watumull.presencify.core.data.dto.academics.SemesterDto
-import edu.watumull.presencify.core.data.dto.academics.SemesterListWithTotalCountDto
+import edu.watumull.presencify.core.data.dto.academics.*
 import edu.watumull.presencify.core.data.network.academics.ApiEndpoints.ADD_SEMESTER
 import edu.watumull.presencify.core.data.network.academics.ApiEndpoints.BULK_CREATE_SEMESTERS
 import edu.watumull.presencify.core.data.network.academics.ApiEndpoints.BULK_DELETE_SEMESTERS
@@ -60,16 +59,18 @@ class KtorRemoteSemesterDataSource(
         return safeCall<SemesterDto> {
             httpClient.post(ADD_SEMESTER) {
                 contentType(ContentType.Application.Json)
-                setBody(buildMap {
-                    put("branchId", branchId)
-                    put("semesterNumber", semesterNumber.value)
-                    put("academicStartYear", academicStartYear)
-                    put("academicEndYear", academicEndYear)
-                    put("startDate", startDate.toString())
-                    put("endDate", endDate.toString())
-                    put("schemeId", schemeId)
-                    optionalCourseIds?.let { put("optionalCourseIds", it) }
-                })
+                setBody(
+                    AddSemesterRequestDto(
+                        branchId = branchId,
+                        semesterNumber = semesterNumber.value.toString(),
+                        academicStartYear = academicStartYear.toString(),
+                        academicEndYear = academicEndYear.toString(),
+                        startDate = startDate.toString(),
+                        endDate = endDate.toString(),
+                        schemeId = schemeId,
+                        optionalCourseIds = optionalCourseIds
+                    )
+                )
             }
         }
     }
@@ -83,15 +84,19 @@ class KtorRemoteSemesterDataSource(
     override suspend fun updateSemester(
         id: String,
         startDate: LocalDate,
-        endDate: LocalDate
+        endDate: LocalDate,
+        optionalCourseIds: List<String>?
     ): Result<SemesterDto, DataError.Remote> {
         return safeCall<SemesterDto> {
             httpClient.put("$UPDATE_SEMESTER/$id") {
                 contentType(ContentType.Application.Json)
-                setBody(mapOf(
-                    "startDate" to startDate.toString(),
-                    "endDate" to endDate.toString()
-                ))
+                setBody(
+                    UpdateSemesterRequestDto(
+                        startDate = startDate.toString(),
+                        endDate = endDate.toString(),
+                        optionalCourseIds = optionalCourseIds
+                    )
+                )
             }
         }
     }
@@ -103,7 +108,7 @@ class KtorRemoteSemesterDataSource(
     }
 
     override suspend fun getCoursesOfSemester(semesterId: String): Result<List<edu.watumull.presencify.core.data.dto.academics.CourseDto>, DataError.Remote> {
-        return safeCall<List<edu.watumull.presencify.core.data.dto.academics.CourseDto>> {
+        return safeCall<List<CourseDto>> {
             httpClient.get(GET_COURSES_OF_SEMESTER) {
                 parameter("semesterId", semesterId)
             }

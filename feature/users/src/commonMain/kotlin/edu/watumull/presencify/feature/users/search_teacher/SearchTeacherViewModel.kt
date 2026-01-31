@@ -63,8 +63,8 @@ class SearchTeacherViewModel(
         onSuccess = { response, _ ->
             updateState {
                 it.copy(
-                    teachers = if (stateFlow.value.currentPage == 1) response.teacher.toPersistentList() else it.teachers.addAll(
-                        response.teacher.toPersistentList()
+                    teachers = if (stateFlow.value.currentPage == 1) response.teachers.toPersistentList() else it.teachers.addAll(
+                        response.teachers.toPersistentList()
                     ),
                     currentPage = stateFlow.value.currentPage + 1,
                     isRefreshing = false,

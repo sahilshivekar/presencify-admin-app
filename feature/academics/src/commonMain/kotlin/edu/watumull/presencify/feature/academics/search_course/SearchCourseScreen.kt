@@ -185,7 +185,7 @@ private fun SearchCourseScreenContent(
                             name = course.name,
                             code = course.code,
                             schemeName = schemeName,
-                            optionalSubject = course.optionalSubject,
+                            optionalCourse = course.optionalCourse,
                             trailingContent = if (state.isSelectable) {
                                 {
                                     Icon(

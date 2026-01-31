@@ -58,9 +58,10 @@ class SemesterRepositoryImpl(
     override suspend fun updateSemester(
         id: String,
         startDate: LocalDate,
-        endDate: LocalDate
+        endDate: LocalDate,
+        optionalCourseIds: List<String>?
     ): Result<Semester, DataError.Remote> {
-        return remoteSemesterDataSource.updateSemester(id, startDate, endDate).map { it.toDomain() }
+        return remoteSemesterDataSource.updateSemester(id, startDate, endDate, optionalCourseIds).map { it.toDomain() }
     }
 
     override suspend fun removeSemester(id: String): Result<Unit, DataError.Remote> {

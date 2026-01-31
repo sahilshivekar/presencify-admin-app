@@ -42,7 +42,6 @@ interface TeacherRepository {
         gender: Gender?,
         highestQualification: String?,
         phoneNumber: String?,
-        isActive: Boolean?,
     ): Result<Teacher, DataError.Remote>
 
     suspend fun updateTeacherPassword(

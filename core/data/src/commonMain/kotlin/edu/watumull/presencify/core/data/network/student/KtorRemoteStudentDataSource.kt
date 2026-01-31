@@ -169,9 +169,10 @@ class KtorRemoteStudentDataSource(
         admissionType: AdmissionType?,
     ): Result<StudentDto, DataError.Remote> {
         return safeCall<StudentDto> {
-            httpClient.put("${UPDATE_STUDENT_DETAILS}/$id") {
+            httpClient.put(UPDATE_STUDENT_DETAILS) {
                 contentType(ContentType.Application.Json)
                 setBody(buildMap {
+                    put("id", id)
                     firstName?.let { put("firstName", it) }
                     middleName?.let { put("middleName", it) }
                     lastName?.let { put("lastName", it) }
@@ -183,7 +184,7 @@ class KtorRemoteStudentDataSource(
                     branchId?.let { put("branchId", it) }
                     parentEmail?.let { put("parentEmail", it) }
                     prn?.let { put("prn", it) }
-                    admissionYear?.let { put("admissionYear", it) }
+                    admissionYear?.let { put("admissionYear", it.toString()) }
                     admissionType?.value?.let { put("admissionType", it) }
                 })
             }

@@ -2,19 +2,35 @@ package edu.watumull.presencify.feature.schedule.navigation
 
 import androidx.navigation.NavGraphBuilder
 import edu.watumull.presencify.core.design.systems.components.composableWithSlideTransitions
+import edu.watumull.presencify.feature.schedule.dashboard.ScheduleDashboardRoot
+import edu.watumull.presencify.feature.schedule.search_class.SearchClassRoot
 
-fun NavGraphBuilder.scheduleDashboard() {
+fun NavGraphBuilder.scheduleDashboard(
+    onNavigateToSearchRoom: () -> Unit,
+    onNavigateToSearchClass: () -> Unit
+) {
     composableWithSlideTransitions<ScheduleRoutes.ScheduleDashboard> {
-        // TODO: Add screen content
+        ScheduleDashboardRoot(
+            onNavigateToSearchRoom = onNavigateToSearchRoom,
+            onNavigateToSearchClass = onNavigateToSearchClass
+        )
     }
 }
 
-fun NavGraphBuilder.scheduleNavGraph() {
+fun NavGraphBuilder.scheduleNavGraph(
+    onNavigateBack: () -> Unit,
+    onNavigateToClassDetails: (String) -> Unit,
+    onNavigateToAddEditClass: (String?) -> Unit
+) {
     composableWithSlideTransitions<ScheduleRoutes.AddEditClass> {
         // TODO: Add screen content
     }
     composableWithSlideTransitions<ScheduleRoutes.SearchClass> {
-        // TODO: Add screen content
+        SearchClassRoot(
+            onNavigateBack = onNavigateBack,
+            onNavigateToClassDetails = onNavigateToClassDetails,
+            onNavigateToAddEditClass = onNavigateToAddEditClass
+        )
     }
     composableWithSlideTransitions<ScheduleRoutes.ClassDetails> {
         // TODO: Add screen content

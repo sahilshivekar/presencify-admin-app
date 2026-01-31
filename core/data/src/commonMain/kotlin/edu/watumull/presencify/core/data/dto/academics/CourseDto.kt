@@ -11,7 +11,7 @@ data class CourseDto(
     val schemeId: String,
     val code: String,
     val name: String,
-    val optionalSubject: String? = null,
+    val optionalCourse: String? = null,
     val createdAt: String? = null,
     val updatedAt: String? = null,
     @SerialName("Scheme")

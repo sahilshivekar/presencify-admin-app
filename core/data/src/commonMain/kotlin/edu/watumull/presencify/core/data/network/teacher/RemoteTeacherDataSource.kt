@@ -40,7 +40,6 @@ interface RemoteTeacherDataSource {
         gender: Gender?,
         highestQualification: String?,
         phoneNumber: String?,
-        isActive: Boolean?,
     ): Result<TeacherDto, DataError.Remote>
 
     suspend fun updateTeacherPassword(

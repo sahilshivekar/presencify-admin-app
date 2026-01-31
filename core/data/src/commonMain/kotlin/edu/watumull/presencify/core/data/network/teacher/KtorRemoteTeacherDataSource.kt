@@ -107,12 +107,12 @@ class KtorRemoteTeacherDataSource(
         gender: Gender?,
         highestQualification: String?,
         phoneNumber: String?,
-        isActive: Boolean?
     ): Result<TeacherDto, DataError.Remote> {
         return safeCall<TeacherDto> {
-            httpClient.put("$UPDATE_TEACHER_DETAILS/$id") {
+            httpClient.put(UPDATE_TEACHER_DETAILS) {
                 contentType(ContentType.Application.Json)
                 setBody(buildMap {
+                    put("id", id)
                     firstName?.let { put("firstName", it) }
                     middleName?.let { put("middleName", it) }
                     lastName?.let { put("lastName", it) }
@@ -121,7 +121,6 @@ class KtorRemoteTeacherDataSource(
                     gender?.value?.let { put("gender", it) }
                     highestQualification?.let { put("highestQualification", it) }
                     phoneNumber?.let { put("phoneNumber", it) }
-                    isActive?.let { put("isActive", it) }
                 })
             }
         }

@@ -22,6 +22,7 @@ import edu.watumull.presencify.core.domain.enums.Gender
 import edu.watumull.presencify.core.domain.model.academics.Branch
 import edu.watumull.presencify.core.domain.model.academics.Scheme
 import edu.watumull.presencify.core.presentation.UiConstants
+import edu.watumull.presencify.core.presentation.utils.toReadableString
 import kotlinx.datetime.LocalDate
 
 @Composable
@@ -179,7 +180,7 @@ private fun PersonalDetailsStep(
         Spacer(Modifier.height(16.dp))
 
         PresencifyTextField(
-            value = state.dob?.toString() ?: "",
+            value = state.dob?.toReadableString() ?: "",
             onValueChange = {},
             label = "Date of Birth",
             supportingText = state.dobError,

@@ -213,7 +213,6 @@ class AddEditTeacherViewModel(
         } else {
             addTeacher()
         }
-
         result
             .onSuccess {
                 updateState { it.copy(isSubmitting = false) }
@@ -264,7 +263,6 @@ class AddEditTeacherViewModel(
         gender = state.gender,
         highestQualification = state.highestQualification.ifBlank { null },
         phoneNumber = state.phoneNumber,
-        isActive = true
     )
 }
 

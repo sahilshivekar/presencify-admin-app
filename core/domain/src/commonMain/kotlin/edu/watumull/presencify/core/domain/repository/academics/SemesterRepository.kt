@@ -36,7 +36,8 @@ interface SemesterRepository {
     suspend fun updateSemester(
         id: String,
         startDate: LocalDate,
-        endDate: LocalDate
+        endDate: LocalDate,
+        optionalCourseIds: List<String>? = null
     ): Result<Semester, DataError.Remote>
 
     suspend fun removeSemester(id: String): Result<Unit, DataError.Remote>

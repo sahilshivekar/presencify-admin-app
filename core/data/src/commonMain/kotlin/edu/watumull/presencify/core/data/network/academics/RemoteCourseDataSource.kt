@@ -12,6 +12,7 @@ interface RemoteCourseDataSource {
         branchId: String? = null,
         semesterNumber: SemesterNumber? = null,
         schemeId: String? = null,
+        onlyOptional: Boolean = false,
         page: Int? = null,
         limit: Int? = null,
         getAll: Boolean? = null,
@@ -20,7 +21,7 @@ interface RemoteCourseDataSource {
     suspend fun addCourse(
         code: String,
         name: String,
-        optionalSubject: String?,
+        optionalCourse: String?,
         schemeId: String,
     ): Result<CourseDto, DataError.Remote>
 
@@ -30,7 +31,7 @@ interface RemoteCourseDataSource {
         id: String,
         code: String?,
         name: String?,
-        optionalSubject: String?,
+        optionalCourse: String?,
         schemeId: String?,
     ): Result<CourseDto, DataError.Remote>
 

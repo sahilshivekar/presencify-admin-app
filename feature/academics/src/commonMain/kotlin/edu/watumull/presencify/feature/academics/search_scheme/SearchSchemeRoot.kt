@@ -10,7 +10,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun SearchSchemeRoot(
     onNavigateBack: () -> Unit,
     onNavigateToSchemeDetails: (String) -> Unit = {},
-    onNavigateToAddEditScheme: () -> Unit = {},
+    onNavigateToAddEditScheme: (String?) -> Unit = {},
 ) {
     val viewModel: SearchSchemeViewModel = koinViewModel()
     val state by viewModel.stateFlow.collectAsStateWithLifecycle()
@@ -22,7 +22,7 @@ fun SearchSchemeRoot(
                 onNavigateToSchemeDetails(event.schemeId)
             }
             is SearchSchemeEvent.NavigateToAddEditScheme -> {
-                onNavigateToAddEditScheme()
+                onNavigateToAddEditScheme(null)
             }
         }
     }
@@ -32,4 +32,3 @@ fun SearchSchemeRoot(
         onAction = viewModel::trySendAction
     )
 }
-

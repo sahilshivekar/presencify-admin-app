@@ -4,6 +4,6 @@ import edu.watumull.presencify.core.data.dto.teacher.TeacherListWithTotalCountDt
 import edu.watumull.presencify.core.domain.model.teacher.TeacherListWithTotalCount
 
 fun TeacherListWithTotalCountDto.toDomain(): TeacherListWithTotalCount = TeacherListWithTotalCount(
-    teacher = teacher.map { it.toDomain() },
+    teachers = teacher.map { it.toDomain() },
     totalTeacher = totalTeacher
 )

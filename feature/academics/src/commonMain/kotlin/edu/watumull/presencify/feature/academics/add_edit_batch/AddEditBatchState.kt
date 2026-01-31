@@ -1,0 +1,61 @@
+package edu.watumull.presencify.feature.academics.add_edit_batch
+
+import edu.watumull.presencify.core.design.systems.components.dialog.DialogType
+import edu.watumull.presencify.core.domain.enums.SemesterNumber
+import edu.watumull.presencify.core.domain.model.academics.Branch
+import edu.watumull.presencify.core.domain.model.academics.Division
+import edu.watumull.presencify.core.domain.model.academics.Semester
+import edu.watumull.presencify.core.presentation.UiText
+
+data class AddEditBatchState(
+    val batchId: String? = null,
+    val isEditMode: Boolean = false,
+    val isLoading: Boolean = false,
+    val isSubmitting: Boolean = false,
+
+    // Semester selection fields
+    val semesterNumber: SemesterNumber? = null,
+    val academicStartYear: String = "",
+    val academicEndYear: String = "",
+    val selectedBranchId: String = "",
+
+    val branchOptions: List<Branch> = emptyList(),
+    val foundDivision: Division? = null, // Added property for Division
+    val foundSemester: Semester? = null, // Added property for Semester
+
+    // Division selection fields (shown after divisions are found)
+    val foundDivisions: List<Division> = emptyList(),
+    val selectedDivisionId: String = "",
+    val showDivisionInput: Boolean = false,
+
+    // Batch fields (shown after division is selected)
+    val batchCode: String = "",
+    val showBatchInput: Boolean = false,
+
+    // Error states
+    val semesterNumberError: String? = null,
+    val academicStartYearError: String? = null,
+    val academicEndYearError: String? = null,
+    val branchError: String? = null,
+    val divisionError: String? = null,
+    val batchCodeError: String? = null,
+
+    val isSemesterNumberDropdownOpen: Boolean = false,
+    val isBranchDropdownOpen: Boolean = false,
+    val isDivisionDropdownOpen: Boolean = false,
+
+    val dialogState: DialogState? = null,
+) {
+    data class DialogState(
+        val isVisible: Boolean = true,
+        val dialogType: DialogType = DialogType.INFO,
+        val dialogIntention: DialogIntention = DialogIntention.GENERIC,
+        val title: String = "",
+        val message: UiText? = null,
+    )
+}
+
+enum class DialogIntention {
+    GENERIC,
+    CONFIRM_NAVIGATION_WITH_UNSAVED_CHANGES,
+}

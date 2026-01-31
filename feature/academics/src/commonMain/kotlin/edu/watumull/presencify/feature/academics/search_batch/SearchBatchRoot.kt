@@ -10,7 +10,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun SearchBatchRoot(
     onNavigateBack: () -> Unit,
     onNavigateToBatchDetails: (String) -> Unit = {},
-    onNavigateToAddEditBatch: () -> Unit = {},
+    onNavigateToAddEditBatch: (String?) -> Unit = {},
 ) {
     val viewModel: SearchBatchViewModel = koinViewModel()
     val state by viewModel.stateFlow.collectAsStateWithLifecycle()
@@ -22,7 +22,7 @@ fun SearchBatchRoot(
                 onNavigateToBatchDetails(event.batchId)
             }
             is SearchBatchEvent.NavigateToAddEditBatch -> {
-                onNavigateToAddEditBatch()
+                onNavigateToAddEditBatch(null)
             }
         }
     }
@@ -32,4 +32,3 @@ fun SearchBatchRoot(
         onAction = viewModel::trySendAction
     )
 }
-

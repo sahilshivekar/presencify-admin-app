@@ -10,7 +10,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun SearchDivisionRoot(
     onNavigateBack: () -> Unit,
     onNavigateToDivisionDetails: (String) -> Unit = {},
-    onNavigateToAddEditDivision: () -> Unit = {},
+    onNavigateToAddEditDivision: (String?) -> Unit = {},
 ) {
     val viewModel: SearchDivisionViewModel = koinViewModel()
     val state by viewModel.stateFlow.collectAsStateWithLifecycle()
@@ -22,7 +22,7 @@ fun SearchDivisionRoot(
                 onNavigateToDivisionDetails(event.divisionId)
             }
             is SearchDivisionEvent.NavigateToAddEditDivision -> {
-                onNavigateToAddEditDivision()
+                onNavigateToAddEditDivision(null)
             }
         }
     }
@@ -32,4 +32,3 @@ fun SearchDivisionRoot(
         onAction = viewModel::trySendAction
     )
 }
-

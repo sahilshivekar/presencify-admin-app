@@ -12,15 +12,16 @@ interface CourseRepository {
         branchId: String? = null,
         semesterNumber: SemesterNumber? = null,
         schemeId: String? = null,
+        onlyOptional: Boolean = false,
         page: Int? = null,
         limit: Int? = null,
-        getAll: Boolean? = null
+        getAll: Boolean? = null,
     ): Result<CourseListWithTotalCount, DataError.Remote>
 
     suspend fun addCourse(
         code: String,
         name: String,
-        optionalSubject: String?,
+        optionalCourse: String?,
         schemeId: String
     ): Result<Course, DataError.Remote>
 
@@ -30,7 +31,7 @@ interface CourseRepository {
         id: String,
         code: String? = null,
         name: String? = null,
-        optionalSubject: String? = null,
+        optionalCourse: String? = null,
         schemeId: String? = null
     ): Result<Course, DataError.Remote>
 

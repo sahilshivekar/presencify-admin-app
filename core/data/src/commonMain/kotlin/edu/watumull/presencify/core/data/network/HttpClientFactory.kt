@@ -21,6 +21,7 @@ import edu.watumull.presencify.core.data.network.admin_auth.ApiEndpoints as Admi
 import edu.watumull.presencify.core.data.network.student_auth.ApiEndpoints as StudentApiEndpoints
 import edu.watumull.presencify.core.data.network.teacher_auth.ApiEndpoints as TeacherApiEndpoints
 
+
 class HttpClientFactory(
     private val tokenRepository: TokenRepository,
     private val roleRepository: RoleRepository
@@ -65,11 +66,14 @@ class HttpClientFactory(
                     }
                 )
             }
+
             install(Auth) {
                 bearer {
                     loadTokens {
+                        // Direct call without runBlocking since these are not suspending functions
                         val accessToken = tokenRepository.readAccessToken() ?: ""
                         val refreshToken = tokenRepository.readRefreshToken() ?: ""
+
                         BearerTokens(
                             accessToken = accessToken,
                             refreshToken = refreshToken
@@ -77,7 +81,6 @@ class HttpClientFactory(
                     }
 
                     refreshTokens {
-
                         // Get the current refresh token
                         val refreshToken = tokenRepository.readRefreshToken()
 
@@ -132,16 +135,20 @@ class HttpClientFactory(
                     }
 
                     sendWithoutRequest { request ->
-                        val shouldSkip = request.url.pathSegments.contains("login") ||
+                        val isAuthEndpoint = request.url.pathSegments.contains("login") ||
                                 request.url.pathSegments.contains("register")
-                        shouldSkip
+
+                        // Return true to skip auth for these endpoints
+                        !isAuthEndpoint
                     }
                 }
             }
+
             install(HttpTimeout) {
                 socketTimeoutMillis = 20_000L
                 requestTimeoutMillis = 20_000L
             }
+
             install(Logging) {
                 logger = object : Logger {
                     override fun log(message: String) {
@@ -150,6 +157,7 @@ class HttpClientFactory(
                 }
                 level = LogLevel.ALL
             }
+
             defaultRequest {
                 contentType(ContentType.Application.Json)
             }

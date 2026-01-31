@@ -19,22 +19,23 @@ class CourseRepositoryImpl(
         branchId: String?,
         semesterNumber: SemesterNumber?,
         schemeId: String?,
+        onlyOptional: Boolean,
         page: Int?,
         limit: Int?,
         getAll: Boolean?
     ): Result<CourseListWithTotalCount, DataError.Remote> {
         return remoteCourseDataSource.getCourses(
-            searchQuery, branchId, semesterNumber, schemeId, page, limit, getAll
+            searchQuery, branchId, semesterNumber, schemeId, onlyOptional, page, limit, getAll
         ).map { it.toDomain() }
     }
 
     override suspend fun addCourse(
         code: String,
         name: String,
-        optionalSubject: String?,
+        optionalCourse: String?,
         schemeId: String
     ): Result<Course, DataError.Remote> {
-        return remoteCourseDataSource.addCourse(code, name, optionalSubject, schemeId).map { it.toDomain() }
+        return remoteCourseDataSource.addCourse(code, name, optionalCourse, schemeId).map { it.toDomain() }
     }
 
     override suspend fun getCourseById(id: String): Result<Course, DataError.Remote> {
@@ -45,10 +46,10 @@ class CourseRepositoryImpl(
         id: String,
         code: String?,
         name: String?,
-        optionalSubject: String?,
+        optionalCourse: String?,
         schemeId: String?
     ): Result<Course, DataError.Remote> {
-        return remoteCourseDataSource.updateCourse(id, code, name, optionalSubject, schemeId).map { it.toDomain() }
+        return remoteCourseDataSource.updateCourse(id, code, name, optionalCourse, schemeId).map { it.toDomain() }
     }
 
     override suspend fun removeCourse(id: String): Result<Unit, DataError.Remote> {

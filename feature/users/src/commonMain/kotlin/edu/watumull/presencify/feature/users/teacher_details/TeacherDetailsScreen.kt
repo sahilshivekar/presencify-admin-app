@@ -1,9 +1,5 @@
 package edu.watumull.presencify.feature.users.teacher_details
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -74,6 +70,7 @@ fun TeacherDetailsScreen(
                     DialogIntention.CONFIRM_REMOVE_TEACHER -> {
                         onConfirmRemove()
                     }
+
                     DialogIntention.GENERIC -> {
                         onAction(TeacherDetailsAction.DismissDialog)
                     }
@@ -92,75 +89,57 @@ private fun TeacherDetailsScreenContent(
     onAction: (TeacherDetailsAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    AnimatedContent(
-        targetState = state.teacher == null,
-        transitionSpec = {
-            (slideInVertically { it / 5 }).togetherWith(fadeOut())
-        }
-    ) { isLoading ->
-        if (isLoading) {
-            Box(
-                modifier = Modifier.fillMaxSize()
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .background(MaterialTheme.colorScheme.background)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        TeacherImageContainer(state = state, onAction = onAction)
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TeacherDetailsContainer(state = state)
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TeacherAssignedSubjects(state = state)
+
+        Column(
+            modifier = Modifier
+                .padding(top = 16.dp)
+                .widthIn(max = UiConstants.MAX_CONTENT_WIDTH),
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center),
-                    color = MaterialTheme.colorScheme.primary
-                )
-            }
-        } else {
-            Column(
-                modifier = modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .background(MaterialTheme.colorScheme.background)
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                TeacherImageContainer(state = state, onAction = onAction)
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                TeacherDetailsContainer(state = state)
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                TeacherAssignedSubjects(state = state)
-
-                Column(
-                    modifier = Modifier
-                        .padding(top = 16.dp)
-                        .widthIn(max = UiConstants.MAX_CONTENT_WIDTH),
+                PresencifyTextButton(
+                    onClick = { onAction(TeacherDetailsAction.EditTeacherDetailsClick) },
+                    enabled = !state.isRemovingTeacher
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 16.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        PresencifyTextButton(
-                            onClick = { onAction(TeacherDetailsAction.EditTeacherDetailsClick) },
-                            enabled = !state.isRemovingTeacher
-                        ) {
-                            Text(text = "Edit details", color = MaterialTheme.colorScheme.primary)
-                        }
-                        PresencifyTextButton(
-                            onClick = { onAction(TeacherDetailsAction.RemoveTeacherClick) },
-                            enabled = !state.isRemovingTeacher
-                        ) {
-                            if (state.isRemovingTeacher) {
-                                CircularProgressIndicator(
-                                    color = MaterialTheme.colorScheme.error,
-                                    modifier = Modifier.size(20.dp),
-                                    strokeWidth = 2.dp,
-                                )
-                            } else {
-                                Text(
-                                    text = "Remove teacher",
-                                    color = MaterialTheme.colorScheme.error
-                                )
-                            }
-                        }
+                    Text(text = "Edit details", color = MaterialTheme.colorScheme.primary)
+                }
+                PresencifyTextButton(
+                    onClick = { onAction(TeacherDetailsAction.RemoveTeacherClick) },
+                    enabled = !state.isRemovingTeacher
+                ) {
+                    if (state.isRemovingTeacher) {
+                        CircularProgressIndicator(
+                            color = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.size(20.dp),
+                            strokeWidth = 2.dp,
+                        )
+                    } else {
+                        Text(
+                            text = "Remove teacher",
+                            color = MaterialTheme.colorScheme.error
+                        )
                     }
                 }
             }

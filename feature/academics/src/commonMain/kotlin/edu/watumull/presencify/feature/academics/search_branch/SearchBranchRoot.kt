@@ -10,7 +10,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun SearchBranchRoot(
     onNavigateBack: () -> Unit,
     onNavigateToBranchDetails: (String) -> Unit = {},
-    onNavigateToAddEditBranch: () -> Unit = {},
+    onNavigateToAddEditBranch: (String?) -> Unit = {},
 ) {
     val viewModel: SearchBranchViewModel = koinViewModel()
     val state by viewModel.stateFlow.collectAsStateWithLifecycle()
@@ -22,7 +22,7 @@ fun SearchBranchRoot(
                 onNavigateToBranchDetails(event.branchId)
             }
             is SearchBranchEvent.NavigateToAddEditBranch -> {
-                onNavigateToAddEditBranch()
+                onNavigateToAddEditBranch(null)
             }
         }
     }
@@ -32,4 +32,3 @@ fun SearchBranchRoot(
         onAction = viewModel::trySendAction
     )
 }
-

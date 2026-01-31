@@ -22,7 +22,7 @@ fun String.validateAsCourseName(): ValidationResult {
     return ValidationResult(successful = true)
 }
 
-fun String.validateAsOptionalSubject(): ValidationResult {
+fun String.validateAsOptionalCourse(): ValidationResult {
     // Optional field
     if (this.isBlank()) return ValidationResult(successful = true)
 

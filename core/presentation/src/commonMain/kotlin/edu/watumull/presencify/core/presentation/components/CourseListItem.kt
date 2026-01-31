@@ -17,7 +17,7 @@ import edu.watumull.presencify.core.design.systems.components.PresencifyListItem
  * @param name The name of the course.
  * @param code The course code.
  * @param schemeName The scheme name associated with the course.
- * @param optionalSubject Optional subject name if the course is optional.
+ * @param optionalCourse Optional subject name if the course is optional.
  * @param trailingContent Optional trailing content composable.
  * @param onClick Optional click handler for the list item.
  * @param modifier Modifier for the list item.
@@ -27,7 +27,7 @@ fun CourseListItem(
     name: String,
     code: String,
     schemeName: String,
-    optionalSubject: String? = null,
+    optionalCourse: String? = null,
     trailingContent: @Composable (() -> Unit)? = null,
     onClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier
@@ -51,7 +51,7 @@ fun CourseListItem(
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                optionalSubject?.let {
+                optionalCourse?.let {
                     Spacer(modifier = Modifier.height(4.dp))
                     Badge(
                         containerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -90,7 +90,7 @@ fun CourseListItemOptionalPreview() {
             name = "Machine Learning",
             code = "CS405",
             schemeName = "2023 Scheme",
-            optionalSubject = "Artificial Intelligence Track"
+            optionalCourse = "Artificial Intelligence Track"
         )
     }
 }
@@ -102,7 +102,7 @@ fun CourseListItemLongNamePreview() {
             name = "Advanced Topics in Computer Networks and Security",
             code = "CS501",
             schemeName = "Revised Engineering Curriculum 2023-24",
-            optionalSubject = "Cybersecurity Specialization",
+            optionalCourse = "Cybersecurity Specialization",
             onClick = {}
         )
     }
