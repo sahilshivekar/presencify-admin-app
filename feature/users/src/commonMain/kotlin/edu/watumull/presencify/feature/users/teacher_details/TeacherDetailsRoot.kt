@@ -10,6 +10,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun TeacherDetailsRoot(
     onNavigateBack: () -> Unit,
     onNavigateToEditTeacher: (String) -> Unit,
+    onNavigateToAssignUnassignCourses: (String) -> Unit,
 ) {
     val viewModel: TeacherDetailsViewModel = koinViewModel()
     val state by viewModel.stateFlow.collectAsStateWithLifecycle()
@@ -18,13 +19,13 @@ fun TeacherDetailsRoot(
         when (event) {
             is TeacherDetailsEvent.NavigateBack -> onNavigateBack()
             is TeacherDetailsEvent.NavigateToEditTeacher -> onNavigateToEditTeacher(event.teacherId)
+            is TeacherDetailsEvent.NavigateToAssignUnassignCourses -> onNavigateToAssignUnassignCourses(event.teacherId)
         }
     }
 
     TeacherDetailsScreen(
         state = state,
-        onAction = viewModel::trySendAction,
-        onConfirmRemove = viewModel::confirmRemoveTeacher
+        onAction = viewModel::trySendAction
     )
 }
 

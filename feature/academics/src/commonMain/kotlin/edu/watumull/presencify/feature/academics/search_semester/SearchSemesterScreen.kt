@@ -135,7 +135,9 @@ private fun SearchSemesterScreenContent(
         snapshotFlow {
             lazyListState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
         }.distinctUntilChanged().collect { lastVisibleIndex ->
-            if (lastVisibleIndex == state.semesters.lastIndex) {
+            // Trigger load more when we're close to the end (within 3 items)
+            // This accounts for the loading indicator item that comes after semesters
+            if (lastVisibleIndex != null && lastVisibleIndex >= state.semesters.lastIndex - 3) {
                 onAction(SearchSemesterAction.LoadMoreSemesters)
             }
         }

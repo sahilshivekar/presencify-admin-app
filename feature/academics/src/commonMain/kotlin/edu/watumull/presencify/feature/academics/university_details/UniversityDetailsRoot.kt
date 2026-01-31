@@ -25,7 +25,6 @@ fun UniversityDetailsRoot(
 
     UniversityDetailsScreen(
         state = state,
-        onAction = viewModel::trySendAction,
-        onConfirmRemove = viewModel::confirmRemoveUniversity
+        onAction = viewModel::trySendAction
     )
 }

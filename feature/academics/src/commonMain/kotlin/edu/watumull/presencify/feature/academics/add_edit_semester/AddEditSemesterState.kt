@@ -28,9 +28,9 @@ data class AddEditSemesterState(
 
     // Optional courses grouped by optionalCourse
     val optionalCourseGroups: Map<String, List<Course>> = emptyMap(),
-    // Selected course for each optional subject group
+    // Selected course for each optional course group
     val selectedOptionalCourses: Map<String, String> = emptyMap(),
-    // Track which dropdown is open for each optional subject
+    // Track which dropdown is open for each optional course
     val openOptionalDropdowns: Set<String> = emptySet(),
 
     val semesterNumberError: String? = null,

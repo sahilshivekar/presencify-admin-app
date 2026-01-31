@@ -23,7 +23,6 @@ fun SchemeDetailsRoot(
 
     SchemeDetailsScreen(
         state = state,
-        onAction = viewModel::trySendAction,
-        onConfirmRemove = viewModel::confirmRemoveScheme
+        onAction = viewModel::trySendAction
     )
 }

@@ -6,6 +6,7 @@ import edu.watumull.presencify.core.domain.enums.SemesterNumber
 import edu.watumull.presencify.core.domain.model.academics.Branch
 import edu.watumull.presencify.core.domain.model.academics.Course
 import edu.watumull.presencify.core.domain.model.academics.Scheme
+import edu.watumull.presencify.core.domain.model.teacher.Teacher
 import edu.watumull.presencify.core.presentation.UiText
 import edu.watumull.presencify.feature.academics.navigation.SearchCourseIntention
 import kotlinx.collections.immutable.ImmutableList
@@ -28,8 +29,9 @@ data class SearchCourseState(
 
     // Selection Mode
     val intention: SearchCourseIntention = SearchCourseIntention.DEFAULT,
-    val selectedCourseIds: Set<String> = emptySet(),
-    val isSelectable: Boolean = false,
+    val branchId: String? = null,
+    val semesterNumber: Int? = null,
+    val teacherId: String? = null,
 
     // Filter Options - Semester Number
     val semesterNumberOptions: ImmutableList<SemesterNumber> = SemesterNumber.entries.toImmutableList(),
@@ -45,11 +47,19 @@ data class SearchCourseState(
     val selectedScheme: Scheme? = null,
     val areSchemesLoading: Boolean = true,
 
+    // Filter Options - Teachers
+    val teacherOptions: PersistentList<Teacher> = persistentListOf(),
+    val selectedTeacherIds: Set<String> = emptySet(),
+    val areTeachersLoading: Boolean = true,
+
     // Pagination
     val currentPage: Int = 1,
     val isLoadingMore: Boolean = false,
 
-    val isBottomSheetVisible: Boolean = false
+    val isBottomSheetVisible: Boolean = false,
+
+    // Track individual course operations (assign/unassign)
+    val loadingCourseIds: Set<String> = emptySet()
 ) {
     sealed interface ViewState {
         data object Loading : ViewState
@@ -69,4 +79,3 @@ data class SearchCourseState(
 enum class DialogIntention {
     GENERIC,
 }
-

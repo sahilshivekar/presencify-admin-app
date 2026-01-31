@@ -4,19 +4,14 @@ sealed interface UsersDashboardAction {
     data object ClickStudents : UsersDashboardAction
     data object ClickTeachers : UsersDashboardAction
 
-    // Semester
-    data object ClickAssignToSemester : UsersDashboardAction
-    data object ClickRemoveFromSemester : UsersDashboardAction
+    // Assign/Unassign
+    data object ClickAssignUnassignSemester : UsersDashboardAction
+    data object ClickAssignUnassignDivision : UsersDashboardAction
+    data object ClickAssignUnassignBatch : UsersDashboardAction
 
-    // Division
-    data object ClickAssignToDivision : UsersDashboardAction
+    // Modify
     data object ClickModifyDivision : UsersDashboardAction
-    data object ClickRemoveFromDivision : UsersDashboardAction
-
-    // Batch
-    data object ClickAssignToBatch : UsersDashboardAction
     data object ClickModifyBatch : UsersDashboardAction
-    data object ClickRemoveFromBatch : UsersDashboardAction
 
     // Dropout
     data object ClickAddToDropout : UsersDashboardAction

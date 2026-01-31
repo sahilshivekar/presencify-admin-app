@@ -22,7 +22,7 @@ import edu.watumull.presencify.core.design.systems.components.PresencifyListItem
  * @param name The name of the course.
  * @param code The course code.
  * @param schemeName The scheme name associated with the course.
- * @param optionalCourse Optional subject name if the course is optional.
+ * @param optionalCourse Optional course name if the course is optional.
  * @param feedback Optional feedback message to display.
  * @param trailingContent Optional trailing content composable.
  * @param onClick Optional click handler for the list item.
@@ -49,7 +49,7 @@ fun CourseListItem(
         supportingContent = {
             Column {
                 Text(
-                    text = "Subject code: $code",
+                    text = "Course code: $code",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

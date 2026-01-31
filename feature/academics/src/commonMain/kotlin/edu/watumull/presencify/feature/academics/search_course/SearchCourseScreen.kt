@@ -8,8 +8,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.outlined.Circle
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -21,10 +19,14 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import edu.watumull.presencify.core.design.systems.components.*
+import edu.watumull.presencify.core.design.systems.components.PresencifyBottomSheetScaffold
+import edu.watumull.presencify.core.design.systems.components.PresencifyDefaultLoadingScreen
+import edu.watumull.presencify.core.design.systems.components.PresencifyNoResultsIndicator
+import edu.watumull.presencify.core.design.systems.components.PresencifySearchBar
 import edu.watumull.presencify.core.design.systems.components.dialog.PresencifyAlertDialog
 import edu.watumull.presencify.core.presentation.UiConstants
 import edu.watumull.presencify.core.presentation.components.CourseListItem
+import edu.watumull.presencify.feature.academics.navigation.SearchCourseIntention
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
@@ -49,9 +51,16 @@ fun SearchCourseScreen(
     }
 
     val scope = rememberCoroutineScope()
+
+    val topBarTitle = when (state.intention) {
+        SearchCourseIntention.DEFAULT -> "Search Courses"
+        SearchCourseIntention.LINK_UNLINK_COURSE_TO_SEMESTER_NUMBER_BRANCH -> "Link/Unlink Courses"
+        SearchCourseIntention.ASSIGN_UNASSIGN_COURSE_TO_TEACHER -> "Assign/Unassign Courses"
+    }
+
     PresencifyBottomSheetScaffold(
         backPress = { onAction(SearchCourseAction.BackButtonClick) },
-        topBarTitle = "Search Courses",
+        topBarTitle = topBarTitle,
         scaffoldState = scaffoldState,
         sheetContent = {
             SearchCourseBottomSheetContent(
@@ -133,7 +142,9 @@ private fun SearchCourseScreenContent(
         snapshotFlow {
             lazyListState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
         }.distinctUntilChanged().collect { lastVisibleIndex ->
-            if (lastVisibleIndex == state.courses.lastIndex) {
+            // Trigger load more when we're close to the end (within 3 items)
+            // This accounts for the loading indicator item that comes after courses
+            if (lastVisibleIndex != null && lastVisibleIndex >= state.courses.lastIndex - 3) {
                 onAction(SearchCourseAction.LoadMoreCourses)
             }
         }
@@ -186,26 +197,100 @@ private fun SearchCourseScreenContent(
                             code = course.code,
                             schemeName = schemeName,
                             optionalCourse = course.optionalCourse,
-                            trailingContent = if (state.isSelectable) {
-                                {
-                                    Icon(
-                                        imageVector = if (state.selectedCourseIds.contains(course.id)) {
-                                            Icons.Filled.CheckCircle
-                                        } else {
-                                            Icons.Outlined.Circle
-                                        },
-                                        contentDescription = if (state.selectedCourseIds.contains(course.id)) {
-                                            "Selected"
-                                        } else {
-                                            "Not selected"
-                                        },
-                                        tint = if (state.selectedCourseIds.contains(course.id)) {
-                                            MaterialTheme.colorScheme.primary
-                                        } else {
-                                            MaterialTheme.colorScheme.onSurfaceVariant
-                                        },
-                                        modifier = Modifier.size(24.dp)
-                                    )
+                            trailingContent = if (state.intention != SearchCourseIntention.DEFAULT) {
+                                val isLoading = state.loadingCourseIds.contains(course.id)
+
+                                when (state.intention) {
+                                    SearchCourseIntention.LINK_UNLINK_COURSE_TO_SEMESTER_NUMBER_BRANCH -> {
+                                        // Check if course is linked to the branch+semester combination
+                                        val isLinked = state.branchId?.let { bId ->
+                                            state.semesterNumber?.let { semNum ->
+                                                val semesterEnum = edu.watumull.presencify.core.domain.enums.SemesterNumber.fromValue(semNum)
+                                                course.branchCourseSemesters?.any {
+                                                    it.branchId == bId && it.semesterNumber == semesterEnum
+                                                } == true
+                                            }
+                                        } ?: false
+                                        {
+                                            Column(
+                                                verticalArrangement = Arrangement.Top,
+                                                horizontalAlignment = Alignment.End,
+                                            ) {
+                                                Text(
+                                                    text = if (isLinked) "Linked" else "Not Linked",
+                                                    style = MaterialTheme.typography.bodySmall,
+                                                    color = if (isLinked)
+                                                        MaterialTheme.colorScheme.primary
+                                                    else
+                                                        MaterialTheme.colorScheme.onSurfaceVariant
+                                                )
+                                                Switch(
+                                                    checked = isLinked,
+                                                    onCheckedChange = {
+                                                        onAction(SearchCourseAction.CourseActionButtonClick(course.id))
+                                                    },
+                                                    enabled = !isLoading,
+                                                    thumbContent = if (isLoading) {
+                                                        {
+                                                            CircularProgressIndicator(
+                                                                modifier = Modifier.size(SwitchDefaults.IconSize),
+                                                                strokeWidth = 2.dp
+                                                            )
+                                                        }
+                                                    } else null
+                                                )
+                                            }
+                                        }
+                                    }
+
+                                    SearchCourseIntention.ASSIGN_UNASSIGN_COURSE_TO_TEACHER -> {
+                                        // Check if course is assigned to the teacher
+                                        val isAssigned = state.teacherId?.let { tId ->
+                                            course.teacherTeachesCourses?.any { it.teacherId == tId } == true
+                                        } ?: false
+                                        {
+                                            Column(
+                                                verticalArrangement = Arrangement.Top,
+                                                horizontalAlignment = Alignment.End,
+                                            ) {
+                                                Text(
+                                                    text = if (isAssigned) "Assigned" else "Not Assigned",
+                                                    style = MaterialTheme.typography.bodySmall,
+                                                    color = if (isAssigned)
+                                                        MaterialTheme.colorScheme.primary
+                                                    else
+                                                        MaterialTheme.colorScheme.onSurfaceVariant
+                                                )
+                                                Switch(
+                                                    checked = isAssigned,
+                                                    onCheckedChange = {
+                                                        onAction(SearchCourseAction.CourseActionButtonClick(course.id))
+                                                    },
+                                                    enabled = !isLoading,
+                                                    thumbContent = if (isLoading) {
+                                                        {
+                                                            CircularProgressIndicator(
+                                                                modifier = Modifier.size(
+                                                                    SwitchDefaults.IconSize
+                                                                ),
+                                                                strokeWidth = 1.dp,
+                                                                color = MaterialTheme.colorScheme.primary
+                                                            )
+                                                        }
+                                                    } else null,
+                                                    colors = SwitchDefaults.colors(
+                                                        checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                                                        checkedTrackColor = MaterialTheme.colorScheme.primary,
+                                                        uncheckedThumbColor = MaterialTheme.colorScheme.outline,
+                                                        uncheckedTrackColor = MaterialTheme.colorScheme.surfaceVariant,
+                                                        uncheckedBorderColor = MaterialTheme.colorScheme.outline
+                                                    )
+                                                )
+                                            }
+                                        }
+                                    }
+
+                                    SearchCourseIntention.DEFAULT -> null
                                 }
                             } else null,
                             onClick = { onAction(SearchCourseAction.CourseCardClick(course.id)) },
@@ -250,17 +335,5 @@ private fun SearchCourseScreenContent(
                 }
             }
         }
-
-        // Done button for selection mode
-        if (state.isSelectable) {
-            PresencifyButton(
-                onClick = { onAction(SearchCourseAction.DoneButtonClick) },
-                text = "Done (${state.selectedCourseIds.size} selected)",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp)
-            )
-        }
     }
 }
-

@@ -2,7 +2,6 @@ package edu.watumull.presencify.feature.users.teacher_details
 
 import edu.watumull.presencify.core.design.systems.components.dialog.DialogType
 import edu.watumull.presencify.core.domain.model.teacher.Teacher
-import edu.watumull.presencify.core.domain.model.teacher.TeacherTeachesCourse
 import edu.watumull.presencify.core.presentation.UiText
 
 data class TeacherDetailsState(
@@ -15,8 +14,6 @@ data class TeacherDetailsState(
     val isUpdatingImage: Boolean = false,
     val isRemovingImage: Boolean = false,
     val isRemovingTeacher: Boolean = false,
-    val assignedCourses: List<TeacherTeachesCourse> = emptyList(),
-    val isLoadingAssignedSubjects: Boolean = false,
 ) {
     sealed interface ViewState {
         data object Loading : ViewState

@@ -19,7 +19,6 @@ import edu.watumull.presencify.core.presentation.components.SchemeListItem
 fun SchemeDetailsScreen(
     state: SchemeDetailsState,
     onAction: (SchemeDetailsAction) -> Unit,
-    onConfirmRemove: () -> Unit,
 ) {
     PresencifyScaffold(
         backPress = { onAction(SchemeDetailsAction.BackButtonClick) },
@@ -102,7 +101,7 @@ fun SchemeDetailsScreen(
             message = dialogState.message?.asString() ?: "",
             onConfirm = {
                 when (dialogState.dialogIntention) {
-                    DialogIntention.CONFIRM_REMOVE_SCHEME -> onConfirmRemove()
+                    DialogIntention.CONFIRM_REMOVE_SCHEME -> onAction(SchemeDetailsAction.ConfirmRemoveScheme)
                     DialogIntention.GENERIC -> onAction(SchemeDetailsAction.DismissDialog)
                 }
             },

@@ -93,19 +93,22 @@ fun NavController.navigateToAddEditCourse(courseId: String? = null) {
  * @param branchId The ID of the branch to filter by
  * @param semesterNumber The semester number to filter by
  * @param schemeId The ID of the scheme to filter by
+ * @param teacherId The ID of the teacher for assign/unassign operations
  */
 fun NavController.navigateToSearchCourse(
     intention: String = SearchCourseIntention.DEFAULT.name,
     branchId: String? = null,
     semesterNumber: Int? = null,
     schemeId: String? = null,
+    teacherId: String? = null,
 ) {
     navigate(
         AcademicsRoutes.SearchCourse(
             intention = intention,
             branchId = branchId,
             semesterNumber = semesterNumber,
-            schemeId = schemeId
+            schemeId = schemeId,
+            teacherId = teacherId
         )
     )
 }
@@ -120,17 +123,10 @@ fun NavController.navigateToCourseDetails(courseId: String) {
 }
 
 /**
- * Navigate to Link Course to Semester screen
+ * Navigate to Link/Unlink Course screen
  */
-fun NavController.navigateToLinkCourseToSemester() {
-    navigate(AcademicsRoutes.LinkCourseToSemester)
-}
-
-/**
- * Navigate to Unlink Course to Semester screen
- */
-fun NavController.navigateToUnlinkCourseToSemester() {
-    navigate(AcademicsRoutes.UnlinkCourseToSemester)
+fun NavController.navigateToLinkUnlinkCourse() {
+    navigate(AcademicsRoutes.LinkUnlinkCourse)
 }
 
 /**

@@ -4,6 +4,7 @@ sealed interface AcademicsDashboardEvent {
     data object NavigateToSearchBranch : AcademicsDashboardEvent
     data object NavigateToSearchScheme : AcademicsDashboardEvent
     data object NavigateToSearchCourse : AcademicsDashboardEvent
+    data object NavigateToLinkUnlinkCourse : AcademicsDashboardEvent
     data object NavigateToUniversityDetails : AcademicsDashboardEvent
     data object NavigateToSearchSemester : AcademicsDashboardEvent
     data object NavigateToSearchDivision : AcademicsDashboardEvent

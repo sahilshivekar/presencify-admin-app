@@ -57,13 +57,12 @@ class DivisionDetailsViewModel(
                     )
                 )
             }
+            is DivisionDetailsAction.ConfirmRemoveDivision -> {
+                viewModelScope.launch {
+                    removeDivision()
+                }
+            }
             is DivisionDetailsAction.EditDivisionClick -> sendEvent(DivisionDetailsEvent.NavigateToEditDivision(state.divisionId))
-        }
-    }
-
-    fun confirmRemoveDivision() {
-        viewModelScope.launch {
-            removeDivision()
         }
     }
 

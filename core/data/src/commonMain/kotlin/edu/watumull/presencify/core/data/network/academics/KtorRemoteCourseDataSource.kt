@@ -30,6 +30,7 @@ class KtorRemoteCourseDataSource(
         semesterNumber: SemesterNumber?,
         schemeId: String?,
         onlyOptional: Boolean,
+        teacherIds: List<String>?,
         page: Int?,
         limit: Int?,
         getAll: Boolean?
@@ -41,6 +42,11 @@ class KtorRemoteCourseDataSource(
                 semesterNumber?.value?.let { parameter("semesterNumber", it) }
                 schemeId?.let { parameter("schemeId", it) }
                 parameter("onlyOptional", onlyOptional)
+                teacherIds?.let {
+                    if (it.isNotEmpty()) {
+                        parameter("teacherIds", it.joinToString(","))
+                    }
+                }
                 page?.let { parameter("page", it) }
                 limit?.let { parameter("limit", it) }
                 getAll?.let { parameter("getAll", it) }
@@ -107,13 +113,17 @@ class KtorRemoteCourseDataSource(
         return safeCall<Unit> {
             httpClient.post("$PRESENCIFY_BASE_URL/$API_V1/courses/branch") {
                 contentType(ContentType.Application.Json)
-                setBody(mapOf("courseId" to courseId))
+                setBody(buildMap {
+                    put("courseId", courseId)
+                    put("branchId", branchId)
+                    put("semesterNumber", semesterNumber.value.toString())
+                })
             }
         }
     }
 
     override suspend fun removeCourseFromBranchWithSemesterNumber(
-        branchCourseSemesterId: String,
+        branchCourseSemesterId: String
     ): Result<Unit, DataError.Remote> {
         return safeCall<Unit> {
             httpClient.delete("$PRESENCIFY_BASE_URL/$API_V1/courses/branch/$branchCourseSemesterId")

@@ -138,6 +138,12 @@ class StudentDetailsViewModel(
                 }
             }
 
+            is StudentDetailsAction.ConfirmRemoveStudent -> {
+                viewModelScope.launch {
+                    removeStudent()
+                }
+            }
+
             is StudentDetailsAction.EditStudentDetailsClick -> {
                 sendEvent(StudentDetailsEvent.NavigateToEditStudent(state.studentId))
             }
@@ -223,11 +229,6 @@ class StudentDetailsViewModel(
             }
     }
 
-    fun confirmRemoveStudent() {
-        viewModelScope.launch {
-            removeStudent()
-        }
-    }
 
     private suspend fun removeStudent() {
         val studentId = state.student?.id ?: return

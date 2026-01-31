@@ -12,6 +12,7 @@ import edu.watumull.presencify.feature.academics.branch_details.BranchDetailsVie
 import edu.watumull.presencify.feature.academics.course_details.CourseDetailsViewModel
 import edu.watumull.presencify.feature.academics.dashboard.AcademicsDashboardViewModel
 import edu.watumull.presencify.feature.academics.division_details.DivisionDetailsViewModel
+import edu.watumull.presencify.feature.academics.link_unlink_course.LinkUnlinkCourseViewModel
 import edu.watumull.presencify.feature.academics.scheme_details.SchemeDetailsViewModel
 import edu.watumull.presencify.feature.academics.search_batch.SearchBatchViewModel
 import edu.watumull.presencify.feature.academics.search_branch.SearchBranchViewModel
@@ -28,9 +29,10 @@ val academicsModule = module {
     viewModel { SearchSemesterViewModel(get(), get(), get()) }
     viewModel { SearchBatchViewModel(get(), get(), get()) }
     viewModel { SearchDivisionViewModel(get(), get()) }
-    viewModel { SearchCourseViewModel(get(), get(), get(), get()) }
+    viewModel { SearchCourseViewModel(get(), get(), get(), get(),get()) }
     viewModel { SearchBranchViewModel(get()) }
     viewModel { SearchSchemeViewModel(get()) }
+    viewModel { LinkUnlinkCourseViewModel(get()) }
     viewModel { AcademicsDashboardViewModel() }
     viewModel { BranchDetailsViewModel(get(), savedStateHandle = get()) }
     viewModel { SchemeDetailsViewModel(get(), savedStateHandle = get()) }

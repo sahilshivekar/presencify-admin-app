@@ -20,7 +20,6 @@ import kotlinx.collections.immutable.toPersistentList
 fun DivisionDetailsScreen(
     state: DivisionDetailsState,
     onAction: (DivisionDetailsAction) -> Unit,
-    onConfirmRemove: () -> Unit,
 ) {
     PresencifyScaffold(
         backPress = { onAction(DivisionDetailsAction.BackButtonClick) },
@@ -115,7 +114,7 @@ fun DivisionDetailsScreen(
             message = dialogState.message?.asString() ?: "",
             onConfirm = {
                 when (dialogState.dialogIntention) {
-                    DialogIntention.CONFIRM_REMOVE_DIVISION -> onConfirmRemove()
+                    DialogIntention.CONFIRM_REMOVE_DIVISION -> onAction(DivisionDetailsAction.ConfirmRemoveDivision)
                     DialogIntention.GENERIC -> onAction(DivisionDetailsAction.DismissDialog)
                 }
             },

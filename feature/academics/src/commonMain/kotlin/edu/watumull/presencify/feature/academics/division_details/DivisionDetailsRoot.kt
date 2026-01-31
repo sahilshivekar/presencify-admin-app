@@ -23,7 +23,6 @@ fun DivisionDetailsRoot(
 
     DivisionDetailsScreen(
         state = state,
-        onAction = viewModel::trySendAction,
-        onConfirmRemove = viewModel::confirmRemoveDivision
+        onAction = viewModel::trySendAction
     )
 }

@@ -134,7 +134,9 @@ private fun SearchBatchScreenContent(
         snapshotFlow {
             lazyListState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
         }.distinctUntilChanged().collect { lastVisibleIndex ->
-            if (lastVisibleIndex == state.batches.lastIndex) {
+            // Trigger load more when we're close to the end (within 3 items)
+            // This accounts for the loading indicator item that comes after batches
+            if (lastVisibleIndex != null && lastVisibleIndex >= state.batches.lastIndex - 3) {
                 onAction(SearchBatchAction.LoadMoreBatches)
             }
         }

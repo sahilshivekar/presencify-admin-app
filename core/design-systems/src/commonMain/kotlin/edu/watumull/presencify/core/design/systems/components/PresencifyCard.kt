@@ -19,7 +19,9 @@ fun PresencifyCard(
     shape: Shape = MaterialTheme.shapes.extraSmall,
     elevation: Dp = 1.dp,
     onClick: (() -> Unit)? = null,
-    colors: CardColors = CardDefaults.cardColors(),
+    colors: CardColors = CardDefaults.cardColors(
+        containerColor = MaterialTheme.colorScheme.surface
+    ),
     content: @Composable ColumnScope.() -> Unit,
 ) {
     Card(

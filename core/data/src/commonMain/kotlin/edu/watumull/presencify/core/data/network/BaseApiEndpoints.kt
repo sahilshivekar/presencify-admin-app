@@ -14,7 +14,6 @@ object BaseApiEndpoints {
     const val TEACHERS = "teachers"
     const val PASSWORD = "password"
     const val IMAGE = "image"
-    const val SUBJECTS = "subjects"
     const val CLASSES = "classes"
     const val ROOMS = "rooms"
     const val TIMETABLES = "timetables"

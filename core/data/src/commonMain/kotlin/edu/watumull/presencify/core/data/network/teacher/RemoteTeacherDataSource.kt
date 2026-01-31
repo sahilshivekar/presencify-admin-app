@@ -57,14 +57,16 @@ interface RemoteTeacherDataSource {
 
     suspend fun removeTeacher(id: String): Result<Unit, DataError.Remote>
 
-    suspend fun getTeachingSubjects(teacherId: String): Result<List<TeacherTeachesCourseDto>, DataError.Remote>
+    suspend fun getTeachingCourses(teacherId: String): Result<List<TeacherTeachesCourseDto>, DataError.Remote>
 
-    suspend fun addTeachingSubject(
+    suspend fun addTeachingCourse(
         teacherId: String,
         courseId: String,
     ): Result<TeacherTeachesCourseDto, DataError.Remote>
 
-    suspend fun removeTeachingSubject(teacherSubjectId: String): Result<Unit, DataError.Remote>
+    suspend fun removeTeachingCourse(
+        teacherTeachesCourseId: String
+    ): Result<Unit, DataError.Remote>
 
     suspend fun getTeacherById(id: String): Result<TeacherDto, DataError.Remote>
 

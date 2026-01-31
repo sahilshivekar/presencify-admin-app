@@ -39,7 +39,6 @@ import org.jetbrains.compose.resources.painterResource
 fun StudentDetailsScreen(
     state: StudentDetailsState,
     onAction: (StudentDetailsAction) -> Unit,
-    onConfirmRemove: () -> Unit,
 ) {
     PresencifyScaffold(
         backPress = { onAction(StudentDetailsAction.BackButtonClick) },
@@ -75,7 +74,7 @@ fun StudentDetailsScreen(
             onConfirm = {
                 when (dialogState.dialogIntention) {
                     DialogIntention.CONFIRM_REMOVE_STUDENT -> {
-                        onConfirmRemove()
+                        onAction(StudentDetailsAction.ConfirmRemoveStudent)
                     }
 
                     DialogIntention.GENERIC -> {

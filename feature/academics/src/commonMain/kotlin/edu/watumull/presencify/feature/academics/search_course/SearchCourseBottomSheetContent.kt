@@ -129,6 +129,40 @@ fun SearchCourseBottomSheetContent(
                     }
                 }
             }
+
+            // Teacher Filter
+            FilterSection(
+                title = "Teachers",
+                isLoading = state.areTeachersLoading
+            ) {
+                FlowRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    state.teacherOptions.forEach { teacher ->
+                        val teacherName = buildString {
+                            append(teacher.firstName)
+                            teacher.middleName?.let {
+                                if (it.isNotBlank()) append(" $it")
+                            }
+                            append(" ${teacher.lastName}")
+                        }.trim()
+
+                        FilterChip(
+                            selected = state.selectedTeacherIds.contains(teacher.id),
+                            onClick = {
+                                onAction(SearchCourseAction.ToggleTeacherSelection(teacher.id))
+                            },
+                            label = { Text(teacherName) },
+                            colors = FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                        )
+                    }
+                }
+            }
         }
 
         // Fixed Apply Filters Button

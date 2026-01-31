@@ -14,6 +14,7 @@ import edu.watumull.presencify.feature.academics.branch_details.BranchDetailsRoo
 import edu.watumull.presencify.feature.academics.course_details.CourseDetailsRoot
 import edu.watumull.presencify.feature.academics.dashboard.AcademicsDashboardRoot
 import edu.watumull.presencify.feature.academics.division_details.DivisionDetailsRoot
+import edu.watumull.presencify.feature.academics.link_unlink_course.LinkUnlinkCourseRoot
 import edu.watumull.presencify.feature.academics.scheme_details.SchemeDetailsRoot
 import edu.watumull.presencify.feature.academics.search_batch.SearchBatchRoot
 import edu.watumull.presencify.feature.academics.search_branch.SearchBranchRoot
@@ -28,6 +29,7 @@ fun NavGraphBuilder.academicsDashboard(
     onNavigateToSearchBranch: () -> Unit,
     onNavigateToSearchScheme: () -> Unit,
     onNavigateToSearchCourse: () -> Unit,
+    onNavigateToLinkUnlinkCourse: () -> Unit,
     onNavigateToUniversityDetails: () -> Unit,
     onNavigateToSearchSemester: () -> Unit,
     onNavigateToSearchDivision: () -> Unit,
@@ -38,6 +40,7 @@ fun NavGraphBuilder.academicsDashboard(
             onNavigateToSearchBranch = onNavigateToSearchBranch,
             onNavigateToSearchScheme = onNavigateToSearchScheme,
             onNavigateToSearchCourse = onNavigateToSearchCourse,
+            onNavigateToLinkUnlinkCourse = onNavigateToLinkUnlinkCourse,
             onNavigateToUniversityDetails = onNavigateToUniversityDetails,
             onNavigateToSearchSemester = onNavigateToSearchSemester,
             onNavigateToSearchDivision = onNavigateToSearchDivision,
@@ -55,6 +58,7 @@ fun NavGraphBuilder.academicsNavGraph(
     onNavigateToAddEditUniversity: (String?) -> Unit,
     onNavigateToCourseDetails: (String) -> Unit,
     onNavigateToAddEditCourse: (String?) -> Unit,
+    onNavigateToSearchCourse: (String, Int) -> Unit,
     onNavigateToSemesterDetails: (String) -> Unit,
     onNavigateToAddEditSemester: (String?) -> Unit,
     onNavigateToDivisionDetails: (String) -> Unit,
@@ -140,12 +144,11 @@ fun NavGraphBuilder.academicsNavGraph(
         )
     }
 
-    composableWithSlideTransitions<AcademicsRoutes.LinkCourseToSemester> {
-        // TODO: Add screen content
-    }
-
-    composableWithSlideTransitions<AcademicsRoutes.UnlinkCourseToSemester> {
-        // TODO: Add screen content
+    composableWithSlideTransitions<AcademicsRoutes.LinkUnlinkCourse> {
+        LinkUnlinkCourseRoot(
+            onNavigateBack = onNavigateBack,
+            onNavigateToSearchCourse = onNavigateToSearchCourse
+        )
     }
 
     composableWithSlideTransitions<AcademicsRoutes.AddEditBatch> {

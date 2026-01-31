@@ -6,4 +6,5 @@ sealed interface UniversityDetailsAction {
     data object AddUniversityClick : UniversityDetailsAction
     data class EditUniversityClick(val universityId: String) : UniversityDetailsAction
     data class RemoveUniversityClick(val universityId: String) : UniversityDetailsAction
+    data object ConfirmRemoveUniversity : UniversityDetailsAction
 }

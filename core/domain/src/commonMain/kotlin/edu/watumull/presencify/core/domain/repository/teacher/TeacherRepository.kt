@@ -59,15 +59,17 @@ interface TeacherRepository {
 
     suspend fun removeTeacher(id: String): Result<Unit, DataError.Remote>
 
-    // Teaching subjects operations
-    suspend fun getTeachingSubjects(teacherId: String): Result<List<TeacherTeachesCourse>, DataError.Remote>
+    // Teaching courses operations
+    suspend fun getTeachingCourses(teacherId: String): Result<List<TeacherTeachesCourse>, DataError.Remote>
 
-    suspend fun addTeachingSubject(
+    suspend fun addTeachingCourse(
         teacherId: String,
         courseId: String,
     ): Result<TeacherTeachesCourse, DataError.Remote>
 
-    suspend fun removeTeachingSubject(teacherSubjectId: String): Result<Unit, DataError.Remote>
+    suspend fun removeTeachingCourse(
+        teacherTeachesCourseId: String
+    ): Result<Unit, DataError.Remote>
 
     // Bulk operations
     suspend fun bulkCreateTeachers(teachers: List<Map<String, Any>>): Result<List<Teacher>, DataError.Remote>

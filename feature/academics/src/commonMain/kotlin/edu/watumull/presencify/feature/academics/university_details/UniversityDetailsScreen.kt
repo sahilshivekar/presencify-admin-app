@@ -6,11 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,7 +23,6 @@ import edu.watumull.presencify.core.presentation.components.UniversityListItem
 fun UniversityDetailsScreen(
     state: UniversityDetailsState,
     onAction: (UniversityDetailsAction) -> Unit,
-    onConfirmRemove: () -> Unit,
 ) {
     PresencifyScaffold(
         backPress = { onAction(UniversityDetailsAction.BackButtonClick) },
@@ -136,7 +131,7 @@ fun UniversityDetailsScreen(
             message = dialogState.message?.asString() ?: "",
             onConfirm = {
                 when (dialogState.dialogIntention) {
-                    DialogIntention.CONFIRM_REMOVE_UNIVERSITY -> onConfirmRemove()
+                    DialogIntention.CONFIRM_REMOVE_UNIVERSITY -> onAction(UniversityDetailsAction.ConfirmRemoveUniversity)
                     DialogIntention.GENERIC -> onAction(UniversityDetailsAction.DismissDialog)
                 }
             },

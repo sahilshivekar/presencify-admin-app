@@ -1,4 +1,4 @@
-package edu.watumull.presencify.feature.academics.semester_details
+package edu.watumull.presencify.feature.academics.link_unlink_course
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -7,21 +7,26 @@ import edu.watumull.presencify.core.presentation.utils.EventsEffect
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun SemesterDetailsRoot(
+fun LinkUnlinkCourseRoot(
     onNavigateBack: () -> Unit,
-    onNavigateToEditSemester: (String) -> Unit = {},
+    onNavigateToSearchCourse: (branchId: String, semesterNumber: Int) -> Unit,
 ) {
-    val viewModel: SemesterDetailsViewModel = koinViewModel()
+    val viewModel = koinViewModel<LinkUnlinkCourseViewModel>()
     val state by viewModel.stateFlow.collectAsStateWithLifecycle()
 
     EventsEffect(viewModel.eventFlow) { event ->
         when (event) {
-            is SemesterDetailsEvent.NavigateBack -> onNavigateBack()
-            is SemesterDetailsEvent.NavigateToEditSemester -> onNavigateToEditSemester(event.semesterId)
+            is LinkUnlinkCourseEvent.NavigateBack -> {
+                onNavigateBack()
+            }
+
+            is LinkUnlinkCourseEvent.NavigateToSearchCourse -> {
+                onNavigateToSearchCourse(event.branchId, event.semesterNumber)
+            }
         }
     }
 
-    SemesterDetailsScreen(
+    LinkUnlinkCourseScreen(
         state = state,
         onAction = viewModel::trySendAction
     )

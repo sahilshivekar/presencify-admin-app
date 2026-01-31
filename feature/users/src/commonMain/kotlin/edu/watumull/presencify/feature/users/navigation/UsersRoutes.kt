@@ -5,11 +5,11 @@ import kotlinx.serialization.Serializable
 
 enum class SearchStudentIntention {
 
-    ADD_STUDENT_TO_SEMESTER, REMOVE_STUDENT_FROM_SEMESTER,
+    ASSIGN_UNASSIGN_STUDENT_TO_SEMESTER,
 
-    ADD_STUDENT_TO_DIVISION, MODIFY_STUDENT_DIVISION, REMOVE_STUDENT_FROM_DIVISION,
+    ASSIGN_UNASSIGN_STUDENT_TO_DIVISION, MODIFY_STUDENT_DIVISION,
 
-    ADD_STUDENT_TO_BATCH, MODIFY_STUDENT_BATCH, REMOVE_STUDENT_FROM_BATCH,
+    ASSIGN_UNASSIGN_STUDENT_TO_BATCH, MODIFY_STUDENT_BATCH,
 
     SELECT_STUDENT, DEFAULT
 
@@ -75,28 +75,20 @@ sealed interface UsersRoutes : NavRoute {
     ) : UsersRoutes
 
     @Serializable
-    data object AddStudentToSemester : UsersRoutes
+    data object AssignUnassignStudentToSemester : UsersRoutes
 
     @Serializable
-    data object RemoveStudentFromSemester : UsersRoutes
-
-    @Serializable
-    data object AddStudentToDivision : UsersRoutes
+    data object AssignUnassignStudentToDivision : UsersRoutes
 
     @Serializable
     data object ModifyStudentDivision : UsersRoutes
 
     @Serializable
-    data object RemoveStudentFromDivision : UsersRoutes
-
-    @Serializable
-    data object AddStudentToBatch : UsersRoutes
+    data object AssignUnassignStudentToBatch : UsersRoutes
 
     @Serializable
     data object ModifyStudentBatch : UsersRoutes
 
-    @Serializable
-    data object RemoveStudentFromBatch : UsersRoutes
 
     @Serializable
     data object AddStudentToDropout : UsersRoutes
@@ -124,10 +116,10 @@ sealed interface UsersRoutes : NavRoute {
     ) : UsersRoutes
 
     @Serializable
-    data object AssignSubjectToTeacher : UsersRoutes
+    data object AssignCourseToTeacher : UsersRoutes
 
     @Serializable
-    data object UnassignSubjectToTeacher : UsersRoutes
+    data object UnassignCourseToTeacher : UsersRoutes
 
     @Serializable
     data class TeacherDetails(val teacherId: String) : UsersRoutes

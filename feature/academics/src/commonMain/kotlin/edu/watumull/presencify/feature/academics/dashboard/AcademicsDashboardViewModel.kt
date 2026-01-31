@@ -11,6 +11,7 @@ class AcademicsDashboardViewModel : BaseViewModel<AcademicsDashboardState, Acade
             AcademicsDashboardAction.ClickBranch -> sendEvent(AcademicsDashboardEvent.NavigateToSearchBranch)
             AcademicsDashboardAction.ClickScheme -> sendEvent(AcademicsDashboardEvent.NavigateToSearchScheme)
             AcademicsDashboardAction.ClickCourse -> sendEvent(AcademicsDashboardEvent.NavigateToSearchCourse)
+            AcademicsDashboardAction.ClickLinkUnlinkCourse -> sendEvent(AcademicsDashboardEvent.NavigateToLinkUnlinkCourse)
             AcademicsDashboardAction.ClickUniversity -> sendEvent(AcademicsDashboardEvent.NavigateToUniversityDetails)
             AcademicsDashboardAction.ClickSemester -> sendEvent(AcademicsDashboardEvent.NavigateToSearchSemester)
             AcademicsDashboardAction.ClickDivision -> sendEvent(AcademicsDashboardEvent.NavigateToSearchDivision)

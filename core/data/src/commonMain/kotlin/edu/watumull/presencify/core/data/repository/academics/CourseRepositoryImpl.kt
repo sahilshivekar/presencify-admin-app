@@ -20,12 +20,21 @@ class CourseRepositoryImpl(
         semesterNumber: SemesterNumber?,
         schemeId: String?,
         onlyOptional: Boolean,
+        teacherIds: List<String>?,
         page: Int?,
         limit: Int?,
         getAll: Boolean?
     ): Result<CourseListWithTotalCount, DataError.Remote> {
         return remoteCourseDataSource.getCourses(
-            searchQuery, branchId, semesterNumber, schemeId, onlyOptional, page, limit, getAll
+            searchQuery = searchQuery,
+            branchId = branchId,
+            semesterNumber = semesterNumber,
+            schemeId = schemeId,
+            onlyOptional = onlyOptional,
+            teacherIds = teacherIds,
+            page = page,
+            limit = limit,
+            getAll = getAll
         ).map { it.toDomain() }
     }
 
@@ -64,7 +73,9 @@ class CourseRepositoryImpl(
         return remoteCourseDataSource.addCourseToBranchWithSemesterNumber(courseId, branchId, semesterNumber)
     }
 
-    override suspend fun removeCourseFromBranchWithSemesterNumber(branchCourseSemesterId: String): Result<Unit, DataError.Remote> {
+    override suspend fun removeCourseFromBranchWithSemesterNumber(
+        branchCourseSemesterId: String
+    ): Result<Unit, DataError.Remote> {
         return remoteCourseDataSource.removeCourseFromBranchWithSemesterNumber(branchCourseSemesterId)
     }
 

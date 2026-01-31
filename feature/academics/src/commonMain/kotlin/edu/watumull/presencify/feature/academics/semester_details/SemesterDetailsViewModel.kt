@@ -73,13 +73,12 @@ class SemesterDetailsViewModel(
                     )
                 )
             }
+            is SemesterDetailsAction.ConfirmRemoveSemester -> {
+                viewModelScope.launch {
+                    removeSemester()
+                }
+            }
             is SemesterDetailsAction.EditSemesterClick -> sendEvent(SemesterDetailsEvent.NavigateToEditSemester(state.semesterId))
-        }
-    }
-
-    fun confirmRemoveSemester() {
-        viewModelScope.launch {
-            removeSemester()
         }
     }
 

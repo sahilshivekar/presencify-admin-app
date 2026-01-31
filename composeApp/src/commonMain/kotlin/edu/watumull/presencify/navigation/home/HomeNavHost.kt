@@ -31,6 +31,7 @@ fun HomeNavHost(
             onNavigateToSearchBranch = rootNavController::navigateToSearchBranch,
             onNavigateToSearchScheme = rootNavController::navigateToSearchScheme,
             onNavigateToSearchCourse = rootNavController::navigateToSearchCourse,
+            onNavigateToLinkUnlinkCourse = rootNavController::navigateToLinkUnlinkCourse,
             onNavigateToUniversityDetails = rootNavController::navigateToUniversityDetails,
             onNavigateToSearchSemester = rootNavController::navigateToSearchSemester,
             onNavigateToSearchDivision = rootNavController::navigateToSearchDivision,
@@ -42,14 +43,11 @@ fun HomeNavHost(
         usersDashboard(
             onNavigateToSearchStudents = rootNavController::navigateToSearchStudent,
             onNavigateToSearchTeachers = rootNavController::navigateToSearchTeacher,
-            onNavigateToAssignSemester = rootNavController::navigateToAddStudentToSemester,
-            onNavigateToRemoveSemester = rootNavController::navigateToRemoveStudentFromSemester,
-            onNavigateToAssignDivision = rootNavController::navigateToAddStudentToDivision,
+            onNavigateToAssignUnassignSemester = rootNavController::navigateToAssignUnassignStudentToSemester,
+            onNavigateToAssignUnassignDivision = rootNavController::navigateToAssignUnassignStudentToDivision,
+            onNavigateToAssignUnassignBatch = rootNavController::navigateToAssignUnassignStudentToBatch,
             onNavigateToModifyDivision = rootNavController::navigateToModifyStudentDivision,
-            onNavigateToRemoveDivision = rootNavController::navigateToRemoveStudentFromDivision,
-            onNavigateToAssignBatch = rootNavController::navigateToAddStudentToBatch,
             onNavigateToModifyBatch = rootNavController::navigateToModifyStudentBatch,
-            onNavigateToRemoveBatch = rootNavController::navigateToRemoveStudentFromBatch,
             onNavigateToAddToDropout = rootNavController::navigateToAddStudentToDropout,
             onNavigateToRemoveFromDropout = rootNavController::navigateToRemoveStudentFromDropout
         )

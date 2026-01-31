@@ -134,7 +134,9 @@ private fun SearchClassScreenContent(
         snapshotFlow {
             lazyListState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
         }.distinctUntilChanged().collect { lastVisibleIndex ->
-            if (lastVisibleIndex == state.classes.lastIndex) {
+            // Trigger load more when we're close to the end (within 3 items)
+            // This accounts for the loading indicator item that comes after classes
+            if (lastVisibleIndex != null && lastVisibleIndex >= state.classes.lastIndex - 3) {
                 onAction(SearchClassAction.LoadMoreClasses)
             }
         }

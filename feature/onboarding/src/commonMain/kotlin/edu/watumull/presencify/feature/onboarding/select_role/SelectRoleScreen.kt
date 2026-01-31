@@ -7,7 +7,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -19,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import edu.watumull.presencify.core.design.systems.Res
+import edu.watumull.presencify.core.design.systems.baseline_admin_panel_settings_24
 import edu.watumull.presencify.core.design.systems.components.PresencifyListItem
 import edu.watumull.presencify.core.design.systems.components.PresencifyNoResultsIndicator
 import edu.watumull.presencify.core.design.systems.components.PresencifyScaffold
@@ -161,7 +161,7 @@ private fun SelectRoleScreenContent(
                     text = "Admin",
                     icon = {
                         Icon(
-                            imageVector = Icons.Default.Settings,
+                            painter = painterResource(Res.drawable.baseline_admin_panel_settings_24),
                             contentDescription = "Admin Role"
                         )
                     },

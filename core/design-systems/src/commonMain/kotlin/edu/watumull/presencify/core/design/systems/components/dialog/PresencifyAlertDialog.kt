@@ -35,7 +35,7 @@ fun PresencifyAlertDialog(
 ) {
     val containerColor = when (dialogType) {
         DialogType.ERROR -> MaterialTheme.colorScheme.errorContainer
-        else -> MaterialTheme.colorScheme.surface
+        else -> MaterialTheme.colorScheme.surfaceVariant
     }
 
     val buttonColors = when (dialogType) {
@@ -43,11 +43,15 @@ fun PresencifyAlertDialog(
             contentColor = MaterialTheme.colorScheme.onErrorContainer,
             containerColor = Color.Transparent
         )
+
+        DialogType.ERROR -> ButtonDefaults.buttonColors(
+            contentColor = MaterialTheme.colorScheme.onErrorContainer,
+            containerColor = Color.Transparent
+        )
+
         else -> ButtonDefaults.textButtonColors(
             containerColor = Color.Transparent,
             disabledContainerColor = Color.Transparent,
-            contentColor = MaterialTheme.colorScheme.onBackground,
-            disabledContentColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
         )
     }
 

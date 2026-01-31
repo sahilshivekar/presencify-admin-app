@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -24,7 +23,6 @@ import edu.watumull.presencify.core.design.systems.Res
 import edu.watumull.presencify.core.design.systems.baseline_account_circle_24
 import edu.watumull.presencify.core.design.systems.components.*
 import edu.watumull.presencify.core.design.systems.components.dialog.PresencifyAlertDialog
-import edu.watumull.presencify.core.domain.model.teacher.TeacherTeachesCourse
 import edu.watumull.presencify.core.presentation.UiConstants
 import org.jetbrains.compose.resources.painterResource
 
@@ -32,7 +30,6 @@ import org.jetbrains.compose.resources.painterResource
 fun TeacherDetailsScreen(
     state: TeacherDetailsState,
     onAction: (TeacherDetailsAction) -> Unit,
-    onConfirmRemove: () -> Unit,
 ) {
     PresencifyScaffold(
         backPress = { onAction(TeacherDetailsAction.BackButtonClick) },
@@ -68,7 +65,7 @@ fun TeacherDetailsScreen(
             onConfirm = {
                 when (dialogState.dialogIntention) {
                     DialogIntention.CONFIRM_REMOVE_TEACHER -> {
-                        onConfirmRemove()
+                        onAction(TeacherDetailsAction.ConfirmRemoveTeacher)
                     }
 
                     DialogIntention.GENERIC -> {
@@ -106,7 +103,6 @@ private fun TeacherDetailsScreenContent(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        TeacherAssignedSubjects(state = state)
 
         Column(
             modifier = Modifier
@@ -143,6 +139,14 @@ private fun TeacherDetailsScreenContent(
                     }
                 }
             }
+
+            // Assign/Unassign Courses Action Bar
+            PresencifyActionBar(
+                text = "Assign / Unassign Courses",
+                onClick = { onAction(TeacherDetailsAction.AssignUnassignCoursesClick) },
+                leadingImageVector = Icons.Default.Edit,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }
@@ -325,80 +329,6 @@ private fun TeacherDetailsContainer(state: TeacherDetailsState) {
     }
 }
 
-@Composable
-private fun TeacherAssignedSubjects(state: TeacherDetailsState) {
-    PresencifyCard(
-        modifier = Modifier
-            .wrapContentHeight()
-            .widthIn(max = UiConstants.MAX_CONTENT_WIDTH)
-            .padding(top = 16.dp),
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = "Assigned subjects",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onBackground,
-                modifier = Modifier.padding(top = 16.dp)
-            )
-        }
-
-        if (state.assignedCourses.isEmpty()) {
-            Text(
-                text = "No courses assigned",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(16.dp)
-            )
-        }
-
-        Column {
-            state.assignedCourses.forEachIndexed { idx, teacherTeachesCourse ->
-                CourseItem(
-                    teacherTeachesCourse = teacherTeachesCourse,
-                )
-                if (idx < state.assignedCourses.size - 1) {
-                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun CourseItem(
-    teacherTeachesCourse: TeacherTeachesCourse,
-    modifier: Modifier = Modifier,
-) {
-    ListItem(
-        headlineContent = {
-            Text(
-                text = teacherTeachesCourse.course?.name ?: "",
-                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold),
-                color = MaterialTheme.colorScheme.onSurface
-            )
-        },
-        supportingContent = {
-            Column {
-                Text(
-                    text = teacherTeachesCourse.course?.code ?: "",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-        },
-        modifier = modifier
-            .fillMaxWidth()
-            .widthIn(max = UiConstants.MAX_CONTENT_WIDTH)
-            .clip(MaterialTheme.shapes.medium),
-        colors = ListItemDefaults.colors(containerColor = Color.Transparent)
-    )
-}
 
 @Composable
 private fun DetailRow(

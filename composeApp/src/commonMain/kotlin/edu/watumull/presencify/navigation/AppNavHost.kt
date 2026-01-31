@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import edu.watumull.presencify.core.presentation.navigation.NavRoute
+import edu.watumull.presencify.feature.academics.navigation.SearchCourseIntention
 import edu.watumull.presencify.feature.academics.navigation.academicsNavGraph
 import edu.watumull.presencify.feature.admin.auth.navigation.adminAuthNavGraph
 import edu.watumull.presencify.feature.admin.mgt.navigation.adminMgtNavGraph
@@ -41,6 +42,13 @@ fun AppNavHost(
             onNavigateToAddEditUniversity = rootNavController::navigateToAddEditUniversity,
             onNavigateToCourseDetails = rootNavController::navigateToCourseDetails,
             onNavigateToAddEditCourse = rootNavController::navigateToAddEditCourse,
+            onNavigateToSearchCourse = { branchId, semesterNumber ->
+                rootNavController.navigateToSearchCourse(
+                    intention = SearchCourseIntention.LINK_UNLINK_COURSE_TO_SEMESTER_NUMBER_BRANCH.name,
+                    branchId = branchId,
+                    semesterNumber = semesterNumber
+                )
+            },
             onNavigateToSemesterDetails = rootNavController::navigateToSemesterDetails,
             onNavigateToAddEditSemester = rootNavController::navigateToAddEditSemester,
             onNavigateToDivisionDetails = rootNavController::navigateToDivisionDetails,
@@ -69,6 +77,12 @@ fun AppNavHost(
             onNavigateToAddEditStudent = rootNavController::navigateToAddEditStudent,
             onNavigateToTeacherDetails = rootNavController::navigateToTeacherDetails,
             onNavigateToAddEditTeacher = rootNavController::navigateToAddEditTeacher,
+            onNavigateToAssignUnassignCourses = { teacherId ->
+                rootNavController.navigateToSearchCourse(
+                    intention = SearchCourseIntention.ASSIGN_UNASSIGN_COURSE_TO_TEACHER.name,
+                    teacherId = teacherId
+                )
+            }
         )
 
         scheduleNavGraph(

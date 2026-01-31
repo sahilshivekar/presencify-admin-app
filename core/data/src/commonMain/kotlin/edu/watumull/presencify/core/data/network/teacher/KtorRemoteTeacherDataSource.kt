@@ -7,7 +7,7 @@ import edu.watumull.presencify.core.data.network.teacher.ApiEndpoints.ADD_TEACHE
 import edu.watumull.presencify.core.data.network.teacher.ApiEndpoints.ADD_TEACHING_SUBJECT
 import edu.watumull.presencify.core.data.network.teacher.ApiEndpoints.GET_TEACHERS
 import edu.watumull.presencify.core.data.network.teacher.ApiEndpoints.GET_TEACHER_BY_ID
-import edu.watumull.presencify.core.data.network.teacher.ApiEndpoints.GET_TEACHING_SUBJECTS
+import edu.watumull.presencify.core.data.network.teacher.ApiEndpoints.GET_TEACHING_COURSES
 import edu.watumull.presencify.core.data.network.teacher.ApiEndpoints.REMOVE_TEACHER
 import edu.watumull.presencify.core.data.network.teacher.ApiEndpoints.REMOVE_TEACHER_IMAGE
 import edu.watumull.presencify.core.data.network.teacher.ApiEndpoints.REMOVE_TEACHING_SUBJECT
@@ -177,15 +177,15 @@ class KtorRemoteTeacherDataSource(
         }
     }
 
-    override suspend fun getTeachingSubjects(teacherId: String): Result<List<TeacherTeachesCourseDto>, DataError.Remote> {
+    override suspend fun getTeachingCourses(teacherId: String): Result<List<TeacherTeachesCourseDto>, DataError.Remote> {
         return safeCall<List<TeacherTeachesCourseDto>> {
-            httpClient.get(GET_TEACHING_SUBJECTS) {
+            httpClient.get(GET_TEACHING_COURSES) {
                 parameter("teacherId", teacherId)
             }
         }
     }
 
-    override suspend fun addTeachingSubject(
+    override suspend fun addTeachingCourse(
         teacherId: String,
         courseId: String
     ): Result<TeacherTeachesCourseDto, DataError.Remote> {
@@ -197,11 +197,11 @@ class KtorRemoteTeacherDataSource(
         }
     }
 
-    override suspend fun removeTeachingSubject(teacherSubjectId: String): Result<Unit, DataError.Remote> {
+    override suspend fun removeTeachingCourse(
+        teacherTeachesCourseId: String
+    ): Result<Unit, DataError.Remote> {
         return safeCall<Unit> {
-            httpClient.delete(REMOVE_TEACHING_SUBJECT) {
-                parameter("teacherSubjectId", teacherSubjectId)
-            }
+            httpClient.delete("$REMOVE_TEACHING_SUBJECT/$teacherTeachesCourseId")
         }
     }
 

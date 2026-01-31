@@ -13,14 +13,11 @@ import edu.watumull.presencify.feature.users.teacher_details.TeacherDetailsRoot
 fun NavGraphBuilder.usersDashboard(
     onNavigateToSearchStudents: () -> Unit,
     onNavigateToSearchTeachers: () -> Unit,
-    onNavigateToAssignSemester: () -> Unit,
-    onNavigateToRemoveSemester: () -> Unit,
-    onNavigateToAssignDivision: () -> Unit,
+    onNavigateToAssignUnassignSemester: () -> Unit,
+    onNavigateToAssignUnassignDivision: () -> Unit,
+    onNavigateToAssignUnassignBatch: () -> Unit,
     onNavigateToModifyDivision: () -> Unit,
-    onNavigateToRemoveDivision: () -> Unit,
-    onNavigateToAssignBatch: () -> Unit,
     onNavigateToModifyBatch: () -> Unit,
-    onNavigateToRemoveBatch: () -> Unit,
     onNavigateToAddToDropout: () -> Unit,
     onNavigateToRemoveFromDropout: () -> Unit,
 ) {
@@ -28,14 +25,11 @@ fun NavGraphBuilder.usersDashboard(
         UsersDashboardRoot(
             onNavigateToSearchStudents = onNavigateToSearchStudents,
             onNavigateToSearchTeachers = onNavigateToSearchTeachers,
-            onNavigateToAssignSemester = onNavigateToAssignSemester,
-            onNavigateToRemoveSemester = onNavigateToRemoveSemester,
-            onNavigateToAssignDivision = onNavigateToAssignDivision,
+            onNavigateToAssignUnassignSemester = onNavigateToAssignUnassignSemester,
+            onNavigateToAssignUnassignDivision = onNavigateToAssignUnassignDivision,
+            onNavigateToAssignUnassignBatch = onNavigateToAssignUnassignBatch,
             onNavigateToModifyDivision = onNavigateToModifyDivision,
-            onNavigateToRemoveDivision = onNavigateToRemoveDivision,
-            onNavigateToAssignBatch = onNavigateToAssignBatch,
             onNavigateToModifyBatch = onNavigateToModifyBatch,
-            onNavigateToRemoveBatch = onNavigateToRemoveBatch,
             onNavigateToAddToDropout = onNavigateToAddToDropout,
             onNavigateToRemoveFromDropout = onNavigateToRemoveFromDropout
         )
@@ -47,7 +41,8 @@ fun NavGraphBuilder.usersNavGraph(
     onNavigateToStudentDetails: (String) -> Unit,
     onNavigateToAddEditStudent: (studentId: String?) -> Unit,
     onNavigateToTeacherDetails: (String) -> Unit,
-    onNavigateToAddEditTeacher: (String?) -> Unit
+    onNavigateToAddEditTeacher: (String?) -> Unit,
+    onNavigateToAssignUnassignCourses: (String) -> Unit
 ) {
 
     composableWithSlideTransitions<UsersRoutes.AddEditStudent> {
@@ -62,28 +57,19 @@ fun NavGraphBuilder.usersNavGraph(
             onNavigateToAddEditStudent = onNavigateToAddEditStudent
         )
     }
-    composableWithSlideTransitions<UsersRoutes.AddStudentToSemester> {
+    composableWithSlideTransitions<UsersRoutes.AssignUnassignStudentToSemester> {
         // TODO: Add screen content
     }
-    composableWithSlideTransitions<UsersRoutes.RemoveStudentFromSemester> {
-        // TODO: Add screen content
-    }
-    composableWithSlideTransitions<UsersRoutes.AddStudentToDivision> {
+    composableWithSlideTransitions<UsersRoutes.AssignUnassignStudentToDivision> {
         // TODO: Add screen content
     }
     composableWithSlideTransitions<UsersRoutes.ModifyStudentDivision> {
         // TODO: Add screen content
     }
-    composableWithSlideTransitions<UsersRoutes.RemoveStudentFromDivision> {
-        // TODO: Add screen content
-    }
-    composableWithSlideTransitions<UsersRoutes.AddStudentToBatch> {
+    composableWithSlideTransitions<UsersRoutes.AssignUnassignStudentToBatch> {
         // TODO: Add screen content
     }
     composableWithSlideTransitions<UsersRoutes.ModifyStudentBatch> {
-        // TODO: Add screen content
-    }
-    composableWithSlideTransitions<UsersRoutes.RemoveStudentFromBatch> {
         // TODO: Add screen content
     }
     composableWithSlideTransitions<UsersRoutes.AddStudentToDropout> {
@@ -110,16 +96,17 @@ fun NavGraphBuilder.usersNavGraph(
             onNavigateToAddEditTeacher = onNavigateToAddEditTeacher
         )
     }
-    composableWithSlideTransitions<UsersRoutes.AssignSubjectToTeacher> {
+    composableWithSlideTransitions<UsersRoutes.AssignCourseToTeacher> {
         // TODO: Add screen content
     }
-    composableWithSlideTransitions<UsersRoutes.UnassignSubjectToTeacher> {
+    composableWithSlideTransitions<UsersRoutes.UnassignCourseToTeacher> {
         // TODO: Add screen content
     }
     composableWithSlideTransitions<UsersRoutes.TeacherDetails> {
         TeacherDetailsRoot(
             onNavigateBack = onNavigateBack,
-            onNavigateToEditTeacher = onNavigateToAddEditTeacher
+            onNavigateToEditTeacher = onNavigateToAddEditTeacher,
+            onNavigateToAssignUnassignCourses = onNavigateToAssignUnassignCourses
         )
     }
 }

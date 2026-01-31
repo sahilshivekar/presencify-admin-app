@@ -78,7 +78,7 @@ fun AddEditCourseScreen(
                 PresencifyTextField(
                     value = state.optionalCourse,
                     onValueChange = { onAction(AddEditCourseAction.UpdateOptionalCourse(it)) },
-                    label = "Optional subject",
+                    label = "Optional course",
                     enabled = !state.isLoading && !state.isSubmitting,
                     modifier = Modifier.fillMaxWidth()
                 )

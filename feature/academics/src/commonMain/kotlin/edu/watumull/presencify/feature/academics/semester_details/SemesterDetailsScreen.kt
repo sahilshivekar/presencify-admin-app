@@ -25,7 +25,6 @@ import kotlinx.collections.immutable.toPersistentList
 fun SemesterDetailsScreen(
     state: SemesterDetailsState,
     onAction: (SemesterDetailsAction) -> Unit,
-    onConfirmRemove: () -> Unit,
 ) {
     PresencifyScaffold(
         backPress = { onAction(SemesterDetailsAction.BackButtonClick) },
@@ -170,7 +169,7 @@ fun SemesterDetailsScreen(
             message = dialogState.message?.asString() ?: "",
             onConfirm = {
                 when (dialogState.dialogIntention) {
-                    DialogIntention.CONFIRM_REMOVE_SEMESTER -> onConfirmRemove()
+                    DialogIntention.CONFIRM_REMOVE_SEMESTER -> onAction(SemesterDetailsAction.ConfirmRemoveSemester)
                     DialogIntention.GENERIC -> onAction(SemesterDetailsAction.DismissDialog)
                 }
             },

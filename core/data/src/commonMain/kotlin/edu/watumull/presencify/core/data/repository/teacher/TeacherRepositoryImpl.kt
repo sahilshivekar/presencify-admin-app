@@ -98,21 +98,23 @@ class TeacherRepositoryImpl(
         return remoteDataSource.removeTeacher(id)
     }
 
-    override suspend fun getTeachingSubjects(teacherId: String): Result<List<TeacherTeachesCourse>, DataError.Remote> {
-        return remoteDataSource.getTeachingSubjects(teacherId).map { subjects ->
-            subjects.map { it.toDomain() }
+    override suspend fun getTeachingCourses(teacherId: String): Result<List<TeacherTeachesCourse>, DataError.Remote> {
+        return remoteDataSource.getTeachingCourses(teacherId).map { courses ->
+            courses.map { it.toDomain() }
         }
     }
 
-    override suspend fun addTeachingSubject(
+    override suspend fun addTeachingCourse(
         teacherId: String,
         courseId: String
     ): Result<TeacherTeachesCourse, DataError.Remote> {
-        return remoteDataSource.addTeachingSubject(teacherId, courseId).map { it.toDomain() }
+        return remoteDataSource.addTeachingCourse(teacherId, courseId).map { it.toDomain() }
     }
 
-    override suspend fun removeTeachingSubject(teacherSubjectId: String): Result<Unit, DataError.Remote> {
-        return remoteDataSource.removeTeachingSubject(teacherSubjectId)
+    override suspend fun removeTeachingCourse(
+        teacherTeachesCourseId: String
+    ): Result<Unit, DataError.Remote> {
+        return remoteDataSource.removeTeachingCourse(teacherTeachesCourseId)
     }
 
     override suspend fun bulkCreateTeachers(teachers: List<Map<String, Any>>): Result<List<Teacher>, DataError.Remote> {

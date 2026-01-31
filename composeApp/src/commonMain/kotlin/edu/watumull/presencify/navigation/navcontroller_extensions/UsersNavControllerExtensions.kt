@@ -94,24 +94,17 @@ fun NavController.navigateToSearchStudent(
 }
 
 /**
- * Navigate to Add Student to Semester screen
+ * Navigate to Assign/Unassign Student to Semester screen
  */
-fun NavController.navigateToAddStudentToSemester() {
-    navigate(UsersRoutes.AddStudentToSemester)
+fun NavController.navigateToAssignUnassignStudentToSemester() {
+    navigate(UsersRoutes.AssignUnassignStudentToSemester)
 }
 
 /**
- * Navigate to Remove Student from Semester screen
+ * Navigate to Assign/Unassign Student to Division screen
  */
-fun NavController.navigateToRemoveStudentFromSemester() {
-    navigate(UsersRoutes.RemoveStudentFromSemester)
-}
-
-/**
- * Navigate to Add Student to Division screen
- */
-fun NavController.navigateToAddStudentToDivision() {
-    navigate(UsersRoutes.AddStudentToDivision)
+fun NavController.navigateToAssignUnassignStudentToDivision() {
+    navigate(UsersRoutes.AssignUnassignStudentToDivision)
 }
 
 /**
@@ -122,17 +115,10 @@ fun NavController.navigateToModifyStudentDivision() {
 }
 
 /**
- * Navigate to Remove Student from Division screen
+ * Navigate to Assign/Unassign Student to Batch screen
  */
-fun NavController.navigateToRemoveStudentFromDivision() {
-    navigate(UsersRoutes.RemoveStudentFromDivision)
-}
-
-/**
- * Navigate to Add Student to Batch screen
- */
-fun NavController.navigateToAddStudentToBatch() {
-    navigate(UsersRoutes.AddStudentToBatch)
+fun NavController.navigateToAssignUnassignStudentToBatch() {
+    navigate(UsersRoutes.AssignUnassignStudentToBatch)
 }
 
 /**
@@ -142,12 +128,6 @@ fun NavController.navigateToModifyStudentBatch() {
     navigate(UsersRoutes.ModifyStudentBatch)
 }
 
-/**
- * Navigate to Remove Student from Batch screen
- */
-fun NavController.navigateToRemoveStudentFromBatch() {
-    navigate(UsersRoutes.RemoveStudentFromBatch)
-}
 
 /**
  * Navigate to Add Student to Dropout screen
@@ -206,17 +186,17 @@ fun NavController.navigateToSearchTeacher(
 }
 
 /**
- * Navigate to Assign Subject to Teacher screen
+ * Navigate to Assign Course to Teacher screen
  */
-fun NavController.navigateToAssignSubjectToTeacher() {
-    navigate(UsersRoutes.AssignSubjectToTeacher)
+fun NavController.navigateToAssignCourseToTeacher() {
+    navigate(UsersRoutes.AssignCourseToTeacher)
 }
 
 /**
- * Navigate to Unassign Subject to Teacher screen
+ * Navigate to Unassign Course to Teacher screen
  */
-fun NavController.navigateToUnassignSubjectToTeacher() {
-    navigate(UsersRoutes.UnassignSubjectToTeacher)
+fun NavController.navigateToUnassignCourseToTeacher() {
+    navigate(UsersRoutes.UnassignCourseToTeacher)
 }
 
 /**

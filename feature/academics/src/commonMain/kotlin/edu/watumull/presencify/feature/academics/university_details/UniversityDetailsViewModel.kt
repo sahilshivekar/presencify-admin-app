@@ -68,15 +68,14 @@ class UniversityDetailsViewModel(
                     )
                 }
             }
-        }
-    }
-
-    fun confirmRemoveUniversity() {
-        val universityId = state.dialogState?.universityIdToDelete ?: return
-        viewModelScope.launch {
-            // Set removingUniversityId only when deletion actually starts
-            updateState { it.copy(removingUniversityId = universityId, dialogState = null) }
-            removeUniversity(universityId)
+            is UniversityDetailsAction.ConfirmRemoveUniversity -> {
+                val universityId = state.dialogState?.universityIdToDelete ?: return
+                viewModelScope.launch {
+                    // Set removingUniversityId only when deletion actually starts
+                    updateState { it.copy(removingUniversityId = universityId, dialogState = null) }
+                    removeUniversity(universityId)
+                }
+            }
         }
     }
 

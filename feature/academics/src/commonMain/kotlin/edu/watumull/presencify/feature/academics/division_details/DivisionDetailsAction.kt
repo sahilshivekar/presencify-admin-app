@@ -4,6 +4,7 @@ sealed interface DivisionDetailsAction {
     data object BackButtonClick : DivisionDetailsAction
     data object DismissDialog : DivisionDetailsAction
     data object RemoveDivisionClick : DivisionDetailsAction
+    data object ConfirmRemoveDivision : DivisionDetailsAction
     data object EditDivisionClick : DivisionDetailsAction
 }
 

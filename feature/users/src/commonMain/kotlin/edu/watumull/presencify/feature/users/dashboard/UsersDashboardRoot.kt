@@ -10,14 +10,11 @@ import org.koin.compose.viewmodel.koinViewModel
 fun UsersDashboardRoot(
     onNavigateToSearchStudents: () -> Unit,
     onNavigateToSearchTeachers: () -> Unit,
-    onNavigateToAssignSemester: () -> Unit,
-    onNavigateToRemoveSemester: () -> Unit,
-    onNavigateToAssignDivision: () -> Unit,
+    onNavigateToAssignUnassignSemester: () -> Unit,
+    onNavigateToAssignUnassignDivision: () -> Unit,
+    onNavigateToAssignUnassignBatch: () -> Unit,
     onNavigateToModifyDivision: () -> Unit,
-    onNavigateToRemoveDivision: () -> Unit,
-    onNavigateToAssignBatch: () -> Unit,
     onNavigateToModifyBatch: () -> Unit,
-    onNavigateToRemoveBatch: () -> Unit,
     onNavigateToAddToDropout: () -> Unit,
     onNavigateToRemoveFromDropout: () -> Unit,
     viewModel: UsersDashboardViewModel = koinViewModel()
@@ -29,16 +26,12 @@ fun UsersDashboardRoot(
             UsersDashboardEvent.NavigateToSearchStudents -> onNavigateToSearchStudents()
             UsersDashboardEvent.NavigateToSearchTeachers -> onNavigateToSearchTeachers()
 
-            UsersDashboardEvent.NavigateToAssignSemester -> onNavigateToAssignSemester()
-            UsersDashboardEvent.NavigateToRemoveSemester -> onNavigateToRemoveSemester()
+            UsersDashboardEvent.NavigateToAssignUnassignSemester -> onNavigateToAssignUnassignSemester()
+            UsersDashboardEvent.NavigateToAssignUnassignDivision -> onNavigateToAssignUnassignDivision()
+            UsersDashboardEvent.NavigateToAssignUnassignBatch -> onNavigateToAssignUnassignBatch()
 
-            UsersDashboardEvent.NavigateToAssignDivision -> onNavigateToAssignDivision()
             UsersDashboardEvent.NavigateToModifyDivision -> onNavigateToModifyDivision()
-            UsersDashboardEvent.NavigateToRemoveDivision -> onNavigateToRemoveDivision()
-
-            UsersDashboardEvent.NavigateToAssignBatch -> onNavigateToAssignBatch()
             UsersDashboardEvent.NavigateToModifyBatch -> onNavigateToModifyBatch()
-            UsersDashboardEvent.NavigateToRemoveBatch -> onNavigateToRemoveBatch()
 
             UsersDashboardEvent.NavigateToAddToDropout -> onNavigateToAddToDropout()
             UsersDashboardEvent.NavigateToRemoveFromDropout -> onNavigateToRemoveFromDropout()

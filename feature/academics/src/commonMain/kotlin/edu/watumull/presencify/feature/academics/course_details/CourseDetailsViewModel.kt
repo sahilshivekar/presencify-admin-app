@@ -57,13 +57,12 @@ class CourseDetailsViewModel(
                     )
                 )
             }
+            is CourseDetailsAction.ConfirmRemoveCourse -> {
+                viewModelScope.launch {
+                    removeCourse()
+                }
+            }
             is CourseDetailsAction.EditCourseClick -> sendEvent(CourseDetailsEvent.NavigateToEditCourse(state.courseId))
-        }
-    }
-
-    fun confirmRemoveCourse() {
-        viewModelScope.launch {
-            removeCourse()
         }
     }
 

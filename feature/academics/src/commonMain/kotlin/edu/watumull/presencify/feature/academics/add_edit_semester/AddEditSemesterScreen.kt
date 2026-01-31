@@ -194,7 +194,7 @@ fun AddEditSemesterScreen(
                             .padding(bottom = 12.dp)
                     )
 
-                    // Dynamically create a dropdown for each optional subject group
+                    // Dynamically create a dropdown for each optional course group
                     state.optionalCourseGroups.keys.sorted().forEach { optionalCourse ->
                         val courses = state.optionalCourseGroups[optionalCourse] ?: emptyList()
                         val selectedCourseId = state.selectedOptionalCourses[optionalCourse]

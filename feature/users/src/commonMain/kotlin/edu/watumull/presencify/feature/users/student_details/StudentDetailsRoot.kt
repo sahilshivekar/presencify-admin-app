@@ -23,8 +23,7 @@ fun StudentDetailsRoot(
 
     StudentDetailsScreen(
         state = state,
-        onAction = viewModel::trySendAction,
-        onConfirmRemove = viewModel::confirmRemoveStudent
+        onAction = viewModel::trySendAction
     )
 }
 

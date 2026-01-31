@@ -57,13 +57,12 @@ class SchemeDetailsViewModel(
                     )
                 )
             }
+            is SchemeDetailsAction.ConfirmRemoveScheme -> {
+                viewModelScope.launch {
+                    removeScheme()
+                }
+            }
             is SchemeDetailsAction.EditSchemeClick -> sendEvent(SchemeDetailsEvent.NavigateToEditScheme(state.schemeId))
-        }
-    }
-
-    fun confirmRemoveScheme() {
-        viewModelScope.launch {
-            removeScheme()
         }
     }
 

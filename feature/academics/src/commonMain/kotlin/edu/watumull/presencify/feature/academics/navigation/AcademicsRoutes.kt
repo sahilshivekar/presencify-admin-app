@@ -5,9 +5,9 @@ import kotlinx.serialization.Serializable
 
 enum class SearchCourseIntention {
 
-    LINK_COURSE_TO_SEMESTER_NUMBER_BRANCH, UNLINK_COURSE_TO_SEMESTER_NUMBER_BRANCH,
+    LINK_UNLINK_COURSE_TO_SEMESTER_NUMBER_BRANCH,
 
-    ADD_COURSE_TO_SEMESTER_ID, REMOVE_COURSE_FROM_SEMESTER_ID,
+    ASSIGN_UNASSIGN_COURSE_TO_TEACHER,
 
     DEFAULT
 
@@ -54,7 +54,9 @@ sealed interface AcademicsRoutes : NavRoute {
 
         val semesterNumber: Int? = null, //SemesterNumber
 
-        val schemeId: String? = null
+        val schemeId: String? = null,
+
+        val teacherId: String? = null
 
     ) : AcademicsRoutes
 
@@ -62,10 +64,7 @@ sealed interface AcademicsRoutes : NavRoute {
     data class CourseDetails(val courseId: String) : AcademicsRoutes
 
     @Serializable
-    data object LinkCourseToSemester : AcademicsRoutes
-
-    @Serializable
-    data object UnlinkCourseToSemester : AcademicsRoutes
+    data object LinkUnlinkCourse : AcademicsRoutes
 
     @Serializable
     data class AddEditBatch(val batchId: String? = null) : AcademicsRoutes

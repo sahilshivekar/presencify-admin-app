@@ -13,6 +13,7 @@ interface CourseRepository {
         semesterNumber: SemesterNumber? = null,
         schemeId: String? = null,
         onlyOptional: Boolean = false,
+        teacherIds: List<String>? = null,
         page: Int? = null,
         limit: Int? = null,
         getAll: Boolean? = null,
@@ -43,7 +44,9 @@ interface CourseRepository {
         semesterNumber: SemesterNumber
     ): Result<Unit, DataError.Remote>
 
-    suspend fun removeCourseFromBranchWithSemesterNumber(branchCourseSemesterId: String): Result<Unit, DataError.Remote>
+    suspend fun removeCourseFromBranchWithSemesterNumber(
+        branchCourseSemesterId: String
+    ): Result<Unit, DataError.Remote>
 
     suspend fun bulkCreateCourses(courses: List<Map<String, Any>>): Result<List<Course>, DataError.Remote>
 

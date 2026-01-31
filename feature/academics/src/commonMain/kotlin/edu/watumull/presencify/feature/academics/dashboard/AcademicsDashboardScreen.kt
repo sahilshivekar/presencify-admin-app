@@ -3,9 +3,6 @@ package edu.watumull.presencify.feature.academics.dashboard
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ChevronRight
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,11 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import edu.watumull.presencify.core.design.systems.*
+import edu.watumull.presencify.core.design.systems.components.PresencifyActionBar
 import edu.watumull.presencify.core.design.systems.components.PresencifyDefaultLoadingScreen
-import edu.watumull.presencify.core.design.systems.components.PresencifyListItem
 import edu.watumull.presencify.core.presentation.UiConstants
-import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun AcademicsDashboardScreen(
@@ -42,54 +37,73 @@ fun AcademicsDashboardScreen(
                     // Section 1: Curriculum and Governance
                     DashboardSection(title = "Curriculum and Governance") {
                         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                            DashboardRow {
-                                DashboardItem(
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
+                                PresencifyActionBar(
                                     text = "Branch",
-                                    icon = Res.drawable.branch_24,
-                                    onClick = { onAction(AcademicsDashboardAction.ClickBranch) }
+                                    leadingIcon = Res.drawable.branch_24,
+                                    onClick = { onAction(AcademicsDashboardAction.ClickBranch) },
+                                    modifier = Modifier.weight(1f)
                                 )
-                                DashboardItem(
+                                PresencifyActionBar(
                                     text = "Scheme",
-                                    icon = Res.drawable.scheme_24,
-                                    onClick = { onAction(AcademicsDashboardAction.ClickScheme) }
+                                    leadingIcon = Res.drawable.scheme_24,
+                                    onClick = { onAction(AcademicsDashboardAction.ClickScheme) },
+                                    modifier = Modifier.weight(1f)
                                 )
                             }
-                            DashboardRow {
-                                DashboardItem(
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
+                                PresencifyActionBar(
                                     text = "Course",
-                                    icon = Res.drawable.round_menu_book_24,
-                                    onClick = { onAction(AcademicsDashboardAction.ClickCourse) }
+                                    leadingIcon = Res.drawable.round_menu_book_24,
+                                    onClick = { onAction(AcademicsDashboardAction.ClickCourse) },
+                                    modifier = Modifier.weight(1f)
                                 )
-                                DashboardItem(
+                                PresencifyActionBar(
                                     text = "University",
-                                    icon = Res.drawable.apartment_24,
-                                    onClick = { onAction(AcademicsDashboardAction.ClickUniversity) }
+                                    leadingIcon = Res.drawable.apartment_24,
+                                    onClick = { onAction(AcademicsDashboardAction.ClickUniversity) },
+                                    modifier = Modifier.weight(1f)
                                 )
                             }
+                            PresencifyActionBar(
+                                text = "Link/Unlink Courses",
+                                leadingIcon = Res.drawable.round_menu_book_24,
+                                onClick = { onAction(AcademicsDashboardAction.ClickLinkUnlinkCourse) },
+                                modifier = Modifier.fillMaxWidth()
+                            )
                         }
                     }
 
                     // Section 2: Academic Time & Cohort
                     DashboardSection(title = "Academic Time & cohort") {
                         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                            // Full width row for Semesters
-                            DashboardItem(
+                            PresencifyActionBar(
                                 text = "Semesters",
-                                icon = Res.drawable.clock_icon,
+                                leadingIcon = Res.drawable.clock_icon,
                                 onClick = { onAction(AcademicsDashboardAction.ClickSemester) },
                                 modifier = Modifier.fillMaxWidth()
                             )
-
-                            DashboardRow {
-                                DashboardItem(
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
+                                PresencifyActionBar(
                                     text = "Division",
-                                    icon = Res.drawable.group_division,
-                                    onClick = { onAction(AcademicsDashboardAction.ClickDivision) }
+                                    leadingIcon = Res.drawable.group_division,
+                                    onClick = { onAction(AcademicsDashboardAction.ClickDivision) },
+                                    modifier = Modifier.weight(1f)
                                 )
-                                DashboardItem(
+                                PresencifyActionBar(
                                     text = "Batch",
-                                    icon = Res.drawable.group_batch,
-                                    onClick = { onAction(AcademicsDashboardAction.ClickBatch) }
+                                    leadingIcon = Res.drawable.group_batch,
+                                    onClick = { onAction(AcademicsDashboardAction.ClickBatch) },
+                                    modifier = Modifier.weight(1f)
                                 )
                             }
                         }
@@ -114,62 +128,4 @@ private fun DashboardSection(
         )
         content()
     }
-}
-
-@Composable
-private fun DashboardRow(content: @Composable RowScope.() -> Unit) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        content = content
-    )
-}
-
-@Composable
-private fun DashboardItem(
-    text: String,
-    icon: DrawableResource,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    PresencifyListItem(
-        modifier = modifier,
-        headlineContent = {
-            Text(
-                text = text,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-        },
-        leadingContent = {
-            Icon(
-                painter = painterResource(icon),
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(24.dp)
-            )
-        },
-        trailingContent = {
-            Icon(
-                imageVector = Icons.Default.ChevronRight,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.outline
-            )
-        },
-        onClick = onClick
-    )
-}
-
-@Composable
-private fun RowScope.DashboardItem(
-    text: String,
-    icon: DrawableResource,
-    onClick: () -> Unit
-) {
-    DashboardItem(
-        text = text,
-        icon = icon,
-        onClick = onClick,
-        modifier = Modifier.weight(1f)
-    )
 }

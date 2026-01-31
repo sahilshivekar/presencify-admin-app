@@ -20,20 +20,19 @@ sealed interface SearchCourseAction {
     data class SelectSemesterNumber(val semesterNumber: SemesterNumber?) : SearchCourseAction
     data class SelectBranch(val branch: Branch?) : SearchCourseAction
     data class SelectScheme(val scheme: Scheme?) : SearchCourseAction
+    data class ToggleTeacherSelection(val teacherId: String) : SearchCourseAction
 
     data object ResetFilters : SearchCourseAction
     data object ApplyFilters : SearchCourseAction
 
     // Course Selection
-    data class ToggleCourseSelection(val courseId: String) : SearchCourseAction
     data class CourseCardClick(val courseId: String) : SearchCourseAction
+
+    // Course Action Button (Assign/Unassign or Link/Unlink)
+    data class CourseActionButtonClick(val courseId: String) : SearchCourseAction
 
     // Pagination
     data object LoadMoreCourses : SearchCourseAction
 
-    // Done button for selection mode
-    data object DoneButtonClick : SearchCourseAction
-
     data object ClickFloatingActionButton : SearchCourseAction
 }
-

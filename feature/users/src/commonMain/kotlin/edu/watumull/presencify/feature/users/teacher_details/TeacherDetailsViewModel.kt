@@ -26,7 +26,6 @@ class TeacherDetailsViewModel(
     init {
         viewModelScope.launch {
             loadTeacherDetails()
-            loadAssignedCourses()
         }
     }
 
@@ -51,34 +50,6 @@ class TeacherDetailsViewModel(
             }
     }
 
-    private suspend fun loadAssignedCourses() {
-        val teacherId = state.teacherId
-
-        updateState { it.copy(isLoadingAssignedSubjects = true) }
-
-        teacherRepository.getTeachingSubjects(teacherId)
-            .onSuccess { courses ->
-                updateState {
-                    it.copy(
-                        assignedCourses = courses,
-                        isLoadingAssignedSubjects = false
-                    )
-                }
-            }
-            .onError { error ->
-                updateState {
-                    it.copy(
-                        isLoadingAssignedSubjects = false,
-                        dialogState = TeacherDetailsState.DialogState(
-                            dialogType = DialogType.ERROR,
-                            dialogIntention = DialogIntention.GENERIC,
-                            title = "Error Loading Assigned Courses",
-                            message = error.toUiText()
-                        )
-                    )
-                }
-            }
-    }
 
     override fun handleAction(action: TeacherDetailsAction) {
         when (action) {
@@ -133,8 +104,18 @@ class TeacherDetailsViewModel(
                 }
             }
 
+            is TeacherDetailsAction.ConfirmRemoveTeacher -> {
+                viewModelScope.launch {
+                    removeTeacher()
+                }
+            }
+
             is TeacherDetailsAction.EditTeacherDetailsClick -> {
                 sendEvent(TeacherDetailsEvent.NavigateToEditTeacher(state.teacherId))
+            }
+
+            is TeacherDetailsAction.AssignUnassignCoursesClick -> {
+                sendEvent(TeacherDetailsEvent.NavigateToAssignUnassignCourses(state.teacherId))
             }
         }
     }
@@ -218,11 +199,6 @@ class TeacherDetailsViewModel(
             }
     }
 
-    fun confirmRemoveTeacher() {
-        viewModelScope.launch {
-            removeTeacher()
-        }
-    }
 
     private suspend fun removeTeacher() {
         val teacherId = state.teacher?.id ?: return
@@ -258,4 +234,3 @@ class TeacherDetailsViewModel(
             }
     }
 }
-

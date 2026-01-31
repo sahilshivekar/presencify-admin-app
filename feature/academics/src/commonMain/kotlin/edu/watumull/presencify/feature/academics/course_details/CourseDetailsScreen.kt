@@ -19,7 +19,6 @@ import edu.watumull.presencify.core.presentation.components.CourseListItem
 fun CourseDetailsScreen(
     state: CourseDetailsState,
     onAction: (CourseDetailsAction) -> Unit,
-    onConfirmRemove: () -> Unit,
 ) {
     PresencifyScaffold(
         backPress = { onAction(CourseDetailsAction.BackButtonClick) },
@@ -110,7 +109,7 @@ fun CourseDetailsScreen(
             message = dialogState.message?.asString() ?: "",
             onConfirm = {
                 when (dialogState.dialogIntention) {
-                    DialogIntention.CONFIRM_REMOVE_COURSE -> onConfirmRemove()
+                    DialogIntention.CONFIRM_REMOVE_COURSE -> onAction(CourseDetailsAction.ConfirmRemoveCourse)
                     DialogIntention.GENERIC -> onAction(CourseDetailsAction.DismissDialog)
                 }
             },

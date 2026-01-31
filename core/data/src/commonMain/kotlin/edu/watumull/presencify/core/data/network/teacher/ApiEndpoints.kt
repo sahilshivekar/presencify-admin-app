@@ -1,10 +1,10 @@
 package edu.watumull.presencify.core.data.network.teacher
 
 import edu.watumull.presencify.core.data.network.BaseApiEndpoints.API_V1
+import edu.watumull.presencify.core.data.network.BaseApiEndpoints.COURSES
 import edu.watumull.presencify.core.data.network.BaseApiEndpoints.IMAGE
 import edu.watumull.presencify.core.data.network.BaseApiEndpoints.PASSWORD
 import edu.watumull.presencify.core.data.network.BaseApiEndpoints.PRESENCIFY_BASE_URL
-import edu.watumull.presencify.core.data.network.BaseApiEndpoints.SUBJECTS
 import edu.watumull.presencify.core.data.network.BaseApiEndpoints.TEACHERS
 
 object ApiEndpoints {
@@ -20,10 +20,10 @@ object ApiEndpoints {
     const val UPDATE_TEACHER_IMAGE = "$PRESENCIFY_BASE_URL/$API_V1/$TEACHERS/$IMAGE"
     const val REMOVE_TEACHER_IMAGE = "$PRESENCIFY_BASE_URL/$API_V1/$TEACHERS/$IMAGE"
 
-    // Teaching subjects endpoints
-    const val GET_TEACHING_SUBJECTS = "$PRESENCIFY_BASE_URL/$API_V1/$TEACHERS/$SUBJECTS"
-    const val ADD_TEACHING_SUBJECT = "$PRESENCIFY_BASE_URL/$API_V1/$TEACHERS/$SUBJECTS"
-    const val REMOVE_TEACHING_SUBJECT = "$PRESENCIFY_BASE_URL/$API_V1/$TEACHERS/$SUBJECTS"
+    // Teaching courses endpoints
+    const val GET_TEACHING_COURSES = "$PRESENCIFY_BASE_URL/$API_V1/$TEACHERS/$COURSES"
+    const val ADD_TEACHING_SUBJECT = "$PRESENCIFY_BASE_URL/$API_V1/$TEACHERS/$COURSES"
+    const val REMOVE_TEACHING_SUBJECT = "$PRESENCIFY_BASE_URL/$API_V1/$TEACHERS/$COURSES"
 
     // Bulk operations
     const val BULK_CREATE_TEACHERS = "$PRESENCIFY_BASE_URL/$API_V1/$TEACHERS/bulk/create"
