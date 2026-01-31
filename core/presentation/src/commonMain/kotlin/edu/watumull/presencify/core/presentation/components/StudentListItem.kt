@@ -1,12 +1,19 @@
 package edu.watumull.presencify.core.presentation.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -14,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -27,6 +35,7 @@ import edu.watumull.presencify.core.design.systems.components.PresencifyListItem
  * @param studentBranch The branch/department of the student (required).
  * @param studentYear Optional year (e.g., "FE", "SE", "TE", "BE").
  * @param studentImageUrl Optional URL for student profile image.
+ * @param feedback Optional feedback message to display.
  * @param onClick Optional click handler for the list item.
  * @param modifier Modifier for the list item.
  */
@@ -36,6 +45,7 @@ fun StudentListItem(
     studentBranch: String,
     studentYear: String? = null,
     studentImageUrl: String? = null,
+    feedback: ListItemFeedback? = null,
     trailingContent: (@Composable () -> Unit)? = null,
     onClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier
@@ -76,25 +86,47 @@ fun StudentListItem(
             )
         },
         supportingContent = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = studentBranch,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                if (studentYear != null) {
+            Column {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Text(
-                        text = " • ",
+                        text = studentBranch,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    Text(
-                        text = studentYear,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                    if (studentYear != null) {
+                        Text(
+                            text = " • ",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Text(
+                            text = studentYear,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+                feedback?.let {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    HorizontalDivider()
+                    Spacer(modifier = Modifier.height(4.dp))
+                    AnimatedVisibility(
+                        visible = true,
+                        enter = expandVertically(),
+                        exit = shrinkVertically()
+                    ) {
+                        val (color, message) = when (it) {
+                            is ListItemFeedback.Success -> Color.Green to it.message
+                            is ListItemFeedback.Error -> MaterialTheme.colorScheme.error to it.message
+                        }
+                        Text(
+                            text = message,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = color
+                        )
+                    }
                 }
             }
         },
@@ -141,4 +173,3 @@ fun StudentListItemWithoutYearPreview() {
         )
     }
 }
-

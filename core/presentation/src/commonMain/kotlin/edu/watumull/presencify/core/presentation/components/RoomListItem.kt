@@ -1,15 +1,21 @@
 package edu.watumull.presencify.core.presentation.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Badge
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import edu.watumull.presencify.core.design.systems.components.PresencifyListItem
 import edu.watumull.presencify.core.domain.enums.RoomType
@@ -21,6 +27,7 @@ import edu.watumull.presencify.core.domain.enums.RoomType
  * @param sittingCapacity The sitting capacity of the room.
  * @param type Optional room type (Classroom, Lab, Office).
  * @param name Optional name of the room.
+ * @param feedback Optional feedback message to display.
  * @param trailingIcon Optional trailing icon composable.
  * @param onClick Optional click handler for the list item.
  * @param modifier Modifier for the list item.
@@ -31,6 +38,7 @@ fun RoomListItem(
     sittingCapacity: Int,
     type: RoomType? = null,
     name: String? = null,
+    feedback: ListItemFeedback? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     onClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier
@@ -73,6 +81,26 @@ fun RoomListItem(
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+                feedback?.let {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    HorizontalDivider()
+                    Spacer(modifier = Modifier.height(4.dp))
+                    AnimatedVisibility(
+                        visible = true,
+                        enter = expandVertically(),
+                        exit = shrinkVertically()
+                    ) {
+                        val (color, message) = when (it) {
+                            is ListItemFeedback.Success -> Color.Green to it.message
+                            is ListItemFeedback.Error -> MaterialTheme.colorScheme.error to it.message
+                        }
+                        Text(
+                            text = message,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = color
+                        )
+                    }
+                }
             }
         },
         trailingContent = trailingIcon,
@@ -115,4 +143,3 @@ fun RoomListItemLabPreview() {
         )
     }
 }
-
